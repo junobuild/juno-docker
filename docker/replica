@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./target/ic-starter --replica-path ./target/replica --state-dir ./state --create-funds-whitelist '*' --subnet-type application --ecdsa-keyid Secp256k1:juno_test_key --log-level info --use-specified-ids-allocation-range --consensus-pool-backend rocksdb --subnet-features canister_sandboxing

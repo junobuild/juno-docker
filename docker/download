@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+METADATA=./ic.json
+
+DIR=target
+
+if [ ! -d "$DIR" ]; then
+  mkdir "$DIR"
+fi
+
+function download() {
+    local component=$1
+    local url=($(jq -r ".\"${component}\".url" $METADATA))
+    local commit=($(jq -r ".\"${component}\".commit" $METADATA))
+
+    local download_url=${url/"{commit}"/$commit}
+
+    echo "Downloading $component from $download_url"
+    curl -o "$DIR/$component.gz" "$download_url"
+
+    echo "Unpacking $DIR/$component.gz"
+    gunzip "$DIR/$component.gz"
+}
+
+download "replica"
+download "ic-starter"
+download "canister_sandbox"
+download "canister_sandbox_launcher"
