@@ -27,4 +27,4 @@ function download() {
 download "replica"
 download "ic-starter"
 download "canister_sandbox"
-download "canister_sandbox_launcher"
+download "sandbox_launcher"

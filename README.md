@@ -7,7 +7,7 @@
 Build:
 
 ```bash
-docker build . --file Dockerfile -t junolator --progress=plain --no-cache
+docker build . --file Dockerfile -t junolator --progress=plain --no-cache --platform=linux/amd64
 ```
 
 ## License

@@ -7,16 +7,19 @@
   "ic-starter": {
     "commit": "69e1408347723dbaa7a6cd2faa9b65c42abbe861",
     "sha256": "1ddgxd9pnybnjiqhgggxlkbq8ml99ca4iq54kh221kdj7h1m334d",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
     "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/ic-starter.gz"
   },
   "canister_sandbox": {
     "commit": "69e1408347723dbaa7a6cd2faa9b65c42abbe861",
     "sha256": "04r9rs47ky6715jwia5qzpj5983y2xyg246wncjhybqn79a9m10i",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/canister_sandbox.gz"
   },
-  "canister_sandbox_launcher": {
+  "sandbox_launcher": {
     "commit": "69e1408347723dbaa7a6cd2faa9b65c42abbe861",
     "sha256": "0zzpr02vc14ibx1qzd31a9jzh1zhb7ahcg85fazs6jkjk2zidi4n",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox/sandbox_launcher",
     "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/sandbox_launcher.gz"
   }
 }
