@@ -31,6 +31,9 @@ RUN ./docker/download
 # Make downloaded files executable
 RUN chmod +x target/*
 
-CMD ["./docker/serve"]
+# Environment variables
+ENV PORT=5987
 
-EXPOSE ${PORT:-5987}
+ENTRYPOINT ["./docker/serve"]
+
+EXPOSE ${PORT}

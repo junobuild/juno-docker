@@ -6,4 +6,12 @@ REPLICA_PORT=8000
 
 ./docker/wait-port $REPLICA_PORT
 
-./docker/icx-proxy $REPLICA_PORT
+./docker/icx-proxy $REPLICA_PORT &
+
+./docker/wait-port "$PORT"
+
+# Wait for any process to exit
+wait -n
+
+# Exit with status of process that exited first
+exit $?
