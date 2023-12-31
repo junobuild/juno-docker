@@ -33,6 +33,7 @@ RUN chmod +x target/*
 
 # Environment variables
 ENV PORT=5987
+RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 
 ENTRYPOINT ["./docker/serve"]
 

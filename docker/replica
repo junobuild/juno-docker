@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-PORT=$1
 STATE_DIR=./state
 
 if [ ! -d "$STATE_DIR" ]; then
@@ -8,7 +7,7 @@ if [ ! -d "$STATE_DIR" ]; then
 fi
 
 ./target/ic-starter --replica-path ./target/replica \
-                    --http-port "$PORT" \
+                    --http-port "$REPLICA_PORT" \
                     --state-dir "$STATE_DIR" \
                     --create-funds-whitelist '*' \
                     --subnet-type application \

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-REPLICA_PORT=8000
+source ./.bashrc
 
-./docker/replica $REPLICA_PORT &
+./docker/replica &
 
-./docker/wait-port $REPLICA_PORT
+./docker/wait-port "$REPLICA_PORT"
 
-./docker/icx-proxy $REPLICA_PORT &
+./docker/icx-proxy &
 
 ./docker/wait-port "$PORT"
 
