@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+./docker/replica &
+
+./docker/wait-port 8080

@@ -10,6 +10,18 @@ Build:
 docker build . --file Dockerfile -t junolator --progress=plain --no-cache --platform=linux/amd64
 ```
 
+Run:
+
+```bash
+docker run -p 127.0.0.1:5987:5987 junolator
+```
+
+Stop:
+
+```bash
+docker stop $(docker ps -aq)
+```
+
 ## License
 
 MIT © [David Dal Busco](mailto:david.dalbusco@outlook.com)
