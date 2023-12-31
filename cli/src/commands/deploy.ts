@@ -3,6 +3,7 @@ import {Ed25519KeyIdentity} from '@dfinity/identity';
 import {createAgent} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import {readFile} from 'node:fs/promises';
+import {IDL} from '@dfinity/candid';
 
 export const deploy = async (args?: string[]) => {
   const identity = Ed25519KeyIdentity.generate();
@@ -35,12 +36,14 @@ export const deploy = async (args?: string[]) => {
     }
   });
 
+  const arg = IDL.encode([], []);
+
   console.log(`🚀 ----> ${canisterId.toString()}`);
 
   await installCode({
     mode: InstallMode.Install,
     canisterId,
     wasmModule: wasm,
-    arg: new Uint8Array()
+    arg: new Uint8Array(arg)
   });
 };

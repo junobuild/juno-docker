@@ -10,6 +10,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     jq \
     curl \
     liblmdb-dev \
+    libunwind-dev \
     netcat \
     && rm -rf /var/lib/apt/lists/*
 
