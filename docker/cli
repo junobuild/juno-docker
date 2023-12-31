@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+npm --prefix cli ci
+
+npm --prefix cli run build

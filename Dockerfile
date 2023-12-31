@@ -10,8 +10,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     jq \
     curl \
     liblmdb-dev \
+    libunwind-dev \
     netcat \
     && rm -rf /var/lib/apt/lists/*
+
+# Install NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install nodejs -y
 
 # Create and use a user instead of using root
 RUN useradd -ms /bin/bash apprunner
@@ -20,8 +25,12 @@ USER apprunner
 # Copy resources
 WORKDIR /juno
 
-COPY ./docker ./docker
-COPY ./ic.json ./ic.json
+COPY --chown=apprunner:apprunner ./cli ./cli
+COPY --chown=apprunner:apprunner ./docker ./docker
+COPY --chown=apprunner:apprunner ./ic.json ./ic.json
+
+# Install selected node version and build CLI
+RUN ./docker/cli
 
 # Download required artifacts
 RUN ./docker/download
@@ -35,6 +44,6 @@ RUN chmod +x target/*
 ENV PORT=5987
 RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 
-ENTRYPOINT ["./docker/serve"]
+ENTRYPOINT ["./docker/app"]
 
 EXPOSE ${PORT}

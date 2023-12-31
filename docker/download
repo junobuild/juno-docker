@@ -10,22 +10,33 @@ if [ ! -d "$DIR" ]; then
   mkdir "$DIR"
 fi
 
+function download_unpack() {
+    local component=$1
+
+    download "$component" true
+}
+
 function download() {
     local component=$1
+    local unpkg=$2
     local url=($(jq -r ".\"${component}\".url" $METADATA))
     local commit=($(jq -r ".\"${component}\".commit" $METADATA))
 
     local download_url=${url/"{commit}"/$commit}
 
     echo "Downloading $component from $download_url"
-    curl -o "$DIR/$component.gz" "$download_url"
+    curl -L -o "$DIR/$component.gz" "$download_url"
 
-    echo "Unpacking $DIR/$component.gz"
-    gunzip "$DIR/$component.gz"
+    if "${unpkg}"; then
+        echo "Unpacking $DIR/$component.gz"
+        gunzip "$DIR/$component.gz"
+    fi
 }
 
-download "replica"
-download "ic-starter"
-download "canister_sandbox"
-download "sandbox_launcher"
-download "icx-proxy"
+download_unpack "replica"
+download_unpack "ic-starter"
+download_unpack "canister_sandbox"
+download_unpack "sandbox_launcher"
+download_unpack "icx-proxy"
+
+download "internet_identity" false
