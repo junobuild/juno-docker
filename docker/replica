@@ -7,6 +7,13 @@ if [ ! -d "$STATE_DIR" ]; then
   mkdir "$STATE_DIR"
 fi
 
-chmod +x target/*
-
-./target/ic-starter --replica-path ./target/replica --http-port "$PORT" --state-dir "$STATE_DIR" --create-funds-whitelist '*' --subnet-type application --ecdsa-keyid Secp256k1:juno_test_key --log-level info --use-specified-ids-allocation-range --consensus-pool-backend lmdb --subnet-features canister_sandboxing
+./target/ic-starter --replica-path ./target/replica \
+                    --http-port "$PORT" \
+                    --state-dir "$STATE_DIR" \
+                    --create-funds-whitelist '*' \
+                    --subnet-type application \
+                    --ecdsa-keyid Secp256k1:juno_test_key \
+                    --log-level info \
+                    --use-specified-ids-allocation-range \
+                    --consensus-pool-backend lmdb \
+                    --subnet-features canister_sandboxing

@@ -28,6 +28,9 @@ RUN ./docker/download
 
 # TODO: verify sha256
 
+# Make downloaded files executable
+RUN chmod +x target/*
+
 CMD ["./docker/serve"]
 
 EXPOSE ${PORT:-5987}
