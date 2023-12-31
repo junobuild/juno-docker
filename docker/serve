@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-./docker/replica &
+REPLICA_PORT=8000
 
-./docker/wait-port 8080
+./docker/replica $REPLICA_PORT &
+
+./docker/wait-port $REPLICA_PORT
+
+./docker/icx-proxy $REPLICA_PORT

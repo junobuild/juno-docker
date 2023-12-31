@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+REPLICA_PORT=$1
+
+./target/icx-proxy --fetch-root-key --address "[::]:5987" --replica "http://localhost:$REPLICA_PORT/"

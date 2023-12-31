@@ -21,5 +21,11 @@
     "sha256": "0zzpr02vc14ibx1qzd31a9jzh1zhb7ahcg85fazs6jkjk2zidi4n",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox/sandbox_launcher",
     "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/sandbox_launcher.gz"
+  },
+  "icx-proxy": {
+    "commit": "69e1408347723dbaa7a6cd2faa9b65c42abbe861",
+    "sha256": "105jm3px6ky88jc86am8dkxz1vnhzcxy0p7skzs98baylr96kzrb",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/boundary_node/icx_proxy",
+    "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/icx-proxy-dev.gz"
   }
 }
