@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+source ./.bashrc
+
+# https://docs.docker.com/config/containers/multi-service_container/
+# turn on bash's job control
+set -m
+
+./docker/serve &
+
+./docker/deploy
+
+# now we bring the primary process back into the foreground
+# and leave it there
+fg %1

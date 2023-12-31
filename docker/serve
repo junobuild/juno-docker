@@ -1,17 +1,7 @@
 #!/usr/bin/env bash
 
-source ./.bashrc
-
 ./docker/replica &
 
 ./docker/wait-port "$REPLICA_PORT"
 
-./docker/icx-proxy &
-
-./docker/wait-port "$PORT"
-
-# Wait for any process to exit
-wait -n
-
-# Exit with status of process that exited first
-exit $?
+./docker/icx-proxy
