@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-node ./cli/dist/index.js version
-
 ./docker/wait-port "$PORT"
 
-node ./cli/dist/index.js deploy
+node ./cli/dist/index.js deploy --port "$PORT"
 
 

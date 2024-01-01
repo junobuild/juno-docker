@@ -22,9 +22,19 @@ RUN apt-get install nodejs -y
 RUN useradd -ms /bin/bash apprunner
 USER apprunner
 
-# Copy resources
+# Define working directories
 WORKDIR /juno
 
+# Create a volume to persist state when the container is stopped and restarted
+RUN mkdir -p /juno/.juno/state
+VOLUME /juno/.juno
+
+# Environment variables
+ENV PORT=5987
+RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
+RUN echo "export STATE_DIR=/juno/.juno/state" >> ./.bashrc
+
+# Copy resources
 COPY --chown=apprunner:apprunner ./cli ./cli
 COPY --chown=apprunner:apprunner ./docker ./docker
 COPY --chown=apprunner:apprunner ./ic.json ./ic.json
@@ -39,10 +49,6 @@ RUN ./docker/download
 
 # Make downloaded files executable
 RUN chmod +x target/*
-
-# Environment variables
-ENV PORT=5987
-RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 
 ENTRYPOINT ["./docker/app"]
 

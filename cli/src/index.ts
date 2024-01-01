@@ -31,7 +31,7 @@ export const run = async () => {
   try {
     await run();
   } catch (err: unknown) {
-    console.log(`${red('An unexpected error happened 😫.')}`, err);
+    console.log(`${red('⚠️ CLI Error:')}`, err);
     process.exit(1);
   }
 })();

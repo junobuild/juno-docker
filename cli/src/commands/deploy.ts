@@ -1,49 +1,22 @@
-import {ICManagementCanister, InstallMode} from '@dfinity/ic-management';
-import {Ed25519KeyIdentity} from '@dfinity/identity';
-import {createAgent} from '@dfinity/utils';
-import {createHash} from 'crypto';
-import {readFile} from 'node:fs/promises';
-import {IDL} from '@dfinity/candid';
+import {createAgent, isNullish} from '@dfinity/utils';
+import {internetIdentity} from '../plugins/internet-identity';
+import {getIdentity} from '../services/auth.services';
+import {nextArg} from '../utils/args.utils';
 
 export const deploy = async (args?: string[]) => {
-  const identity = Ed25519KeyIdentity.generate();
-  const token = identity.toJSON();
+  const port = nextArg({args, option: '-p'}) ?? nextArg({args, option: '--port'});
 
-  const loadWasm = async (file: string): Promise<{hash: string; wasm: Buffer}> => {
-    const wasm = await readFile(file);
+  if (isNullish(port)) {
+    throw new Error('An icx-proxy port must be provided as argument of the deploy command.');
+  }
 
-    return {
-      wasm,
-      hash: createHash('sha256').update(wasm).digest('hex')
-    };
-  };
-
-  const {wasm} = await loadWasm('./target/internet_identity.gz');
+  const identity = getIdentity();
 
   const agent = await createAgent({
     identity,
-    host: 'http://localhost:5987',
+    host: `http://localhost:${port}`,
     fetchRootKey: true
   });
 
-  const {provisionalCreateCanisterWithCycles, installCode} = ICManagementCanister.create({
-    agent
-  });
-
-  const canisterId = await provisionalCreateCanisterWithCycles({
-    settings: {
-      controllers: [identity.getPrincipal().toString()]
-    }
-  });
-
-  const arg = IDL.encode([], []);
-
-  console.log(`🚀 ----> ${canisterId.toString()}`);
-
-  await installCode({
-    mode: InstallMode.Install,
-    canisterId,
-    wasmModule: wasm,
-    arg: new Uint8Array(arg)
-  });
+  await Promise.all([internetIdentity.deploy({identity, agent})]);
 };
