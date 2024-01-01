@@ -5,7 +5,6 @@ import {nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
-import {getSegment, saveSegment} from '../configs/cli.config';
 import {DeployParams, SegmentDescription} from '../types/plugin';
 
 const {green, cyan} = kleur;
@@ -13,11 +12,12 @@ const {green, cyan} = kleur;
 export const deploy = async ({
   identity,
   agent,
+  config,
   key,
   name,
   canisterId: canisterIdParam
 }: DeployParams & SegmentDescription) => {
-  const segment = getSegment(key);
+  const segment = config.getSegment(key);
 
   // We deploy only once
   if (nonNullish(segment)) {
@@ -58,7 +58,7 @@ export const deploy = async ({
     arg: new Uint8Array(arg)
   });
 
-  saveSegment({
+  config.saveSegment({
     key,
     name,
     canisterId: canisterId.toString()

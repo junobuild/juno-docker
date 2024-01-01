@@ -1,9 +1,9 @@
 import {Ed25519KeyIdentity} from '@dfinity/identity';
 import {isNullish, nonNullish} from '@dfinity/utils';
-import {getToken, saveToken} from '../configs/cli.config';
+import {CliConfig} from '../configs/cli.config';
 
-export const getIdentity = (): Ed25519KeyIdentity => {
-  const token = getToken();
+export const getIdentity = (config: CliConfig): Ed25519KeyIdentity => {
+  const token = config.getToken();
 
   console.log('⚠️ Token ---------->', isNullish(token));
 
@@ -12,7 +12,7 @@ export const getIdentity = (): Ed25519KeyIdentity => {
   }
 
   const identity = Ed25519KeyIdentity.generate();
-  saveToken(identity.toJSON());
+  config.saveToken(identity.toJSON());
 
   return identity;
 };

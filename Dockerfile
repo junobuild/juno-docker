@@ -27,12 +27,14 @@ WORKDIR /juno
 
 # Create a volume to persist state when the container is stopped and restarted
 RUN mkdir -p /juno/.juno/state
+RUN mkdir /juno/.juno/config
 VOLUME /juno/.juno
 
 # Environment variables
 ENV PORT=5987
 RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 RUN echo "export STATE_DIR=/juno/.juno/state" >> ./.bashrc
+RUN echo "export CONFIG_DIR=/juno/.juno/config" >> ./.bashrc
 
 # Copy resources
 COPY --chown=apprunner:apprunner ./cli ./cli
