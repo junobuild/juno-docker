@@ -1,0 +1,8 @@
+{
+  "internet_identity": {
+    "commit": "71581fc0fd0abe3bdb6ba783750a2b4ddc3d2a97",
+    "sha256": "17620cf418fae5bf743db00256451c164794c4bd0ddd23668571c21bdc525884",
+    "repo": "https://github.com/dfinity/internet-identity",
+    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz"
+  }
+}

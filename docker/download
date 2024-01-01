@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-METADATA=./ic.json
+METADATA_IC=./ic.json
+METADATA_MODULES=./ic.json
 
 DIR=target
 
@@ -10,17 +11,25 @@ if [ ! -d "$DIR" ]; then
   mkdir "$DIR"
 fi
 
-function download_unpack() {
+function download_ic() {
     local component=$1
 
-    download "$component" true
+    download "$component" "$METADATA_IC" true
+}
+
+function download_module() {
+    local component=$1
+
+    download "$component" "$METADATA_MODULES" false
 }
 
 function download() {
     local component=$1
-    local unpkg=$2
-    local url=($(jq -r ".\"${component}\".url" $METADATA))
-    local commit=($(jq -r ".\"${component}\".commit" $METADATA))
+    local metadata=$2
+    local unpkg=$3
+
+    local url=($(jq -r ".\"${component}\".url" ${metadata}))
+    local commit=($(jq -r ".\"${component}\".commit" ${metadata}))
 
     local download_url=${url/"{commit}"/$commit}
 
@@ -33,10 +42,10 @@ function download() {
     fi
 }
 
-download_unpack "replica"
-download_unpack "ic-starter"
-download_unpack "canister_sandbox"
-download_unpack "sandbox_launcher"
-download_unpack "icx-proxy"
+download_ic "replica"
+download_ic "ic-starter"
+download_ic "canister_sandbox"
+download_ic "sandbox_launcher"
+download_ic "icx-proxy"
 
-download "internet_identity" false
+download_module "internet_identity"

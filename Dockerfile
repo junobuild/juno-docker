@@ -40,6 +40,7 @@ RUN echo "export CONFIG_DIR=/juno/.juno/config" >> ./.bashrc
 COPY --chown=apprunner:apprunner ./cli ./cli
 COPY --chown=apprunner:apprunner ./docker ./docker
 COPY --chown=apprunner:apprunner ./ic.json ./ic.json
+COPY --chown=apprunner:apprunner ./modules.json ./modules.json
 
 # Install selected node version and build CLI
 RUN ./docker/cli
