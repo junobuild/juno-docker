@@ -3,7 +3,7 @@
 set -euo pipefail
 
 METADATA_IC=./ic.json
-METADATA_MODULES=./ic.json
+METADATA_MODULES=./modules.json
 
 DIR=target
 
@@ -12,40 +12,37 @@ if [ ! -d "$DIR" ]; then
 fi
 
 function download_ic() {
-    local component=$1
-
-    download "$component" "$METADATA_IC" true
+    readarray -t keys < <(jq -r 'keys[]' $METADATA_IC)
+    for i in "${keys[@]}"; do
+        download "$i" "$METADATA_IC" true
+    done
 }
 
-function download_module() {
-    local component=$1
-
-    download "$component" "$METADATA_MODULES" false
+function download_modules() {
+    readarray -t keys < <(jq -r 'keys[]' $METADATA_MODULES)
+    for i in "${keys[@]}"; do
+        download "$i" "$METADATA_MODULES" false
+    done
 }
 
 function download() {
-    local component=$1
+    local key=$1
     local metadata=$2
     local unpkg=$3
 
-    local url=($(jq -r ".\"${component}\".url" ${metadata}))
-    local commit=($(jq -r ".\"${component}\".commit" ${metadata}))
+    local url=($(jq -r ".\"${key}\".url" ${metadata}))
+    local commit=($(jq -r ".\"${key}\".commit" ${metadata}))
 
     local download_url=${url/"{commit}"/$commit}
 
-    echo "Downloading $component from $download_url"
-    curl -L -o "$DIR/$component.gz" "$download_url"
+    echo "Downloading $key from $download_url"
+    curl -L -o "$DIR/$key.gz" "$download_url"
 
     if "${unpkg}"; then
-        echo "Unpacking $DIR/$component.gz"
-        gunzip "$DIR/$component.gz"
+        echo "Unpacking $DIR/$key.gz"
+        gunzip "$DIR/$key.gz"
     fi
 }
 
-download_ic "replica"
-download_ic "ic-starter"
-download_ic "canister_sandbox"
-download_ic "sandbox_launcher"
-download_ic "icx-proxy"
-
-download_module "internet_identity"
+download_ic
+download_modules
