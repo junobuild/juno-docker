@@ -4,5 +4,11 @@
     "sha256": "17620cf418fae5bf743db00256451c164794c4bd0ddd23668571c21bdc525884",
     "repo": "https://github.com/dfinity/internet-identity",
     "url": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz"
+  },
+  "satellite": {
+    "commit": "5cc8c934a65ea09ecedd2bf4f1f983702ffb3e04",
+    "sha256": "186969b339e578083dac4dbb8a94aa3b26bda45896d01c918fcab15bd35115c1",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://cdn.juno.build/releases/satellite-v0.0.14.wasm.gz"
   }
 }

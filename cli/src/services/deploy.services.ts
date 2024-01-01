@@ -5,9 +5,11 @@ import {nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
-import {DeployParams, SegmentDescription} from '../types/plugin';
+import {DeployModuleParams, ModuleInitialDetail} from '../types/module';
 
 const {green, cyan} = kleur;
+
+const EMPTY_ARG = IDL.encode([], []);
 
 export const deploy = async ({
   identity,
@@ -15,8 +17,9 @@ export const deploy = async ({
   config,
   key,
   name,
+  arg,
   canisterId: canisterIdParam
-}: DeployParams & SegmentDescription) => {
+}: DeployModuleParams & ModuleInitialDetail & {arg?: ArrayBuffer}) => {
   const segment = config.getSegment(key);
 
   // We deploy only once
@@ -47,15 +50,13 @@ export const deploy = async ({
     };
   };
 
-  const arg = IDL.encode([], []);
-
   const {wasm} = await loadWasm(`./target/${key}.gz`);
 
   await installCode({
     mode: InstallMode.Install,
     canisterId,
     wasmModule: wasm,
-    arg: new Uint8Array(arg)
+    arg: new Uint8Array(arg ?? EMPTY_ARG)
   });
 
   config.saveSegment({

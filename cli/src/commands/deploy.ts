@@ -1,6 +1,6 @@
 import {createAgent, isNullish} from '@dfinity/utils';
 import {CliConfig} from '../configs/cli.config';
-import {internetIdentity} from '../plugins/internet-identity';
+import {modules} from '../modules/modules';
 import {getIdentity} from '../services/auth.services';
 import {nextArg} from '../utils/args.utils';
 
@@ -29,5 +29,5 @@ export const deploy = async (args?: string[]) => {
     fetchRootKey: true
   });
 
-  await Promise.all([internetIdentity.deploy({identity, agent, config})]);
+  await Promise.all(modules.map((mod) => mod.deploy({identity, agent, config})));
 };
