@@ -5,11 +5,11 @@ import {isNullish, nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
+import {CliContext} from '../types/context';
 import type {
   ModuleCanisterId,
   ModuleDescription,
   ModuleMetadata,
-  ModuleParams,
   ModuleStatus
 } from '../types/module';
 
@@ -17,20 +17,20 @@ const {green, cyan} = kleur;
 
 const EMPTY_ARG = IDL.encode([], []);
 
-const status = ({key, state}: ModuleParams & ModuleDescription): ModuleStatus | undefined =>
+const status = ({key, state}: CliContext & ModuleDescription): ModuleStatus | undefined =>
   state.getModule(key)?.status;
 
 const canisterId = ({
   key,
   state
-}: ModuleParams & Pick<ModuleMetadata, 'key'>): ModuleCanisterId | undefined =>
+}: CliContext & Pick<ModuleMetadata, 'key'>): ModuleCanisterId | undefined =>
   state.getModule(key)?.canisterId;
 
 const createCanister = async ({
   identity,
   agent,
   canisterId: canisterIdParam
-}: ModuleParams & Pick<ModuleDescription, 'canisterId'>): Promise<Principal> => {
+}: CliContext & Pick<ModuleDescription, 'canisterId'>): Promise<Principal> => {
   const {provisionalCreateCanisterWithCycles} = ICManagementCanister.create({
     agent
   });
@@ -48,7 +48,7 @@ const installCode = async ({
   arg,
   canisterId,
   key
-}: ModuleParams & Omit<ModuleMetadata, 'status'> & {arg?: ArrayBuffer}) => {
+}: CliContext & Omit<ModuleMetadata, 'status'> & {arg?: ArrayBuffer}) => {
   const {installCode} = ICManagementCanister.create({
     agent
   });
@@ -83,18 +83,18 @@ export class Module {
     return this.description.name;
   }
 
-  status(params: ModuleParams): ModuleStatus | undefined {
-    return status({...params, ...this.description});
+  status(context: CliContext): ModuleStatus | undefined {
+    return status({...context, ...this.description});
   }
 
-  canisterId(params: ModuleParams): string | undefined {
-    return canisterId({...params, ...this.description});
+  canisterId(context: CliContext): string | undefined {
+    return canisterId({...context, ...this.description});
   }
 
-  async init(params: ModuleParams): Promise<void> {
-    const canisterId = await createCanister({...params, ...this.description});
+  async prepare(context: CliContext): Promise<void> {
+    const canisterId = await createCanister({...context, ...this.description});
 
-    const {state} = params;
+    const {state} = context;
 
     state.saveModule({
       key: this.key,
@@ -104,8 +104,8 @@ export class Module {
     });
   }
 
-  async deploy(params: ModuleParams & {arg?: ArrayBuffer}): Promise<void> {
-    const {state} = params;
+  async install(context: CliContext & {arg?: ArrayBuffer}): Promise<void> {
+    const {state} = context;
 
     const metadata = state.getModule(this.key);
 
@@ -113,7 +113,7 @@ export class Module {
       throw new Error('Module has not been initialized and therefore cannot be deployed!');
     }
 
-    await installCode({...params, ...metadata});
+    await installCode({...context, ...metadata});
 
     state.saveModule({
       ...metadata,
@@ -124,4 +124,6 @@ export class Module {
 
     console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);
   }
+
+  async configure(context: CliContext) {}
 }

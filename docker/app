@@ -8,7 +8,7 @@ set -m
 
 ./docker/serve &
 
-./docker/deploy
+./docker/start
 
 # now we bring the primary process back into the foreground
 # and leave it there

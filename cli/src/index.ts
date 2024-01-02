@@ -18,6 +18,9 @@ export const run = async () => {
     case 'deploy':
       await deploy(args);
       break;
+    case 'config':
+      await deploy(args);
+      break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
       break;
