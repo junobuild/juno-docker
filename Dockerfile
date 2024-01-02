@@ -26,8 +26,8 @@ USER apprunner
 WORKDIR /juno
 
 # Create a volume to persist state when the container is stopped and restarted
-RUN mkdir -p /juno/.juno/state
-RUN mkdir /juno/.juno/config
+RUN mkdir -p /juno/.juno/replica
+RUN mkdir /juno/.juno/cli
 VOLUME /juno/.juno
 
 # Environment variables
