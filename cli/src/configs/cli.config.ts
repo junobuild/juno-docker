@@ -2,7 +2,7 @@ import type {JsonnableEd25519KeyIdentity} from '@dfinity/identity/lib/cjs/identi
 import {nonNullish} from '@dfinity/utils';
 import {existsSync, readFileSync, writeFileSync} from 'node:fs';
 
-import {ModuleDetails} from '../types/module';
+import type {ModuleDetails} from '../types/module';
 
 interface CliConfigData {
   token?: JsonnableEd25519KeyIdentity;
@@ -12,7 +12,7 @@ interface CliConfigData {
 class CliConfigStore {
   private data: CliConfigData | undefined;
 
-  constructor(private path: string) {
+  constructor(private readonly path: string) {
     if (!existsSync(path)) {
       return;
     }
@@ -35,9 +35,9 @@ class CliConfigStore {
 }
 
 export class CliConfig {
-  private store: CliConfigStore;
+  private readonly store: CliConfigStore;
 
-  constructor(private path: string) {
+  constructor(readonly path: string) {
     this.store = new CliConfigStore(path);
   }
 
@@ -46,6 +46,7 @@ export class CliConfig {
   saveToken(token: JsonnableEd25519KeyIdentity) {
     this.store.set('token', token);
   }
+
   getToken(): JsonnableEd25519KeyIdentity | undefined {
     return this.store.get('token');
   }
@@ -56,6 +57,7 @@ export class CliConfig {
     const modules = this.store.get<ModuleDetails[]>('modules') ?? [];
     this.store.set('segments', [...modules.filter(({key}) => key !== mod.key), mod]);
   }
+
   getModule(key: string): ModuleDetails | undefined {
     return (this.store.get<ModuleDetails[]>('modules') ?? []).find(
       ({key: moduleKey}) => key === moduleKey

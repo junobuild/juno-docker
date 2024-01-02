@@ -1,17 +1,26 @@
-import {HttpAgent, Identity} from '@dfinity/agent';
-import {CliConfig} from '../configs/cli.config';
+import type {HttpAgent, Identity} from '@dfinity/agent';
+import type {CliConfig} from '../configs/cli.config';
 
-export type DeployModuleParams = {identity: Identity; agent: HttpAgent; config: CliConfig};
+export type ModuleStatus = 'initialized' | 'deployed';
 
 export interface ModuleDetails {
   key: string;
   name: string;
   canisterId: string;
+  status: ModuleStatus;
 }
 
-export type ModuleInitialDetail = Omit<ModuleDetails, 'canisterId'> &
+export type ModuleInitialDetail = Omit<ModuleDetails, 'canisterId' | 'status'> &
   Partial<Pick<ModuleDetails, 'canisterId'>>;
 
+export interface ModuleParams {
+  identity: Identity;
+  agent: HttpAgent;
+  config: CliConfig;
+}
+
 export interface Module {
-  deploy: (params: DeployModuleParams) => Promise<void>;
+  status: (params: ModuleParams) => ModuleStatus | undefined;
+  init: (params: ModuleParams) => Promise<void>;
+  deploy: (params: ModuleParams) => Promise<void>;
 }

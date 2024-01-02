@@ -29,5 +29,21 @@ export const deploy = async (args?: string[]) => {
     fetchRootKey: true
   });
 
-  await Promise.all(modules.map((mod) => mod.deploy({identity, agent, config})));
+  const params = {identity, agent, config};
+
+  await Promise.all(
+    modules
+      .filter(({status}) => status(params) !== 'deployed')
+      .map(async (mod) => {
+        await mod.init(params);
+      })
+  );
+
+  await Promise.all(
+    modules
+      .filter(({status}) => status(params) === 'initialized')
+      .map(async (mod) => {
+        await mod.deploy({identity, agent, config});
+      })
+  );
 };

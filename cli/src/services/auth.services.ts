@@ -1,6 +1,6 @@
 import {Ed25519KeyIdentity} from '@dfinity/identity';
 import {nonNullish} from '@dfinity/utils';
-import {CliConfig} from '../configs/cli.config';
+import type {CliConfig} from '../configs/cli.config';
 
 export const getIdentity = (config: CliConfig): Ed25519KeyIdentity => {
   const token = config.getToken();

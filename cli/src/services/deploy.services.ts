@@ -5,11 +5,43 @@ import {nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
-import {DeployModuleParams, ModuleInitialDetail} from '../types/module';
+import type {ModuleInitialDetail, ModuleParams, ModuleStatus} from '../types/module';
 
 const {green, cyan} = kleur;
 
 const EMPTY_ARG = IDL.encode([], []);
+
+export const status = ({
+  key,
+  config
+}: ModuleParams & ModuleInitialDetail): ModuleStatus | undefined => config.getModule(key)?.status;
+
+export const init = async ({
+  identity,
+  agent,
+  config,
+  key,
+  name,
+  canisterId: canisterIdParam
+}: ModuleParams & ModuleInitialDetail) => {
+  const {provisionalCreateCanisterWithCycles} = ICManagementCanister.create({
+    agent
+  });
+
+  const canisterId = await provisionalCreateCanisterWithCycles({
+    settings: {
+      controllers: [identity.getPrincipal().toString()]
+    },
+    ...(nonNullish(canisterIdParam) && {canisterId: Principal.from(canisterIdParam)})
+  });
+
+  config.saveModule({
+    key,
+    name,
+    canisterId: canisterId.toString(),
+    status: 'initialized'
+  });
+};
 
 export const deploy = async ({
   identity,
@@ -19,7 +51,7 @@ export const deploy = async ({
   name,
   arg,
   canisterId: canisterIdParam
-}: DeployModuleParams & ModuleInitialDetail & {arg?: ArrayBuffer}) => {
+}: ModuleParams & ModuleInitialDetail & {arg?: ArrayBuffer}) => {
   const mod = config.getModule(key);
 
   // We deploy only once
@@ -62,7 +94,8 @@ export const deploy = async ({
   config.saveModule({
     key,
     name,
-    canisterId: canisterId.toString()
+    canisterId: canisterId.toString(),
+    status: 'deployed'
   });
 
   console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);

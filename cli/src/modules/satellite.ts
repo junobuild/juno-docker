@@ -1,6 +1,6 @@
 import {IDL} from '@dfinity/candid';
-import {deploy} from '../services/deploy.services';
-import {DeployModuleParams, Module, ModuleInitialDetail} from '../types/module';
+import {deploy, init, status} from '../services/deploy.services';
+import type {Module, ModuleInitialDetail, ModuleParams, ModuleStatus} from '../types/module';
 
 const SATELLITE: ModuleInitialDetail = {
   key: 'satellite',
@@ -8,7 +8,11 @@ const SATELLITE: ModuleInitialDetail = {
 };
 
 export const satellite: Module = {
-  deploy: async ({identity, ...rest}: DeployModuleParams) => {
+  status: (params: ModuleParams): ModuleStatus | undefined => status({...params, ...SATELLITE}),
+  init: async (params: ModuleParams): Promise<void> => {
+    await init({...params, ...SATELLITE});
+  },
+  deploy: async ({identity, ...rest}: ModuleParams) => {
     const arg = IDL.encode(
       [
         IDL.Record({
