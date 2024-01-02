@@ -100,7 +100,7 @@ const deploy = async ({
 };
 
 export class Module {
-  constructor(private readonly details: ModuleInitialDetail) {}
+  constructor(protected readonly details: ModuleInitialDetail) {}
 
   status(params: ModuleParams): ModuleStatus | undefined {
     return status({...params, ...this.details});
@@ -110,7 +110,7 @@ export class Module {
     await init({...params, ...this.details});
   }
 
-  async deploy(params: ModuleParams): Promise<void> {
+  async deploy(params: ModuleParams & {arg?: ArrayBuffer}): Promise<void> {
     await deploy({...params, ...this.details});
   }
 }
