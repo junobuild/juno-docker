@@ -52,13 +52,13 @@ export class CliConfig {
 
   // Segment
 
-  saveSegment(segment: ModuleDetails) {
-    const segments = this.store.get<ModuleDetails[]>('segments') ?? [];
-    this.store.set('segments', [...segments.filter(({key}) => key !== segment.key), segment]);
+  saveModule(mod: ModuleDetails) {
+    const modules = this.store.get<ModuleDetails[]>('modules') ?? [];
+    this.store.set('segments', [...modules.filter(({key}) => key !== mod.key), mod]);
   }
-  getSegment(key: string): ModuleDetails | undefined {
-    return (this.store.get<ModuleDetails[]>('segments') ?? []).find(
-      ({key: segmentKey}) => key === segmentKey
+  getModule(key: string): ModuleDetails | undefined {
+    return (this.store.get<ModuleDetails[]>('modules') ?? []).find(
+      ({key: moduleKey}) => key === moduleKey
     );
   }
 }

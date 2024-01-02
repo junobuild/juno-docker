@@ -20,12 +20,12 @@ export const deploy = async ({
   arg,
   canisterId: canisterIdParam
 }: DeployModuleParams & ModuleInitialDetail & {arg?: ArrayBuffer}) => {
-  const segment = config.getSegment(key);
+  const mod = config.getModule(key);
 
   // We deploy only once
-  if (nonNullish(segment)) {
+  if (nonNullish(mod)) {
     console.log(
-      `🆗  ${green(name)} already exists. Skipping deployment. ID: ${cyan(segment.canisterId)}`
+      `🆗  ${green(name)} already exists. Skipping deployment. ID: ${cyan(mod.canisterId)}`
     );
     return;
   }
@@ -59,7 +59,7 @@ export const deploy = async ({
     arg: new Uint8Array(arg ?? EMPTY_ARG)
   });
 
-  config.saveSegment({
+  config.saveModule({
     key,
     name,
     canisterId: canisterId.toString()
