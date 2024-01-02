@@ -3,15 +3,17 @@ import type {CliConfig} from '../configs/cli.config';
 
 export type ModuleStatus = 'initialized' | 'deployed';
 
-export interface ModuleDetails {
+export type ModuleCanisterId = string;
+
+export interface ModuleMetadata {
   key: string;
   name: string;
-  canisterId: string;
+  canisterId: ModuleCanisterId;
   status: ModuleStatus;
 }
 
-export type ModuleInitialDetail = Omit<ModuleDetails, 'canisterId' | 'status'> &
-  Partial<Pick<ModuleDetails, 'canisterId'>>;
+export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status'> &
+  Partial<Pick<ModuleMetadata, 'canisterId'>>;
 
 export interface ModuleParams {
   identity: Identity;

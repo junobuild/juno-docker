@@ -1,74 +1,56 @@
 import {IDL} from '@dfinity/candid';
 import {ICManagementCanister, InstallMode} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
-import {nonNullish} from '@dfinity/utils';
+import {isNullish, nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
-import type {ModuleInitialDetail, ModuleParams, ModuleStatus} from '../types/module';
+import {
+  ModuleCanisterId,
+  ModuleDescription,
+  ModuleMetadata,
+  ModuleParams,
+  ModuleStatus
+} from '../types/module';
 
 const {green, cyan} = kleur;
 
 const EMPTY_ARG = IDL.encode([], []);
 
-const status = ({key, config}: ModuleParams & ModuleInitialDetail): ModuleStatus | undefined =>
+const status = ({key, config}: ModuleParams & ModuleDescription): ModuleStatus | undefined =>
   config.getModule(key)?.status;
 
-const init = async ({
+const canisterId = ({
+  key,
+  config
+}: ModuleParams & Pick<ModuleMetadata, 'key'>): ModuleCanisterId | undefined =>
+  config.getModule(key)?.canisterId;
+
+const createCanister = async ({
   identity,
   agent,
-  config,
-  key,
-  name,
   canisterId: canisterIdParam
-}: ModuleParams & ModuleInitialDetail) => {
+}: ModuleParams & Pick<ModuleDescription, 'canisterId'>): Promise<Principal> => {
   const {provisionalCreateCanisterWithCycles} = ICManagementCanister.create({
     agent
   });
 
-  const canisterId = await provisionalCreateCanisterWithCycles({
+  return provisionalCreateCanisterWithCycles({
     settings: {
       controllers: [identity.getPrincipal().toString()]
     },
     ...(nonNullish(canisterIdParam) && {canisterId: Principal.from(canisterIdParam)})
-  });
-
-  config.saveModule({
-    key,
-    name,
-    canisterId: canisterId.toString(),
-    status: 'initialized'
   });
 };
 
-const deploy = async ({
-  identity,
+const installCode = async ({
   agent,
-  config,
-  key,
-  name,
   arg,
-  canisterId: canisterIdParam
-}: ModuleParams & ModuleInitialDetail & {arg?: ArrayBuffer}) => {
-  const mod = config.getModule(key);
-
-  // We deploy only once
-  if (nonNullish(mod)) {
-    console.log(
-      `🆗  ${green(name)} already exists. Skipping deployment. ID: ${cyan(mod.canisterId)}`
-    );
-    return;
-  }
-
-  const {provisionalCreateCanisterWithCycles, installCode} = ICManagementCanister.create({
+  canisterId,
+  key
+}: ModuleParams & Omit<ModuleMetadata, 'status'> & {arg?: ArrayBuffer}) => {
+  const {installCode} = ICManagementCanister.create({
     agent
-  });
-
-  const canisterId = await provisionalCreateCanisterWithCycles({
-    settings: {
-      controllers: [identity.getPrincipal().toString()]
-    },
-    ...(nonNullish(canisterIdParam) && {canisterId: Principal.from(canisterIdParam)})
   });
 
   const loadWasm = async (file: string): Promise<{hash: string; wasm: Buffer}> => {
@@ -84,33 +66,62 @@ const deploy = async ({
 
   await installCode({
     mode: InstallMode.Install,
-    canisterId,
+    canisterId: Principal.from(canisterId),
     wasmModule: wasm,
     arg: new Uint8Array(arg ?? EMPTY_ARG)
   });
-
-  config.saveModule({
-    key,
-    name,
-    canisterId: canisterId.toString(),
-    status: 'deployed'
-  });
-
-  console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);
 };
 
 export class Module {
-  constructor(private readonly details: ModuleInitialDetail) {}
+  constructor(private readonly description: ModuleDescription) {}
+
+  get key(): string {
+    return this.description.key;
+  }
+
+  get name(): string {
+    return this.description.name;
+  }
 
   status(params: ModuleParams): ModuleStatus | undefined {
-    return status({...params, ...this.details});
+    return status({...params, ...this.description});
+  }
+
+  canisterId(params: ModuleParams): string | undefined {
+    return canisterId({...params, ...this.description});
   }
 
   async init(params: ModuleParams): Promise<void> {
-    await init({...params, ...this.details});
+    const canisterId = await createCanister({...params, ...this.description});
+
+    const {config, ...rest} = params;
+
+    config.saveModule({
+      key: this.key,
+      name: this.name,
+      canisterId: canisterId.toString(),
+      status: 'initialized'
+    });
   }
 
   async deploy(params: ModuleParams & {arg?: ArrayBuffer}): Promise<void> {
-    await deploy({...params, ...this.details});
+    const {config, ...rest} = params;
+
+    const metadata = config.getModule(this.key);
+
+    if (isNullish(metadata)) {
+      throw new Error('Module has not been initialized and therefore cannot be deployed!');
+    }
+
+    await installCode({...params, ...metadata});
+
+    config.saveModule({
+      ...metadata,
+      status: 'deployed'
+    });
+
+    const {name, canisterId} = metadata;
+
+    console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);
   }
 }

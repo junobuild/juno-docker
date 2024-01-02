@@ -1,8 +1,8 @@
 import {IDL} from '@dfinity/candid';
 import {Module} from '../services/modules.services';
-import type {ModuleInitialDetail, ModuleParams} from '../types/module';
+import type {ModuleDescription, ModuleParams} from '../types/module';
 
-const SATELLITE: ModuleInitialDetail = {
+const SATELLITE: ModuleDescription = {
   key: 'satellite',
   name: 'Satellite'
 };
