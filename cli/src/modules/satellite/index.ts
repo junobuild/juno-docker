@@ -7,7 +7,8 @@ import {configureCollections} from './satellite.services';
 
 const SATELLITE: ModuleDescription = {
   key: 'satellite',
-  name: 'Satellite'
+  name: 'Satellite',
+  canisterId: 'jx5yt-yyaaa-aaaal-abzbq-cai'
 };
 
 class SatelliteModule extends Module {
