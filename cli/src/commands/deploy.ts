@@ -33,7 +33,7 @@ export const deploy = async (args?: string[]) => {
 
   await Promise.all(
     modules
-      .filter(({status}) => status(params) !== 'deployed')
+      .filter((mod) => mod.status(params) !== 'deployed')
       .map(async (mod) => {
         await mod.init(params);
       })
@@ -41,7 +41,7 @@ export const deploy = async (args?: string[]) => {
 
   await Promise.all(
     modules
-      .filter(({status}) => status(params) === 'initialized')
+      .filter((mod) => mod.status(params) === 'initialized')
       .map(async (mod) => {
         await mod.deploy({identity, agent, config});
       })
