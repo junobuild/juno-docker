@@ -4,8 +4,8 @@ services:
     ports:
       - 5987:5987
     volumes:
-      - my_juno_dapp_4:/juno/.juno
+      - my_juno_dapp:/juno/.juno
       - ./junolator.json:/juno/junolator.json
 
 volumes:
-  my_juno_dapp_4:
+  my_juno_dapp:
