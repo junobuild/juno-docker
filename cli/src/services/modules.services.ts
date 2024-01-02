@@ -125,5 +125,7 @@ export class Module {
     console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);
   }
 
-  async configure(context: CliContext) {}
+  async configure(_context: CliContext) {
+    // Default is do no configuration
+  }
 }

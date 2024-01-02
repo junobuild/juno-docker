@@ -1,5 +1,6 @@
 import kleur from 'kleur';
 import {version as cliCurrentVersion} from '../package.json';
+import {config} from './commands/config';
 import {deploy} from './commands/deploy';
 import {checkNodeVersion} from './utils/env.utils';
 
@@ -19,7 +20,7 @@ export const run = async () => {
       await deploy(args);
       break;
     case 'config':
-      await deploy(args);
+      await config(args);
       break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
