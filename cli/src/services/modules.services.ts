@@ -5,7 +5,7 @@ import {isNullish, nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
-import {CliContext} from '../types/context';
+import type {CliContext} from '../types/context';
 import type {
   ModuleCanisterId,
   ModuleDescription,

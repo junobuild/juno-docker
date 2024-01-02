@@ -19,7 +19,7 @@
     "format:check": "prettier --check .",
     "build": "node rmdir.mjs && node esbuild.mjs",
     "dev": "node rmdir.mjs && NODE_ENV=development node esbuild.mjs",
-    "lint": "eslint --max-warnings 0 src/**/*"
+    "lint": "eslint --max-warnings 0 src/**/*.ts"
   },
   "dependencies": {
     "@dfinity/agent": "^0.20.2",

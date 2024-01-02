@@ -1,6 +1,6 @@
 import {createAgent, isNullish} from '@dfinity/utils';
 import {CliState} from '../states/cli.state';
-import {CliContext} from '../types/context';
+import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
 import {getIdentity} from './auth.services';
 
