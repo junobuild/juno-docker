@@ -100,7 +100,7 @@ const deploy = async ({
 };
 
 export class Module {
-  constructor(protected readonly details: ModuleInitialDetail) {}
+  constructor(private readonly details: ModuleInitialDetail) {}
 
   status(params: ModuleParams): ModuleStatus | undefined {
     return status({...params, ...this.details});

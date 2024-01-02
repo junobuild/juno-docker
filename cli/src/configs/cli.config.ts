@@ -6,7 +6,7 @@ import type {ModuleDetails} from '../types/module';
 
 interface CliConfigData {
   token?: JsonnableEd25519KeyIdentity;
-  segments?: ModuleDetails[];
+  modules?: ModuleDetails[];
 }
 
 class CliConfigStore {
@@ -51,11 +51,11 @@ export class CliConfig {
     return this.store.get('token');
   }
 
-  // Segment
+  // Modules
 
   saveModule(mod: ModuleDetails) {
     const modules = this.store.get<ModuleDetails[]>('modules') ?? [];
-    this.store.set('segments', [...modules.filter(({key}) => key !== mod.key), mod]);
+    this.store.set('modules', [...modules.filter(({key}) => key !== mod.key), mod]);
   }
 
   getModule(key: string): ModuleDetails | undefined {
