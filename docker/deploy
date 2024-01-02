@@ -2,6 +2,6 @@
 
 ./docker/wait-port "$PORT"
 
-node ./cli/dist/index.js deploy --port "$PORT" --config "$CONFIG_DIR/cli.json"
+node ./cli/dist/index.js deploy --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
 
 

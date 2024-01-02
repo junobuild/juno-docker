@@ -1,23 +1,23 @@
 import {createAgent, isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
-import {CliConfig} from '../configs/cli.config';
 import {modules} from '../modules/modules';
 import {getIdentity} from '../services/auth.services';
-import {Module} from '../services/modules.services';
+import type {Module} from '../services/modules.services';
+import {CliState} from '../states/cli.state';
 import {nextArg} from '../utils/args.utils';
 
 const {green, cyan, red} = kleur;
 
 export const deploy = async (args?: string[]) => {
-  const configPath = nextArg({args, option: '-c'}) ?? nextArg({args, option: '--config'});
+  const statePath = nextArg({args, option: '-c'}) ?? nextArg({args, option: '--state'});
 
-  if (isNullish(configPath)) {
+  if (isNullish(statePath)) {
     throw new Error(
-      'No path to read and write the configuration provided as argument of the deploy command.'
+      'No path to read and write the CLI state provided as argument of the deploy command.'
     );
   }
 
-  const config = new CliConfig(configPath);
+  const state = new CliState(statePath);
 
   const port = nextArg({args, option: '-p'}) ?? nextArg({args, option: '--port'});
 
@@ -25,7 +25,7 @@ export const deploy = async (args?: string[]) => {
     throw new Error('An icx-proxy port must be provided as argument of the deploy command.');
   }
 
-  const identity = getIdentity(config);
+  const identity = getIdentity(state);
 
   const agent = await createAgent({
     identity,
@@ -33,7 +33,7 @@ export const deploy = async (args?: string[]) => {
     fetchRootKey: true
   });
 
-  const params = {identity, agent, config};
+  const params = {identity, agent, state};
 
   // 1. Create canisters that do not exist yet
   await Promise.all(
@@ -74,7 +74,7 @@ export const deploy = async (args?: string[]) => {
   // 4. Deploy / install code in the not yet populated canisters
   await Promise.all(
     rest.map(async (mod) => {
-      await mod.deploy({identity, agent, config});
+      await mod.deploy({identity, agent, state});
     })
   );
 };

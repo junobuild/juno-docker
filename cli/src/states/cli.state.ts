@@ -4,13 +4,13 @@ import {existsSync, readFileSync, writeFileSync} from 'node:fs';
 
 import type {ModuleMetadata} from '../types/module';
 
-interface CliConfigData {
+interface CliStoreData {
   token?: JsonnableEd25519KeyIdentity;
   modules?: ModuleMetadata[];
 }
 
-class CliConfigStore {
-  private data: CliConfigData | undefined;
+class CliStore {
+  private data: CliStoreData | undefined;
 
   constructor(private readonly path: string) {
     if (!existsSync(path)) {
@@ -34,11 +34,11 @@ class CliConfigStore {
   }
 }
 
-export class CliConfig {
-  private readonly store: CliConfigStore;
+export class CliState {
+  private readonly store: CliStore;
 
   constructor(readonly path: string) {
-    this.store = new CliConfigStore(path);
+    this.store = new CliStore(path);
   }
 
   // Token

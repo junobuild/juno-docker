@@ -1,0 +1,26 @@
+{
+	"collections": {
+		"db": [
+			{
+				"collection": "metadata",
+				"read": "managed",
+				"write": "managed",
+				"memory": "stable"
+			},
+			{
+				"collection": "content",
+				"read": "managed",
+				"write": "managed",
+				"memory": "stable"
+			},
+			{
+				"collection": "neuron",
+				"read": "managed",
+				"write": "managed",
+				"memory": "stable"
+			}
+		],
+		"storage": []
+	},
+	"controllers": []
+}

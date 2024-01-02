@@ -5,6 +5,7 @@ services:
       - 5987:5987
     volumes:
       - my_juno_dapp_2:/juno/.juno
+      - ./junolator.json:/juno/junolator.json
 
 volumes:
   my_juno_dapp_2:

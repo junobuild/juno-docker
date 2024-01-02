@@ -5,7 +5,7 @@ import {isNullish, nonNullish} from '@dfinity/utils';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {readFile} from 'node:fs/promises';
-import {
+import type {
   ModuleCanisterId,
   ModuleDescription,
   ModuleMetadata,
@@ -17,14 +17,14 @@ const {green, cyan} = kleur;
 
 const EMPTY_ARG = IDL.encode([], []);
 
-const status = ({key, config}: ModuleParams & ModuleDescription): ModuleStatus | undefined =>
-  config.getModule(key)?.status;
+const status = ({key, state}: ModuleParams & ModuleDescription): ModuleStatus | undefined =>
+  state.getModule(key)?.status;
 
 const canisterId = ({
   key,
-  config
+  state
 }: ModuleParams & Pick<ModuleMetadata, 'key'>): ModuleCanisterId | undefined =>
-  config.getModule(key)?.canisterId;
+  state.getModule(key)?.canisterId;
 
 const createCanister = async ({
   identity,
@@ -35,7 +35,7 @@ const createCanister = async ({
     agent
   });
 
-  return provisionalCreateCanisterWithCycles({
+  return await provisionalCreateCanisterWithCycles({
     settings: {
       controllers: [identity.getPrincipal().toString()]
     },
@@ -94,9 +94,9 @@ export class Module {
   async init(params: ModuleParams): Promise<void> {
     const canisterId = await createCanister({...params, ...this.description});
 
-    const {config, ...rest} = params;
+    const {state} = params;
 
-    config.saveModule({
+    state.saveModule({
       key: this.key,
       name: this.name,
       canisterId: canisterId.toString(),
@@ -105,9 +105,9 @@ export class Module {
   }
 
   async deploy(params: ModuleParams & {arg?: ArrayBuffer}): Promise<void> {
-    const {config, ...rest} = params;
+    const {state} = params;
 
-    const metadata = config.getModule(this.key);
+    const metadata = state.getModule(this.key);
 
     if (isNullish(metadata)) {
       throw new Error('Module has not been initialized and therefore cannot be deployed!');
@@ -115,7 +115,7 @@ export class Module {
 
     await installCode({...params, ...metadata});
 
-    config.saveModule({
+    state.saveModule({
       ...metadata,
       status: 'deployed'
     });

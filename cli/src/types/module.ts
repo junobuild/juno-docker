@@ -1,5 +1,5 @@
 import type {HttpAgent, Identity} from '@dfinity/agent';
-import type {CliConfig} from '../configs/cli.config';
+import type {CliState} from '../states/cli.state';
 
 export type ModuleStatus = 'initialized' | 'deployed';
 
@@ -18,5 +18,5 @@ export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status'> &
 export interface ModuleParams {
   identity: Identity;
   agent: HttpAgent;
-  config: CliConfig;
+  state: CliState;
 }

@@ -2,7 +2,7 @@
 
 ./target/ic-starter --replica-path ./target/replica \
                     --http-port "$REPLICA_PORT" \
-                    --state-dir "$STATE_DIR" \
+                    --state-dir "$STATE_REPLICA_DIR" \
                     --create-funds-whitelist '*' \
                     --subnet-type application \
                     --ecdsa-keyid Secp256k1:juno_test_key \

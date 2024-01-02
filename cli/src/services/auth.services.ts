@@ -1,8 +1,8 @@
 import {Ed25519KeyIdentity} from '@dfinity/identity';
 import {nonNullish} from '@dfinity/utils';
-import type {CliConfig} from '../configs/cli.config';
+import type {CliState} from '../states/cli.state';
 
-export const getIdentity = (config: CliConfig): Ed25519KeyIdentity => {
+export const getIdentity = (config: CliState): Ed25519KeyIdentity => {
   const token = config.getToken();
 
   if (nonNullish(token)) {
