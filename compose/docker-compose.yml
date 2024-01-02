@@ -1,0 +1,10 @@
+services:
+  junolator:
+    image: junolator
+    ports:
+      - 5987:5987
+    volumes:
+      - my_juno_dapp_2:/juno/.juno
+
+volumes:
+  my_juno_dapp_2:
