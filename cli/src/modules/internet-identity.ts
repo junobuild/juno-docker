@@ -1,5 +1,5 @@
-import {deploy, init, status} from '../services/deploy.services';
-import type {Module, ModuleInitialDetail, ModuleParams, ModuleStatus} from '../types/module';
+import {Module} from '../services/modules.services';
+import type {ModuleInitialDetail} from '../types/module';
 
 const INTERNET_IDENTITY: ModuleInitialDetail = {
   key: 'internet_identity',
@@ -7,13 +7,4 @@ const INTERNET_IDENTITY: ModuleInitialDetail = {
   canisterId: 'rrkah-fqaaa-aaaaa-aaaaq-cai'
 };
 
-export const internetIdentity: Module = {
-  status: (params: ModuleParams): ModuleStatus | undefined =>
-    status({...params, ...INTERNET_IDENTITY}),
-  init: async (params: ModuleParams): Promise<void> => {
-    await init({...params, ...INTERNET_IDENTITY});
-  },
-  deploy: async (params: ModuleParams): Promise<void> => {
-    await deploy({...params, ...INTERNET_IDENTITY});
-  }
-};
+export const internetIdentity = new Module(INTERNET_IDENTITY);

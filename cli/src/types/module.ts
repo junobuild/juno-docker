@@ -18,9 +18,3 @@ export interface ModuleParams {
   agent: HttpAgent;
   config: CliConfig;
 }
-
-export interface Module {
-  status: (params: ModuleParams) => ModuleStatus | undefined;
-  init: (params: ModuleParams) => Promise<void>;
-  deploy: (params: ModuleParams) => Promise<void>;
-}

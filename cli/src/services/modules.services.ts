@@ -11,12 +11,10 @@ const {green, cyan} = kleur;
 
 const EMPTY_ARG = IDL.encode([], []);
 
-export const status = ({
-  key,
-  config
-}: ModuleParams & ModuleInitialDetail): ModuleStatus | undefined => config.getModule(key)?.status;
+const status = ({key, config}: ModuleParams & ModuleInitialDetail): ModuleStatus | undefined =>
+  config.getModule(key)?.status;
 
-export const init = async ({
+const init = async ({
   identity,
   agent,
   config,
@@ -43,7 +41,7 @@ export const init = async ({
   });
 };
 
-export const deploy = async ({
+const deploy = async ({
   identity,
   agent,
   config,
@@ -100,3 +98,19 @@ export const deploy = async ({
 
   console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);
 };
+
+export class Module {
+  constructor(private readonly details: ModuleInitialDetail) {}
+
+  status(params: ModuleParams): ModuleStatus | undefined {
+    return status({...params, ...this.details});
+  }
+
+  async init(params: ModuleParams): Promise<void> {
+    await init({...params, ...this.details});
+  }
+
+  async deploy(params: ModuleParams): Promise<void> {
+    await deploy({...params, ...this.details});
+  }
+}
