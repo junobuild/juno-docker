@@ -17,7 +17,7 @@ Please find the documentation about prerequisites, how to run the image, and con
 
 The container is available on [Docker Hub](https://github.com/junobuild/juno-docker). It can be started using Docker command line or a Compose file.
 
-You can find a sample, including a configuration file for the Juno Satellite, in the [./compose](./compose) folder.
+You can find a sample, including a configuration file for the Juno Satellite, in the [compose](./compose) folder.
 
 Once you have both files copied to your machine - `docker-componse.yml` and `juno.dev.json` -, you can start the container using the following command:
 
@@ -50,7 +50,7 @@ This module's TypeScript code is located in [cli/src/modules](./cli/src/modules)
 - `name: string;`: A human-readable name, like a nickname.
 - `canisterId: string;`: A unique targeted canisterId. Currently, canister ids that are populated are not exposed by the container, therefore it should be set as a static value. i.e., currently, any developers will use the same IDs for their local environment.
 
-Once your module is developed, add it to the list in [./cli/src/modules/modules.ts](./cli/src/modules/modules.ts).
+Once your module is developed, add it to the list in [cli/src/modules/modules.ts](./cli/src/modules/modules.ts).
 
 For example, if your module does not require any particular installation arguments or configuration, you can simply extend the default as it is done with Internet Identity:
 
