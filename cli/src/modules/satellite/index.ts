@@ -3,7 +3,7 @@ import {isNullish} from '@dfinity/utils';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
 import {ModuleDescription} from '../../types/module';
-import {configureCollections} from './satellite.services';
+import {configureCollections} from './satellite.config';
 
 const SATELLITE: ModuleDescription = {
   key: 'satellite',
@@ -25,7 +25,7 @@ class SatelliteModule extends Module {
     await super.install({identity, ...rest, arg});
   }
 
-  override async configure(context: CliContext) {
+  override async start(context: CliContext) {
     const canisterId = this.canisterId(context);
 
     if (isNullish(canisterId)) {

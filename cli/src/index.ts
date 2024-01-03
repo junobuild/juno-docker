@@ -1,7 +1,7 @@
 import kleur from 'kleur';
 import {version as cliCurrentVersion} from '../package.json';
-import {config} from './commands/config';
 import {deploy} from './commands/deploy';
+import {start} from './commands/start';
 import {wait} from './commands/wait';
 import {checkNodeVersion} from './utils/env.utils';
 
@@ -20,8 +20,8 @@ export const run = async () => {
     case 'deploy':
       await deploy(args);
       break;
-    case 'config':
-      await config(args);
+    case 'start':
+      await start(args);
       break;
     case 'wait':
       await wait(args);

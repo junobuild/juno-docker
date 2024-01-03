@@ -2,8 +2,9 @@
 
 ./docker/wait-port "$PORT"
 
+# Pinging the icx-proxy and replica ports does not necessarily mean the replica is fully mounted and "healthy" - i.e. ready.
 node ./cli/dist/index.js wait --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
 
 node ./cli/dist/index.js deploy --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
 
-node ./cli/dist/index.js config --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
+node ./cli/dist/index.js start --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
