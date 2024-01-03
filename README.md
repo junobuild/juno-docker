@@ -13,6 +13,18 @@ Additionally, developers can provide a configuration file to set a few parameter
 
 Please find the documentation about prerequisites, how to run the image, and configuration options on Juno's website.
 
+## Execution
+
+The container is available on [Docker Hub](https://github.com/junobuild/juno-docker). It can be started using Docker command line or a Compose file.
+
+You can find a sample, including a configuration file for the Juno Satellite, in the [./compose](./compose) folder.
+
+Once you have both files copied to your machine - `docker-componse.yml` and `juno.dev.json` -, you can start the container using the following command:
+
+```bash
+docker compose up
+```
+
 ## Contributions
 
 This project is not meant to provide numerous options for developers to tweak according to their needs, but rather to provide one standard image that any developer in the Juno community can use without any specialized knowledge.
