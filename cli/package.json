@@ -28,7 +28,7 @@
     "@dfinity/identity": "^0.20.2",
     "@dfinity/principal": "^0.20.2",
     "@dfinity/utils": "^2.0.0",
-    "@junobuild/admin": "^0.0.40",
+    "@junobuild/admin": "^0.0.42",
     "kleur": "^4.1.5",
     "node-fetch": "^3.3.2",
     "semver": "^7.5.4"

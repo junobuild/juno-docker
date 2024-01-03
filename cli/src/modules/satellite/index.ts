@@ -3,7 +3,7 @@ import {isNullish} from '@dfinity/utils';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
 import {ModuleDescription} from '../../types/module';
-import {configureCollections} from './satellite.config';
+import {configureCollections, configureControllers} from './satellite.config';
 
 const SATELLITE: ModuleDescription = {
   key: 'satellite',
@@ -32,7 +32,9 @@ class SatelliteModule extends Module {
       throw new Error('Cannot configure satellite for unknown module id.');
     }
 
+    // One after the other to not stress the replica at boot time? Not sure, it makes sense.
     await configureCollections({...context, canisterId});
+    await configureControllers({...context, canisterId});
 
     console.log(`✅  ${this.name} configured.`);
   }

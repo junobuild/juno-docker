@@ -7,9 +7,14 @@ export interface SatelliteCollections {
   storage: SatelliteCollection[];
 }
 
+export interface SatelliteController {
+  id: string;
+  scope: 'write' | 'admin';
+}
+
 export interface SatelliteConfig {
   collections: SatelliteCollections;
-  controllers?: string[];
+  controllers?: SatelliteController[];
 }
 
 export interface JunoDevConfig {
