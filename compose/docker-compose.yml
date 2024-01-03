@@ -1,11 +1,11 @@
 services:
-  junolator:
-    image: junolator
+  juno-satellite:
+    image: junobuild/satellite:latest
     ports:
       - 5987:5987
     volumes:
       - my_dapp:/juno/.juno
-      - ./junolator.json:/juno/junolator.json
+      - ./juno.dev.json:/juno/juno.dev.json
 
 volumes:
   my_dapp:

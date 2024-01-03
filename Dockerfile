@@ -1,6 +1,5 @@
 FROM ubuntu:22.04
 
-LABEL version="0.0.1"
 LABEL repository="https://github.com/junobuild/juno-docker"
 LABEL homepage="https://juno.build"
 LABEL maintainer="David Dal Busco <david.dalbusco@outlook.com>"

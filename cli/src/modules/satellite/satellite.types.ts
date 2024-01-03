@@ -11,3 +11,7 @@ export interface SatelliteConfig {
   collections: SatelliteCollections;
   controllers?: string[];
 }
+
+export interface JunoDevConfig {
+  satellite: SatelliteConfig;
+}

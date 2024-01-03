@@ -1,14 +1,14 @@
 import type {SatelliteParameters} from '@junobuild/admin';
-import {RulesType, listRules, setRule} from '@junobuild/admin';
+import {listRules, setRule, type RulesType} from '@junobuild/admin';
 import fetch from 'node-fetch';
 import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
-import {CliContext} from '../../types/context';
-import {ModuleMetadata} from '../../types/module';
-import {SatelliteCollection, SatelliteConfig} from './satellite.types';
+import type {CliContext} from '../../types/context';
+import type {ModuleMetadata} from '../../types/module';
+import type {JunoDevConfig, SatelliteCollection} from './satellite.types';
 
-const readConfig = async (): Promise<SatelliteConfig> => {
-  const buffer = await readFile(join(process.cwd(), 'junolator.json'));
+const readConfig = async (): Promise<JunoDevConfig> => {
+  const buffer = await readFile(join(process.cwd(), 'juno.dev.json'));
   return JSON.parse(buffer.toString('utf-8'));
 };
 
@@ -52,7 +52,9 @@ export const configureCollections = async ({
   canisterId
 }: CliContext & Pick<ModuleMetadata, 'canisterId'>) => {
   const {
-    collections: {db, storage}
+    satellite: {
+      collections: {db, storage}
+    }
   } = await readConfig();
 
   const satellite: SatelliteParameters = {
