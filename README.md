@@ -1,6 +1,6 @@
-# Juno Docker
+# 📦 Juno Docker
 
-A [Juno] Docker Image for Local DApp Development and E2E Tests.
+A Docker image for local dApp development and E2E tests with [Juno].
 
 ## Introduction
 
