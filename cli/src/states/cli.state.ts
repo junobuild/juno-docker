@@ -1,7 +1,7 @@
 import type {JsonnableEd25519KeyIdentity} from '@dfinity/identity/lib/cjs/identity/ed25519';
 import {nonNullish} from '@dfinity/utils';
-import {existsSync, readFileSync, writeFileSync} from 'node:fs';
-
+import {readFileSync, writeFileSync} from 'atomically';
+import {existsSync} from 'node:fs';
 import type {ModuleMetadata} from '../types/module';
 
 interface CliStoreData {
