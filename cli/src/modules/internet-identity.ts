@@ -4,7 +4,7 @@ import type {ModuleDescription} from '../types/module';
 const INTERNET_IDENTITY: ModuleDescription = {
   key: 'internet_identity',
   name: 'Internet Identity',
-  canisterId: 'rrkah-fqaaa-aaaaa-aaaaq-cai'
+  canisterId: 'rdmx6-jaaaa-aaaaa-aaadq-cai'
 };
 
 export const internetIdentity = new Module(INTERNET_IDENTITY);
