@@ -13,6 +13,8 @@ Additionally, developers can provide a configuration file to set a few parameter
 
 Please find the documentation about prerequisites, how to run the image, and configuration options on Juno's website.
 
+👉 [https://juno.build/docs/miscellaneous/local-development](https://juno.build/docs/miscellaneous/local-development)
+
 ## Execution
 
 The container is available on [Docker Hub](https://hub.docker.com/r/junobuild/satellite). It can be started using Docker command line or a Compose file.
