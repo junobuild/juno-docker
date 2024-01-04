@@ -3,7 +3,7 @@ import {isNullish} from '@dfinity/utils';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
 import {ModuleDescription} from '../../types/module';
-import {configureCollections, configureControllers} from './satellite.config';
+import {configExist, configureCollections, configureControllers} from './satellite.config';
 
 const SATELLITE: ModuleDescription = {
   key: 'satellite',
@@ -30,6 +30,11 @@ class SatelliteModule extends Module {
 
     if (isNullish(canisterId)) {
       throw new Error('Cannot configure satellite for unknown module id.');
+    }
+
+    if (!(await configExist())) {
+      console.log(`ℹ️  No configuration provided to configure ${this.name}.`);
+      return;
     }
 
     // One after the other to not stress the replica at boot time? Not sure, it makes sense.

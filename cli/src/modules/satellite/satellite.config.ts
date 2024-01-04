@@ -15,10 +15,15 @@ import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
+import {fileExist} from '../../utils/fs.utils';
 import type {JunoDevConfig, SatelliteCollection, SatelliteController} from './satellite.types';
 
+export const JUNO_DEV_CONFIG = join(process.cwd(), 'juno.dev.json');
+
+export const configExist = async (): Promise<boolean> => fileExist(JUNO_DEV_CONFIG);
+
 const readConfig = async (): Promise<JunoDevConfig> => {
-  const buffer = await readFile(join(process.cwd(), 'juno.dev.json'));
+  const buffer = await readFile(JUNO_DEV_CONFIG);
   return JSON.parse(buffer.toString('utf-8'));
 };
 
