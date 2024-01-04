@@ -86,8 +86,8 @@ export const configureCollections = async (context: SatelliteConfigContext) => {
   const satellite = buildSatelliteParams(context);
 
   await Promise.all([
-    configRules({type: 'db', collections: db, satellite}),
-    configRules({type: 'storage', collections: storage, satellite})
+    configRules({type: 'db', collections: db ?? [], satellite}),
+    configRules({type: 'storage', collections: storage ?? [], satellite})
   ]);
 };
 
