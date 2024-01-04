@@ -1,6 +1,6 @@
 # 📦 Juno Docker
 
-A Docker image for local dApp development and E2E tests with [Juno].
+A [Juno] Docker image for local dApp development and E2E tests.
 
 ## Introduction
 
@@ -15,7 +15,7 @@ Please find the documentation about prerequisites, how to run the image, and con
 
 ## Execution
 
-The container is available on [Docker Hub](https://github.com/junobuild/juno-docker). It can be started using Docker command line or a Compose file.
+The container is available on [Docker Hub](https://hub.docker.com/r/junobuild/satellite). It can be started using Docker command line or a Compose file.
 
 You can find a sample, including a configuration file for the Juno Satellite, in the [compose](./compose) folder.
 
