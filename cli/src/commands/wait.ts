@@ -1,8 +1,8 @@
 import type {HttpAgent} from '@dfinity/agent';
-import {buildContent} from '../services/context.services';
+import {buildContext} from '../services/context.services';
 
 export const wait = async (args?: string[]) => {
-  const {agent} = await buildContent(args);
+  const {agent} = await buildContext(args);
 
   // 10 seconds from now
   const timeout = Date.now() + 10_000;

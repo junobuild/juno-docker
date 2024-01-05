@@ -1,8 +1,8 @@
 import {modules} from '../modules/modules';
-import {buildContent} from '../services/context.services';
+import {buildContext} from '../services/context.services';
 
 export const start = async (args?: string[]) => {
-  const context = await buildContent(args);
+  const context = await buildContext(args);
 
   await Promise.all(
     modules.map(async (mod) => {

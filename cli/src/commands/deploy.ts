@@ -1,13 +1,13 @@
 import {isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
 import {modules} from '../modules/modules';
-import {buildContent} from '../services/context.services';
+import {buildContext} from '../services/context.services';
 import type {Module} from '../services/modules.services';
 
 const {green, cyan, red} = kleur;
 
 export const deploy = async (args?: string[]) => {
-  const context = await buildContent(args);
+  const context = await buildContext(args);
 
   // 1. Create canisters that do not exist yet
   await Promise.all(

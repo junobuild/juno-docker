@@ -4,7 +4,7 @@ import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
 import {getIdentity} from './auth.services';
 
-export const buildContent = async (args?: string[]): Promise<CliContext> => {
+export const buildContext = async (args?: string[]): Promise<CliContext> => {
   const statePath = nextArg({args, option: '-c'}) ?? nextArg({args, option: '--state'});
 
   if (isNullish(statePath)) {
