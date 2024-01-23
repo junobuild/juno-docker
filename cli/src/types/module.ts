@@ -7,7 +7,8 @@ export interface ModuleMetadata {
   name: string;
   canisterId: ModuleCanisterId;
   status: ModuleStatus;
+  hash: string;
 }
 
-export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status'> &
+export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status' | 'hash'> &
   Partial<Pick<ModuleMetadata, 'canisterId'>>;

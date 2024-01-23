@@ -43,6 +43,17 @@ const createCanister = async ({
   });
 };
 
+const loadWasm = async ({key}: Pick<ModuleMetadata, "key">): Promise<{hash: string; wasm: Buffer}> => {
+  const file = `./target/${key}.gz`;
+
+  const wasm = await readFile(file);
+
+  return {
+    wasm,
+    hash: createHash('sha256').update(wasm).digest('hex')
+  };
+};
+
 const installCode = async ({
   agent,
   arg,
@@ -53,16 +64,7 @@ const installCode = async ({
     agent
   });
 
-  const loadWasm = async (file: string): Promise<{hash: string; wasm: Buffer}> => {
-    const wasm = await readFile(file);
-
-    return {
-      wasm,
-      hash: createHash('sha256').update(wasm).digest('hex')
-    };
-  };
-
-  const {wasm} = await loadWasm(`./target/${key}.gz`);
+  const {wasm} = await loadWasm({key});
 
   await installCode({
     mode: InstallMode.Install,
@@ -94,13 +96,16 @@ export class Module {
   async prepare(context: CliContext): Promise<void> {
     const canisterId = await createCanister({...context, ...this.description});
 
+    const {hash} = await loadWasm({key: this.key});
+
     const {state} = context;
 
     state.saveModule({
       key: this.key,
       name: this.name,
       canisterId: canisterId.toString(),
-      status: 'initialized'
+      status: 'initialized',
+      hash
     });
   }
 
