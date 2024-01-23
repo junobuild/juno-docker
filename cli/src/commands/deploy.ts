@@ -21,7 +21,7 @@ export const deploy = async (args?: string[]) => {
   // 2. Split the canister already deployed and those which still need to be installed
   const [deployed, rest] = modules.reduce(
     ([deployed, rest]: [Module[], Module[]], mod) => {
-      const ready = mod.status(context) === 'deployed';
+      const ready = mod.isDeployed(context);
 
       return [
         [...deployed, ...(ready ? [mod] : [])],
