@@ -6,9 +6,10 @@ import {readFileSync} from 'atomically';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import type {CliContext} from '../types/context';
-import type {
+import {
   ModuleCanisterId,
   ModuleDescription,
+  ModuleInstallParams,
   ModuleMetadata,
   ModuleStatus
 } from '../types/module';
@@ -69,14 +70,16 @@ const installCode = async ({
   agent,
   arg,
   canisterId,
-  wasm: wasmModule
-}: CliContext & Omit<ModuleMetadata, 'status'> & {arg?: ArrayBuffer; wasm: Buffer}) => {
+  wasm: wasmModule,
+  mode
+}: CliContext &
+  Omit<ModuleMetadata, 'status'> & {arg?: ArrayBuffer; wasm: Buffer; mode: InstallMode}) => {
   const {installCode} = ICManagementCanister.create({
     agent
   });
 
   await installCode({
-    mode: InstallMode.Install,
+    mode,
     canisterId: Principal.from(canisterId),
     wasmModule,
     arg: new Uint8Array(arg ?? EMPTY_ARG)
@@ -136,7 +139,7 @@ export class Module {
     });
   }
 
-  async install(context: CliContext & {arg?: ArrayBuffer}): Promise<void> {
+  async install({installMode: mode, ...context}: ModuleInstallParams): Promise<void> {
     const {state} = context;
 
     const metadata = state.getModule(this.key);
@@ -145,7 +148,7 @@ export class Module {
       throw new Error('Module has not been initialized and therefore cannot be deployed!');
     }
 
-    await installCode({...context, ...metadata, wasm: this.wasm});
+    await installCode({...context, ...metadata, wasm: this.wasm, mode});
 
     state.saveModule({
       ...metadata,

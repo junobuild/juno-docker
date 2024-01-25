@@ -6,6 +6,7 @@ import {join} from 'node:path';
 import {SATELLITE, SatelliteModule} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
 import {CliContext} from '../types/context';
+import {InstallMode} from "@dfinity/ic-management";
 
 const {green} = kleur;
 
@@ -56,5 +57,5 @@ const onFileWatch = async ({
     return;
   }
 
-  await mod.install(context);
+  await mod.install({...context, installMode: InstallMode.Upgrade});
 };

@@ -2,7 +2,7 @@ import {IDL} from '@dfinity/candid';
 import {isNullish} from '@dfinity/utils';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
-import {ModuleDescription} from '../../types/module';
+import {ModuleDescription, ModuleInstallParams} from '../../types/module';
 import {configExist, configureCollections, configureControllers} from './satellite.config';
 
 export const SATELLITE: ModuleDescription = {
@@ -12,7 +12,7 @@ export const SATELLITE: ModuleDescription = {
 };
 
 export class SatelliteModule extends Module {
-  override async install({identity, ...rest}: CliContext): Promise<void> {
+  override async install({identity, ...rest}: ModuleInstallParams): Promise<void> {
     const arg = IDL.encode(
       [
         IDL.Record({

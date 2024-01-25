@@ -3,6 +3,7 @@ import kleur from 'kleur';
 import {modules} from '../modules/modules';
 import {buildContext} from '../services/context.services';
 import type {Module} from '../services/modules.services';
+import {InstallMode} from "@dfinity/ic-management";
 
 const {green, cyan, red} = kleur;
 
@@ -48,7 +49,7 @@ export const deploy = async (args?: string[]) => {
   // 4. Deploy / install code in the not yet populated canisters
   await Promise.all(
     rest.map(async (mod) => {
-      await mod.install(context);
+      await mod.install({...context, installMode: InstallMode.Install});
     })
   );
 };
