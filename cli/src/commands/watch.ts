@@ -48,23 +48,55 @@ const onFileWatch = async ({
     return;
   }
 
+  if (upgrading) {
+    requestUpgrade = true;
+    return;
+  }
+
   debounceUpgradeSatellite({context});
 };
 
+let upgrading = false;
+let requestUpgrade = false;
+
 const upgradeSatellite = async ({context}: {context: CliContext}) => {
+  upgrading = true;
+
   const mod = new SatelliteModule({
     ...SATELLITE,
     wasmPath: DEV_SATELLITE
   });
 
   if (mod.isDeployed(context)) {
+    upgrading = false;
     console.log(`ℹ️  Satellite already deployed. No changes detected.`);
+
+    await processPendingUpgrade({context});
     return;
   }
 
-  console.log(`🎬  New Satellite detected. Starting upgrade.`);
+  await executeUpgrade({context, mod});
 
-  await mod.install({...context, installMode: InstallMode.Upgrade});
+  await processPendingUpgrade({context});
+};
+
+const executeUpgrade = async ({context, mod}: {context: CliContext; mod: SatelliteModule}) => {
+  try {
+    console.log(`🎬  New Satellite detected. Starting upgrade.`);
+
+    await mod.install({...context, installMode: InstallMode.Upgrade});
+  } finally {
+    upgrading = false;
+  }
+};
+
+const processPendingUpgrade = async ({context}: {context: CliContext}) => {
+  if (!requestUpgrade) {
+    return;
+  }
+
+  requestUpgrade = false;
+  await upgradeSatellite({context});
 };
 
 const debounceUpgradeSatellite = debounce(upgradeSatellite);
