@@ -12,7 +12,7 @@ export const deploy = async (args?: string[]) => {
   // 1. Create canisters that do not exist yet
   await Promise.all(
     modules
-      .filter((mod) => mod.status(context) !== 'deployed')
+      .filter((mod) => mod.status(context) === undefined)
       .map(async (mod) => {
         await mod.prepare(context);
       })
