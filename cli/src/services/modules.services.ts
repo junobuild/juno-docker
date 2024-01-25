@@ -51,8 +51,11 @@ const createCanister = async ({
   });
 };
 
-const loadWasm = ({key}: Pick<ModuleMetadata, 'key'>): Wasm => {
-  const file = `./target/${key}.gz`;
+const loadWasm = ({
+  key,
+  wasmPath
+}: Pick<ModuleMetadata, 'key'> & Pick<ModuleDescription, 'wasmPath'>): Wasm => {
+  const file = wasmPath ?? `./target/${key}.gz`;
 
   const wasm = readFileSync(file);
 
@@ -83,7 +86,7 @@ const installCode = async ({
 export class Module {
   private readonly data: ModuleDescription & Wasm;
 
-  constructor({key, ...rest}: ModuleDescription) {
+  constructor({key, wasmPath, ...rest}: ModuleDescription) {
     this.data = {
       key,
       ...rest,

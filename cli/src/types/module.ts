@@ -11,4 +11,4 @@ export interface ModuleMetadata {
 }
 
 export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status' | 'hash'> &
-  Partial<Pick<ModuleMetadata, 'canisterId'>>;
+  Partial<Pick<ModuleMetadata, 'canisterId'>> & {wasmPath?: string};

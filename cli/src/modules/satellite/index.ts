@@ -5,13 +5,13 @@ import {CliContext} from '../../types/context';
 import {ModuleDescription} from '../../types/module';
 import {configExist, configureCollections, configureControllers} from './satellite.config';
 
-const SATELLITE: ModuleDescription = {
+export const SATELLITE: ModuleDescription = {
   key: 'satellite',
   name: 'Satellite',
   canisterId: 'jx5yt-yyaaa-aaaal-abzbq-cai'
 };
 
-class SatelliteModule extends Module {
+export class SatelliteModule extends Module {
   override async install({identity, ...rest}: CliContext): Promise<void> {
     const arg = IDL.encode(
       [

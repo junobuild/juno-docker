@@ -4,6 +4,7 @@ import {deploy} from './commands/deploy';
 import {start} from './commands/start';
 import {wait} from './commands/wait';
 import {checkNodeVersion} from './utils/env.utils';
+import {watch} from "./commands/watch";
 
 const {red, yellow} = kleur;
 
@@ -25,6 +26,9 @@ export const run = async () => {
       break;
     case 'wait':
       await wait(args);
+      break;
+    case 'watch':
+      await watch(args);
       break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
