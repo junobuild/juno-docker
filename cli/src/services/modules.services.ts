@@ -90,7 +90,7 @@ export class Module {
     this.data = {
       key,
       ...rest,
-      ...loadWasm({key})
+      ...loadWasm({key, wasmPath})
     };
   }
 
