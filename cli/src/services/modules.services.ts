@@ -152,12 +152,13 @@ export class Module {
 
     state.saveModule({
       ...metadata,
+      hash: this.hash,
       status: 'deployed'
     });
 
     const {name, canisterId} = metadata;
 
-    console.log(`🚀  ${green(name)} deployed. ID: ${cyan(canisterId.toString())}`);
+    console.log(`🚀  ${green(name)} ${mode === InstallMode.Upgrade ? "upgraded" : "deployed"}. ID: ${cyan(canisterId.toString())}`);
   }
 
   async start(_context: CliContext) {
