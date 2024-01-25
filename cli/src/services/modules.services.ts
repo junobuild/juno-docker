@@ -139,7 +139,7 @@ export class Module {
     });
   }
 
-  async install({installMode: mode, ...context}: ModuleInstallParams): Promise<void> {
+  async install(context: ModuleInstallParams): Promise<void> {
     const {state} = context;
 
     const metadata = state.getModule(this.key);
@@ -147,6 +147,8 @@ export class Module {
     if (isNullish(metadata)) {
       throw new Error('Module has not been initialized and therefore cannot be deployed!');
     }
+
+    const mode = this.status(context) === 'deployed' ? InstallMode.Upgrade : InstallMode.Upgrade;
 
     await installCode({...context, ...metadata, wasm: this.wasm, mode});
 

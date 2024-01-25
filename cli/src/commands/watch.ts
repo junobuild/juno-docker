@@ -1,4 +1,3 @@
-import {InstallMode} from '@dfinity/ic-management';
 import {debounce} from '@dfinity/utils';
 import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
@@ -80,7 +79,7 @@ const executeUpgrade = async ({context, mod}: {context: CliContext; mod: Satelli
   try {
     console.log(`🎬  New Satellite detected. Starting upgrade.`);
 
-    await mod.install({...context, installMode: InstallMode.Upgrade});
+    await mod.install(context);
   } finally {
     upgrading = false;
   }

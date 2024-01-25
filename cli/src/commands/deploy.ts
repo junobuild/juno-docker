@@ -1,4 +1,3 @@
-import {InstallMode} from '@dfinity/ic-management';
 import {isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
 import {modules} from '../modules/modules';
@@ -49,7 +48,7 @@ export const deploy = async (args?: string[]) => {
   // 4. Deploy / install code in the not yet populated canisters
   await Promise.all(
     rest.map(async (mod) => {
-      await mod.install({...context, installMode: InstallMode.Install});
+      await mod.install(context);
     })
   );
 };

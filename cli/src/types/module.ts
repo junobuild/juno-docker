@@ -1,4 +1,3 @@
-import type {InstallMode} from '@dfinity/ic-management';
 import type {CliContext} from './context';
 
 export type ModuleStatus = 'initialized' | 'deployed';
@@ -18,5 +17,4 @@ export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status' | '
 
 export type ModuleInstallParams = CliContext & {
   arg?: ArrayBuffer;
-  installMode: InstallMode.Upgrade | InstallMode.Install;
 };
