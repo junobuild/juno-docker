@@ -34,16 +34,12 @@ export const watch = async (args?: string[]) => {
 };
 
 const onFileWatch = async ({
-  $event: {eventType, filename},
+  $event: {filename},
   context
 }: {
   $event: FileChangeInfo<string>;
   context: CliContext;
 }) => {
-  if (eventType !== 'change') {
-    return;
-  }
-
   if (filename !== DEV_SATELLITE_WASM_FILENAME) {
     return;
   }
