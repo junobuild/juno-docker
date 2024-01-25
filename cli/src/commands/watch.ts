@@ -1,12 +1,12 @@
-import {FileChangeInfo} from 'fs/promises';
+import {InstallMode} from '@dfinity/ic-management';
+import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
 import {join} from 'node:path';
 import {SATELLITE, SatelliteModule} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
-import {CliContext} from '../types/context';
-import {InstallMode} from "@dfinity/ic-management";
+import type {CliContext} from '../types/context';
 
 const {green} = kleur;
 
@@ -51,9 +51,7 @@ const onFileWatch = async ({
   });
 
   if (mod.isDeployed(context)) {
-    console.log(
-        `ℹ️  Satellite already deployed. No changes detected.`
-    );
+    console.log(`ℹ️  Satellite already deployed. No changes detected.`);
     return;
   }
 

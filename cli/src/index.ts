@@ -3,8 +3,8 @@ import {version as cliCurrentVersion} from '../package.json';
 import {deploy} from './commands/deploy';
 import {start} from './commands/start';
 import {wait} from './commands/wait';
+import {watch} from './commands/watch';
 import {checkNodeVersion} from './utils/env.utils';
-import {watch} from "./commands/watch";
 
 const {red, yellow} = kleur;
 

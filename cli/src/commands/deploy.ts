@@ -1,9 +1,9 @@
+import {InstallMode} from '@dfinity/ic-management';
 import {isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
 import {modules} from '../modules/modules';
 import {buildContext} from '../services/context.services';
 import type {Module} from '../services/modules.services';
-import {InstallMode} from "@dfinity/ic-management";
 
 const {green, cyan, red} = kleur;
 

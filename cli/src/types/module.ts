@@ -1,4 +1,4 @@
-import {InstallMode} from '@dfinity/ic-management';
+import type {InstallMode} from '@dfinity/ic-management';
 import type {CliContext} from './context';
 
 export type ModuleStatus = 'initialized' | 'deployed';

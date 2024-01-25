@@ -6,7 +6,7 @@ import {readFileSync} from 'atomically';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
 import type {CliContext} from '../types/context';
-import {
+import type {
   ModuleCanisterId,
   ModuleDescription,
   ModuleInstallParams,
@@ -158,7 +158,11 @@ export class Module {
 
     const {name, canisterId} = metadata;
 
-    console.log(`🚀  ${green(name)} ${mode === InstallMode.Upgrade ? "upgraded" : "deployed"}. ID: ${cyan(canisterId.toString())}`);
+    console.log(
+      `🚀  ${green(name)} ${mode === InstallMode.Upgrade ? 'upgraded' : 'deployed'}. ID: ${cyan(
+        canisterId.toString()
+      )}`
+    );
   }
 
   async start(_context: CliContext) {
