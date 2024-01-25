@@ -1,21 +1,24 @@
 import {InstallMode} from '@dfinity/ic-management';
+import {debounce} from '@dfinity/utils';
 import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
-import {join} from 'node:path';
+import {
+  DEV_DEPLOY_FOLDER,
+  DEV_SATELLITE,
+  DEV_SATELLITE_WASM_FILENAME
+} from '../constants/constants';
 import {SATELLITE, SatelliteModule} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
 
 const {green} = kleur;
 
-const JUNO_DEPLOY_FOLDER = join(process.cwd(), 'target', 'deploy');
-
 export const watch = async (args?: string[]) => {
-  if (!existsSync(JUNO_DEPLOY_FOLDER)) {
+  if (!existsSync(DEV_DEPLOY_FOLDER)) {
     console.log(
-      `ℹ️  ${green(JUNO_DEPLOY_FOLDER)} does not exist. Watching deployment files skipped.`
+      `ℹ️  ${green(DEV_DEPLOY_FOLDER)} does not exist. Watching deployment files skipped.`
     );
     return;
   }
@@ -24,7 +27,7 @@ export const watch = async (args?: string[]) => {
 
   const context = await buildContext(args);
 
-  const watcher = fsWatch(JUNO_DEPLOY_FOLDER);
+  const watcher = fsWatch(DEV_DEPLOY_FOLDER);
   for await (const $event of watcher) {
     await onFileWatch({$event, context});
   }
@@ -41,13 +44,17 @@ const onFileWatch = async ({
     return;
   }
 
-  if (filename !== 'satellite.wasm.gz') {
+  if (filename !== DEV_SATELLITE_WASM_FILENAME) {
     return;
   }
 
+  debounceUpgradeSatellite({context});
+};
+
+const upgradeSatellite = async ({context}: {context: CliContext}) => {
   const mod = new SatelliteModule({
     ...SATELLITE,
-    wasmPath: join(JUNO_DEPLOY_FOLDER, filename)
+    wasmPath: DEV_SATELLITE
   });
 
   if (mod.isDeployed(context)) {
@@ -55,5 +62,9 @@ const onFileWatch = async ({
     return;
   }
 
+  console.log(`🎬  New Satellite detected. Starting upgrade.`);
+
   await mod.install({...context, installMode: InstallMode.Upgrade});
 };
+
+const debounceUpgradeSatellite = debounce(upgradeSatellite);
