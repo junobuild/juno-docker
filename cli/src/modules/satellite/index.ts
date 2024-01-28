@@ -29,15 +29,19 @@ export class SatelliteModule extends Module {
   }
 
   override async start(context: CliContext) {
+    if (!(await configExist())) {
+      console.log(`ℹ️  No configuration provided to configure ${this.name}.`);
+      return;
+    }
+
+    await this.config(context);
+  }
+
+  async config(context: CliContext) {
     const canisterId = this.canisterId(context);
 
     if (isNullish(canisterId)) {
       throw new Error('Cannot configure satellite for unknown module id.');
-    }
-
-    if (!(await configExist())) {
-      console.log(`ℹ️  No configuration provided to configure ${this.name}.`);
-      return;
     }
 
     // One after the other to not stress the replica at boot time? Not sure, it makes sense.

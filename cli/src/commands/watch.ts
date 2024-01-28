@@ -9,12 +9,60 @@ import {
   DEV_SATELLITE_WASM_FILENAME
 } from '../constants/constants';
 import {SATELLITE, SatelliteModule} from '../modules/satellite';
+import {JUNO_DEV_CONFIG, configExist} from '../modules/satellite/satellite.config';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
 
 const {green} = kleur;
 
 export const watch = async (args?: string[]) => {
+  await Promise.all([watchDeploy(args), watchConfig(args)]);
+};
+
+const watchConfig = async (args?: string[]) => {
+  if (!(await configExist())) {
+    console.log(`ℹ️  No configuration file provided. Watching for config updates skipped.`);
+    return;
+  }
+
+  console.log(`👀  Watching for config updates.`);
+
+  const context = await buildContext(args);
+
+  const watcher = fsWatch(JUNO_DEV_CONFIG);
+  for await (const $event of watcher) {
+    await onConfigFileWatch({$event, context});
+  }
+};
+
+const onConfigFileWatch = async ({
+  $event: {eventType},
+  context
+}: {
+  $event: FileChangeInfo<string>;
+  context: CliContext;
+}) => {
+  if (eventType !== 'change') {
+    return;
+  }
+
+  debounceConfigSatellite({context});
+};
+
+const updateConfig = async ({context}: {context: CliContext}) => {
+  console.log(`🎬  New config detected. Starting update of the configuration.`);
+
+  const mod = new SatelliteModule({
+    ...SATELLITE,
+    wasmPath: DEV_SATELLITE
+  });
+
+  await mod.config(context);
+}
+
+const debounceConfigSatellite = debounce(updateConfig, 5000);
+
+const watchDeploy = async (args?: string[]) => {
   if (!existsSync(DEV_DEPLOY_FOLDER)) {
     console.log(
       `ℹ️  ${green(DEV_DEPLOY_FOLDER)} does not exist. Watching deployment files skipped.`
@@ -28,11 +76,11 @@ export const watch = async (args?: string[]) => {
 
   const watcher = fsWatch(DEV_DEPLOY_FOLDER);
   for await (const $event of watcher) {
-    await onFileWatch({$event, context});
+    await onDeployFileWatch({$event, context});
   }
 };
 
-const onFileWatch = async ({
+const onDeployFileWatch = async ({
   $event: {filename},
   context
 }: {
