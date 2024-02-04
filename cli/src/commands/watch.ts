@@ -58,7 +58,7 @@ const updateConfig = async ({context}: {context: CliContext}) => {
   });
 
   await mod.config(context);
-}
+};
 
 const debounceConfigSatellite = debounce(updateConfig, 5000);
 
