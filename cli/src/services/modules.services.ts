@@ -148,7 +148,7 @@ export class Module {
       throw new Error('Module has not been initialized and therefore cannot be deployed!');
     }
 
-    const mode = this.status(context) === 'deployed' ? InstallMode.Upgrade : InstallMode.Upgrade;
+    const mode = this.status(context) === 'deployed' ? InstallMode.Upgrade : InstallMode.Install;
 
     await installCode({...context, ...metadata, wasm: this.wasm, mode});
 
