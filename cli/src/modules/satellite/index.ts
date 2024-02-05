@@ -1,17 +1,16 @@
 import {IDL} from '@dfinity/candid';
 import {isNullish} from '@dfinity/utils';
+import {existsSync} from 'node:fs';
 import {DEV_SATELLITE} from '../../constants/constants';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
 import {ModuleDescription, ModuleInstallParams} from '../../types/module';
-import {fileExist} from '../../utils/fs.utils';
 import {configExist, configureCollections, configureControllers} from './satellite.config';
 
 export const SATELLITE: ModuleDescription = {
   key: 'satellite',
   name: 'Satellite',
-  canisterId: 'jx5yt-yyaaa-aaaal-abzbq-cai',
-  ...((await fileExist(DEV_SATELLITE)) && {wasmPath: DEV_SATELLITE})
+  canisterId: 'jx5yt-yyaaa-aaaal-abzbq-cai'
 };
 
 export class SatelliteModule extends Module {
@@ -52,4 +51,10 @@ export class SatelliteModule extends Module {
   }
 }
 
-export const satellite = new SatelliteModule(SATELLITE);
+export const initSatelliteModule = (): SatelliteModule =>
+  new SatelliteModule({
+    ...SATELLITE,
+    ...(existsSync(DEV_SATELLITE) && {wasmPath: DEV_SATELLITE})
+  });
+
+export const satellite = initSatelliteModule();

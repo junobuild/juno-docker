@@ -3,12 +3,8 @@ import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
-import {
-  DEV_DEPLOY_FOLDER,
-  DEV_SATELLITE,
-  DEV_SATELLITE_WASM_FILENAME
-} from '../constants/constants';
-import {SATELLITE, SatelliteModule} from '../modules/satellite';
+import {DEV_DEPLOY_FOLDER, DEV_SATELLITE_WASM_FILENAME} from '../constants/constants';
+import {SatelliteModule, initSatelliteModule} from '../modules/satellite';
 import {JUNO_DEV_CONFIG, configExist} from '../modules/satellite/satellite.config';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
@@ -52,10 +48,7 @@ const onConfigFileWatch = async ({
 const updateConfig = async ({context}: {context: CliContext}) => {
   console.log(`🎬  New config detected. Starting update of the configuration.`);
 
-  const mod = new SatelliteModule({
-    ...SATELLITE,
-    wasmPath: DEV_SATELLITE
-  });
+  const mod = initSatelliteModule();
 
   await mod.config(context);
 };
@@ -105,10 +98,7 @@ let requestUpgrade = false;
 const upgradeSatellite = async ({context}: {context: CliContext}) => {
   upgrading = true;
 
-  const mod = new SatelliteModule({
-    ...SATELLITE,
-    wasmPath: DEV_SATELLITE
-  });
+  const mod = initSatelliteModule();
 
   if (mod.isDeployed(context)) {
     upgrading = false;
