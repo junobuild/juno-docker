@@ -71,7 +71,7 @@ const buildSatelliteParams = ({
   // @ts-expect-error
   fetch,
   identity,
-  env: 'dev'
+  container: true
 });
 
 export type SatelliteConfigContext = CliContext & Pick<ModuleMetadata, 'canisterId'>;
