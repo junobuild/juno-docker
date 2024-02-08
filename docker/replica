@@ -9,4 +9,5 @@
                     --log-level info \
                     --use-specified-ids-allocation-range \
                     --consensus-pool-backend lmdb \
-                    --subnet-features canister_sandboxing
+                    --subnet-features canister_sandboxing \
+                    --subnet-features http_requests

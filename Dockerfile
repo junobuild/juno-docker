@@ -11,6 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     liblmdb-dev \
     libunwind-dev \
     netcat \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Install NodeJS
