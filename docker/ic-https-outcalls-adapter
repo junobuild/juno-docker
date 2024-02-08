@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+./target/ic-https-outcalls-adapter ./ic-https-outcalls-adapter.json

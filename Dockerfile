@@ -41,6 +41,7 @@ COPY --chown=apprunner:apprunner ./cli ./cli
 COPY --chown=apprunner:apprunner ./docker ./docker
 COPY --chown=apprunner:apprunner ./ic.json ./ic.json
 COPY --chown=apprunner:apprunner ./modules.json ./modules.json
+COPY --chown=apprunner:apprunner ./config/ic-https-outcalls-adapter.json ./ic-https-outcalls-adapter.json
 
 # Install selected node version and build CLI
 RUN ./docker/cli

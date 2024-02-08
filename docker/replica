@@ -10,4 +10,5 @@
                     --use-specified-ids-allocation-range \
                     --consensus-pool-backend lmdb \
                     --subnet-features canister_sandboxing \
-                    --subnet-features http_requests
+                    --subnet-features http_requests \
+                    --canister-http-uds-path /juno/.juno/sock
