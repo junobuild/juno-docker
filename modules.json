@@ -6,9 +6,9 @@
     "url": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz"
   },
   "satellite": {
-    "commit": "5cc8c934a65ea09ecedd2bf4f1f983702ffb3e04",
-    "sha256": "186969b339e578083dac4dbb8a94aa3b26bda45896d01c918fcab15bd35115c1",
+    "commit": "403559158d4e0b61f43a69e6903f0e9e731e57be",
+    "sha256": "4640768a6f7a92e0856d9ed03b10b586c795610e39a53d9b0aa47e7a52012942",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/satellite-v0.0.14.wasm.gz"
+    "url": "https://cdn.juno.build/releases/satellite-v0.0.15.wasm.gz"
   }
 }
