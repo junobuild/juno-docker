@@ -1,9 +1,0 @@
-{
-  "incoming_source": {
-    "Path": "/juno/.juno/sock"
-  },
-  "socks_proxy": "socks5://notaproxy:1080",
-  "logger": {
-    "level": "error"
-  }
-}
