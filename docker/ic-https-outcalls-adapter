@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+CONFIG_PATH=./ic-https-outcalls-adapter.json
+SOCK_PATH=/juno/.juno/sock
+
+# Note: "The socks proxy field needs to be set but is not relevant for local development."
+# Source: https://forum.dfinity.org/t/failed-to-add-canister-http-request-to-queue-brokenconnection/27434/6?u=peterparker
+function create_config() {
+  cat << EOF > "$CONFIG_PATH"
+{
+  "incoming_source": {
+    "Path": "$SOCK_PATH"
+  },
+  "socks_proxy": "socks5://notaproxy:1080",
+  "logger": {
+    "level": "error"
+  }
+}
+EOF
+}
+
+if [ ! -f "$CONFIG_PATH" ]; then
+  create_config
+fi
+
+./target/ic-https-outcalls-adapter "$CONFIG_PATH"

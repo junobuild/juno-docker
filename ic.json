@@ -27,5 +27,11 @@
     "sha256": "105jm3px6ky88jc86am8dkxz1vnhzcxy0p7skzs98baylr96kzrb",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/boundary_node/icx_proxy",
     "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/icx-proxy-dev.gz"
+  },
+  "ic-https-outcalls-adapter": {
+    "commit": "69e1408347723dbaa7a6cd2faa9b65c42abbe861",
+    "sha256": "0qgxzfzym8gh91bsg5krmlrh39anlcgnff330w4jgiwql95ayvr7",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
+    "url": "https://download.dfinity.systems/ic/{commit}/openssl-static-binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
   }
 }
