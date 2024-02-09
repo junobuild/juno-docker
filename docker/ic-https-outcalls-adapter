@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 
+CONFIG_PATH=./ic-https-outcalls-adapter.json
 SOCK_PATH=/juno/.juno/sock
 
 function create_config() {
-  cat << EOF > ./ic-https-outcalls-adapter.json
-      {
-        "incoming_source": {
-          "Path": "$SOCK_PATH"
-        },
-        "socks_proxy": "socks5://notaproxy:1080",
-        "logger": {
-          "level": "error"
-        }
-      }
+  cat << EOF > "$CONFIG_PATH"
+{
+  "incoming_source": {
+    "Path": "$SOCK_PATH"
+  },
+  "socks_proxy": "socks5://notaproxy:1080",
+  "logger": {
+    "level": "error"
+  }
+}
 EOF
 }
 
-if [ ! -f "$SOCK_PATH" ]; then
+if [ ! -f "$CONFIG_PATH" ]; then
   create_config
 fi
 
-./target/ic-https-outcalls-adapter ./ic-https-outcalls-adapter.json
+./target/ic-https-outcalls-adapter "$CONFIG_PATH"
