@@ -5,10 +5,6 @@ on:
     paths:
       - 'cli/**'
 
-defaults:
-  run:
-    working-directory: ./cli
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,6 +16,7 @@ jobs:
         uses: ./.github/actions/prepare
       - name: Build
         run: npm run build
+        working-directory: ./cli
 
   format:
     runs-on: ubuntu-latest
@@ -31,6 +28,7 @@ jobs:
         uses: ./.github/actions/prepare
       - name: Lint
         run: npm run format:check
+        working-directory: ./cli
 
   lint:
     runs-on: ubuntu-latest
@@ -42,6 +40,7 @@ jobs:
         uses: ./.github/actions/prepare
       - name: Lint
         run: npm run lint
+        working-directory: ./cli
 
   may-merge:
     needs: ['format', 'lint', 'build']
