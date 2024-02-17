@@ -6,17 +6,21 @@ import {
   listRules,
   listSatelliteControllers,
   setRule,
-  setSatelliteControllers,
-  type RulesType
+  setSatelliteControllers
 } from '@junobuild/admin';
 import type {Controller} from '@junobuild/admin/declarations/satellite/satellite.did';
+import type {
+  JunoDevConfig,
+  RulesType,
+  SatelliteDevCollection,
+  SatelliteDevController
+} from '@junobuild/config';
 import fetch from 'node-fetch';
 import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 import {fileExist} from '../../utils/fs.utils';
-import type {JunoDevConfig, SatelliteCollection, SatelliteController} from './satellite.types';
 
 export const JUNO_DEV_CONFIG = join(process.cwd(), 'juno.dev.json');
 
@@ -39,7 +43,7 @@ const configRules = async ({
   satellite
 }: {
   type: RulesType;
-  collections: SatelliteCollection[];
+  collections: SatelliteDevCollection[];
   satellite: SatelliteParameters;
 }) => {
   const existingRules = await list({type, satellite});
@@ -122,7 +126,7 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
   }
 
   const [write, admin] = newControllers.reduce(
-    ([write, admin]: [SatelliteController[], SatelliteController[]], controller) => [
+    ([write, admin]: [SatelliteDevController[], SatelliteDevController[]], controller) => [
       [...write, ...(controller.scope === 'write' ? [controller] : [])],
       [...admin, ...(controller.scope === 'admin' ? [controller] : [])]
     ],
@@ -150,7 +154,7 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
     controllers
   }: {
     controllerScope: 'Write' | 'Admin';
-    controllers: SatelliteController[];
+    controllers: SatelliteDevController[];
   }) => {
     await setSatelliteControllers({
       args: {
