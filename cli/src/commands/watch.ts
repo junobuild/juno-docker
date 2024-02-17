@@ -4,7 +4,7 @@ import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
 import {DEV_DEPLOY_FOLDER, DEV_SATELLITE_WASM_FILENAME} from '../constants/constants';
-import {SatelliteModule, initSatelliteModule} from '../modules/satellite';
+import {initSatelliteModule, type SatelliteModule} from '../modules/satellite';
 import {JUNO_DEV_CONFIG, configExist} from '../modules/satellite/satellite.config';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
