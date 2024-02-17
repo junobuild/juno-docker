@@ -11,3 +11,4 @@ runs:
     - name: Install dependencies
       shell: bash
       run: npm ci
+      working-directory: ./cli
