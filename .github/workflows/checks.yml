@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: cli
+    working-directory: ./cli
 
 jobs:
   build:
@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Build
         run: npm run build
 
@@ -27,8 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Lint
         run: npm run format:check
 
@@ -38,8 +38,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
+      - name: Prepare
+        uses: ./.github/actions/prepare
       - name: Lint
         run: npm run lint
 
