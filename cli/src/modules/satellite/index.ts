@@ -15,17 +15,20 @@ export const SATELLITE: ModuleDescription = {
 };
 
 export class SatelliteModule extends Module {
-  override async install({identity, ...rest}: ModuleInstallParams): Promise<void> {
+  override async install({
+    identities: {root, ...otherIdentities},
+    ...rest
+  }: ModuleInstallParams): Promise<void> {
     const arg = IDL.encode(
       [
         IDL.Record({
           controllers: IDL.Vec(IDL.Principal)
         })
       ],
-      [{controllers: [identity.getPrincipal()]}]
+      [{controllers: [root.getPrincipal()]}]
     );
 
-    await super.install({identity, ...rest, arg});
+    await super.install({identities: {root, ...otherIdentities}, ...rest, arg});
   }
 
   override async start(context: CliContext) {

@@ -12,6 +12,7 @@ import type {Controller} from '@junobuild/admin/declarations/satellite/satellite
 import type {RulesType, SatelliteDevCollection, SatelliteDevController} from '@junobuild/config';
 import fetch from 'node-fetch';
 import {readJunoDevConfig} from '../../configs/juno.dev.config';
+import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
@@ -52,7 +53,7 @@ const configRules = async ({
 
 const buildSatelliteParams = ({
   canisterId,
-  identity
+  identities: {[MAIN_IDENTITY_KEY]: identity}
 }: SatelliteConfigContext): SatelliteParameters => ({
   satelliteId: canisterId,
   // TODO: TypeScript incompatibility window.fetch vs nodejs.fetch vs agent-ts using typeof fetch
