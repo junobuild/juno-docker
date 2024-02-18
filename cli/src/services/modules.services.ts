@@ -5,6 +5,7 @@ import {isNullish, nonNullish} from '@dfinity/utils';
 import {readFileSync} from 'atomically';
 import {createHash} from 'crypto';
 import kleur from 'kleur';
+import {MAIN_IDENTITY_KEY} from '../constants/constants';
 import type {CliContext} from '../types/context';
 import type {
   ModuleCanisterId,
@@ -36,7 +37,7 @@ const canisterId = ({
   state.getModule(key)?.canisterId;
 
 const createCanister = async ({
-  identity,
+  identities: {[MAIN_IDENTITY_KEY]: mainIdentity},
   agent,
   canisterId: canisterIdParam
 }: CliContext & Pick<ModuleDescription, 'canisterId'>): Promise<Principal> => {
@@ -46,7 +47,7 @@ const createCanister = async ({
 
   return await provisionalCreateCanisterWithCycles({
     settings: {
-      controllers: [identity.getPrincipal().toString()]
+      controllers: [mainIdentity.getPrincipal().toString()]
     },
     ...(nonNullish(canisterIdParam) && {canisterId: Principal.from(canisterIdParam)})
   });
