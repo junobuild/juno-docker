@@ -58,22 +58,6 @@ export class CliState {
     );
   }
 
-  // Identities
-
-  saveIdentity({key, token}: {key: string; token: JsonnableEd25519KeyIdentity}) {
-    const identities = this.store.get<[string, JsonnableEd25519KeyIdentity][]>('identities') ?? [];
-    this.store.set('identities', [
-      ...identities.filter(([moduleKey, _]) => moduleKey !== key),
-      [key, token]
-    ]);
-  }
-
-  getIdentity(key: string): [string, JsonnableEd25519KeyIdentity] | undefined {
-    return (this.store.get<[string, JsonnableEd25519KeyIdentity][]>('identities') ?? []).find(
-      ([moduleKey, _]) => key === moduleKey
-    );
-  }
-
   // Modules
 
   saveModule(mod: ModuleMetadata) {
