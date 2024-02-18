@@ -1,8 +1,9 @@
 import {createAgent, isNullish} from '@dfinity/utils';
+import {MAIN_IDENTITY_KEY} from '../constants/constants';
 import {CliState} from '../states/cli.state';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
-import {getIdentity} from './auth.services';
+import {getIdentity} from './identity.services';
 
 export const buildContext = async (args?: string[]): Promise<CliContext> => {
   const statePath = nextArg({args, option: '-c'}) ?? nextArg({args, option: '--state'});
@@ -21,7 +22,7 @@ export const buildContext = async (args?: string[]): Promise<CliContext> => {
     throw new Error('An icx-proxy port must be provided as argument of the deploy command.');
   }
 
-  const identity = getIdentity(state);
+  const identity = getIdentity({key: MAIN_IDENTITY_KEY, state});
 
   const agent = await createAgent({
     identity,
@@ -29,5 +30,5 @@ export const buildContext = async (args?: string[]): Promise<CliContext> => {
     fetchRootKey: true
   });
 
-  return {identity, agent, state};
+  return {identities: {[MAIN_IDENTITY_KEY]: identity}, agent, state};
 };

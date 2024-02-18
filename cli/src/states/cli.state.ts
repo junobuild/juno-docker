@@ -41,14 +41,21 @@ export class CliState {
     this.store = new CliStore(path);
   }
 
-  // Token
+  // Identities
 
-  saveToken(token: JsonnableEd25519KeyIdentity) {
-    this.store.set('token', token);
+  saveIdentity({key, jsonIdentity}: {key: string; jsonIdentity: JsonnableEd25519KeyIdentity}) {
+    const identities =
+      this.store.get<Array<[string, JsonnableEd25519KeyIdentity]>>('identities') ?? [];
+    this.store.set('identities', [
+      ...identities.filter(([moduleKey, _]) => moduleKey !== key),
+      [key, jsonIdentity]
+    ]);
   }
 
-  getToken(): JsonnableEd25519KeyIdentity | undefined {
-    return this.store.get('token');
+  getIdentity(key: string): [string, JsonnableEd25519KeyIdentity] | undefined {
+    return (this.store.get<Array<[string, JsonnableEd25519KeyIdentity]>>('identities') ?? []).find(
+      ([moduleKey, _]) => key === moduleKey
+    );
   }
 
   // Modules
