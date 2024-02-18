@@ -2,7 +2,7 @@ import {IDL} from '@dfinity/candid';
 import {isNullish} from '@dfinity/utils';
 import {existsSync} from 'node:fs';
 import {junoDevConfigExist} from '../../configs/juno.dev.config';
-import {DEV_SATELLITE} from '../../constants/constants';
+import {DEV_SATELLITE, MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
 import {ModuleDescription, ModuleInstallParams} from '../../types/module';
@@ -16,7 +16,7 @@ export const SATELLITE: ModuleDescription = {
 
 export class SatelliteModule extends Module {
   override async install({
-    identities: {root, ...otherIdentities},
+    identities: {[MAIN_IDENTITY_KEY]: mainIdentity, ...otherIdentities},
     ...rest
   }: ModuleInstallParams): Promise<void> {
     const arg = IDL.encode(
@@ -25,10 +25,14 @@ export class SatelliteModule extends Module {
           controllers: IDL.Vec(IDL.Principal)
         })
       ],
-      [{controllers: [root.getPrincipal()]}]
+      [{controllers: [mainIdentity.getPrincipal()]}]
     );
 
-    await super.install({identities: {root, ...otherIdentities}, ...rest, arg});
+    await super.install({
+      identities: {[MAIN_IDENTITY_KEY]: mainIdentity, ...otherIdentities},
+      ...rest,
+      arg
+    });
   }
 
   override async start(context: CliContext) {
