@@ -10,5 +10,11 @@
     "sha256": "4640768a6f7a92e0856d9ed03b10b586c795610e39a53d9b0aa47e7a52012942",
     "repo": "https://github.com/junobuild/juno",
     "url": "https://cdn.juno.build/releases/satellite-v0.0.15.wasm.gz"
+  },
+  "icp_ledger": {
+    "commit": "d87954601e4b22972899e9957e800406a0a6b929",
+    "sha256": "4640768a6f7a92e0856d9ed03b10b586c795610e39a53d9b0aa47e7a52012942",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz"
   }
 }
