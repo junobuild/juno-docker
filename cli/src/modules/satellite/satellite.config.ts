@@ -9,27 +9,11 @@ import {
   setSatelliteControllers
 } from '@junobuild/admin';
 import type {Controller} from '@junobuild/admin/declarations/satellite/satellite.did';
-import type {
-  JunoDevConfig,
-  RulesType,
-  SatelliteDevCollection,
-  SatelliteDevController
-} from '@junobuild/config';
+import type {RulesType, SatelliteDevCollection, SatelliteDevController} from '@junobuild/config';
 import fetch from 'node-fetch';
-import {readFile} from 'node:fs/promises';
-import {join} from 'node:path';
+import {readJunoDevConfig} from '../../configs/juno.dev.config';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
-import {fileExist} from '../../utils/fs.utils';
-
-export const JUNO_DEV_CONFIG = join(process.cwd(), 'juno.dev.json');
-
-export const configExist = async (): Promise<boolean> => fileExist(JUNO_DEV_CONFIG);
-
-const readConfig = async (): Promise<JunoDevConfig> => {
-  const buffer = await readFile(JUNO_DEV_CONFIG);
-  return JSON.parse(buffer.toString('utf-8'));
-};
 
 const list = async ({type, satellite}) =>
   listRules({
@@ -85,7 +69,7 @@ export const configureCollections = async (context: SatelliteConfigContext) => {
     satellite: {
       collections: {db, storage}
     }
-  } = await readConfig();
+  } = await readJunoDevConfig();
 
   const satellite = buildSatelliteParams(context);
 
@@ -98,7 +82,7 @@ export const configureCollections = async (context: SatelliteConfigContext) => {
 export const configureControllers = async (context: SatelliteConfigContext) => {
   const {
     satellite: {controllers}
-  } = await readConfig();
+  } = await readJunoDevConfig();
 
   if ((controllers ?? []).length === 0) {
     return;

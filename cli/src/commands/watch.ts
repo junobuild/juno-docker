@@ -3,9 +3,9 @@ import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
+import {junoDevConfigExist, junoDevConfigFile} from '../configs/juno.dev.config';
 import {DEV_DEPLOY_FOLDER, DEV_SATELLITE_WASM_FILENAME} from '../constants/constants';
 import {initSatelliteModule, type SatelliteModule} from '../modules/satellite';
-import {JUNO_DEV_CONFIG, configExist} from '../modules/satellite/satellite.config';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
 
@@ -16,7 +16,7 @@ export const watch = async (args?: string[]) => {
 };
 
 const watchConfig = async (args?: string[]) => {
-  if (!(await configExist())) {
+  if (!(await junoDevConfigExist())) {
     console.log(`ℹ️  No configuration file provided. Watching for config updates skipped.`);
     return;
   }
@@ -25,7 +25,9 @@ const watchConfig = async (args?: string[]) => {
 
   const context = await buildContext(args);
 
-  const watcher = fsWatch(JUNO_DEV_CONFIG);
+  const {configPath} = junoDevConfigFile();
+
+  const watcher = fsWatch(configPath);
   for await (const $event of watcher) {
     await onConfigFileWatch({$event, context});
   }
