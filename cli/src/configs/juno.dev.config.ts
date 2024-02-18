@@ -6,7 +6,7 @@ import {JUNO_DEV_CONFIG_FILENAME, JUNO_DEV_JSON} from '../constants/constants';
 import type {ConfigType} from '../types/config';
 import {nodeRequire} from '../utils/node.utils';
 
-export const junoConfigExist = async (): Promise<boolean> => {
+export const junoDevConfigExist = async (): Promise<boolean> => {
   try {
     const {configPath} = junoDevConfigFile();
     await access(configPath);

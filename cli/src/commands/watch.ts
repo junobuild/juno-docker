@@ -3,7 +3,7 @@ import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
-import {junoConfigExist, junoDevConfigFile} from '../configs/juno.dev.config';
+import {junoDevConfigExist, junoDevConfigFile} from '../configs/juno.dev.config';
 import {DEV_DEPLOY_FOLDER, DEV_SATELLITE_WASM_FILENAME} from '../constants/constants';
 import {initSatelliteModule, type SatelliteModule} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
@@ -16,7 +16,7 @@ export const watch = async (args?: string[]) => {
 };
 
 const watchConfig = async (args?: string[]) => {
-  if (!(await junoConfigExist())) {
+  if (!(await junoDevConfigExist())) {
     console.log(`ℹ️  No configuration file provided. Watching for config updates skipped.`);
     return;
   }
