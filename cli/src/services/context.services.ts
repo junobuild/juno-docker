@@ -2,7 +2,7 @@ import {createAgent, isNullish} from '@dfinity/utils';
 import {CliState} from '../states/cli.state';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
-import {getIdentity} from './auth.services';
+import {getIdentity} from './identity.services';
 
 export const buildContext = async (args?: string[]): Promise<CliContext> => {
   const statePath = nextArg({args, option: '-c'}) ?? nextArg({args, option: '--state'});
