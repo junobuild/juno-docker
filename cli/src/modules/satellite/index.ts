@@ -1,11 +1,12 @@
 import {IDL} from '@dfinity/candid';
 import {isNullish} from '@dfinity/utils';
 import {existsSync} from 'node:fs';
+import {junoConfigExist} from '../../configs/juno.dev.config';
 import {DEV_SATELLITE} from '../../constants/constants';
 import {Module} from '../../services/modules.services';
 import {CliContext} from '../../types/context';
 import {ModuleDescription, ModuleInstallParams} from '../../types/module';
-import {configExist, configureCollections, configureControllers} from './satellite.config';
+import {configureCollections, configureControllers} from './satellite.config';
 
 export const SATELLITE: ModuleDescription = {
   key: 'satellite',
@@ -28,7 +29,7 @@ export class SatelliteModule extends Module {
   }
 
   override async start(context: CliContext) {
-    if (!(await configExist())) {
+    if (!(await junoConfigExist())) {
       console.log(`ℹ️  No configuration provided to configure ${this.name}.`);
       return;
     }
