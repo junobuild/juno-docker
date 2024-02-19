@@ -15,6 +15,6 @@
     "commit": "d87954601e4b22972899e9957e800406a0a6b929",
     "sha256": "55accf02dfef466476372874daa9395545f932d2a114d999f8965928b36833ec",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz"
+    "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz"
   }
 }
