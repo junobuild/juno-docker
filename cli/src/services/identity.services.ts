@@ -2,7 +2,15 @@ import {Ed25519KeyIdentity} from '@dfinity/identity';
 import {nonNullish} from '@dfinity/utils';
 import type {CliState} from '../states/cli.state';
 
-export const getIdentity = ({state, key, seed}: {state: CliState; key: string, seed: Uint8Array}): Ed25519KeyIdentity => {
+export const getIdentity = ({
+  state,
+  key,
+  seed
+}: {
+  state: CliState;
+  key: string;
+  seed: Uint8Array;
+}): Ed25519KeyIdentity => {
   const identity = state.getIdentity(key);
 
   if (nonNullish(identity)) {
