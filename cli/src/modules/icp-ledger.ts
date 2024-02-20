@@ -1,9 +1,9 @@
 import {IDL} from '@dfinity/candid';
 import {AccountIdentifier} from '@junobuild/ledger';
-import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../../constants/constants';
-import {Module} from '../../services/modules.services';
-import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
-import {LedgerCanisterPayload} from './icp-ledger.did';
+import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
+import {init} from '../declarations/icp_ledger.idl';
+import {Module} from '../services/modules.services';
+import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
 export const ICP_LEDGER: ModuleDescription = {
   key: 'icp_ledger',
@@ -48,10 +48,9 @@ export class IcpLedgerModule extends Module {
 
     const upgradeArgs = [];
 
-    const arg = IDL.encode(
-      [LedgerCanisterPayload],
-      [this.status(context) === 'deployed' ? {Upgrade: upgradeArgs} : {Init: initArgs}]
-    );
+    const arg = IDL.encode(init({IDL}), [
+      this.status(context) === 'deployed' ? {Upgrade: upgradeArgs} : {Init: initArgs}
+    ]);
 
     await super.install({
       identities: {

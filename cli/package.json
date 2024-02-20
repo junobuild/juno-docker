@@ -17,6 +17,7 @@
   "scripts": {
     "format": "prettier . --write",
     "format:check": "prettier --check .",
+    "did": "./scripts/did.sh",
     "build": "node rmdir.mjs && node esbuild.mjs",
     "dev": "node rmdir.mjs && NODE_ENV=development node esbuild.mjs",
     "lint": "eslint --max-warnings 0 src/**/*.ts"
