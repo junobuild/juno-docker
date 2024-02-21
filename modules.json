@@ -20,10 +20,19 @@
   "icp_ledger": {
     "commit": "d87954601e4b22972899e9957e800406a0a6b929",
     "sha256": "55accf02dfef466476372874daa9395545f932d2a114d999f8965928b36833ec",
-    "repo": "https://github.com/junobuild/juno",
+    "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz",
     "candid": [
       "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/ledger.did"
+    ]
+  },
+  "icp_index": {
+    "commit": "d87954601e4b22972899e9957e800406a0a6b929",
+    "sha256": "e6aeca9c32d0b66d38966bf7a552ac34ea4b52f113b39a0449b95bef450e63b7",
+    "repo": "https://github.com/dfinity/ic",
+    "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz",
+    "candid": [
+      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/index/index.did"
     ]
   }
 }
