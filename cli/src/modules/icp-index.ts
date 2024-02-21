@@ -12,9 +12,7 @@ const ICP_INDEX: ModuleDescription = {
 };
 
 class IcpIndexModule extends Module {
-  override async install(context: ModuleInstallParams): Promise<void> {
-    const {state, ...rest} = context;
-
+  override async install({state, ...rest}: ModuleInstallParams): Promise<void> {
     const canisterId = state.getModule('icp_ledger')?.canisterId;
 
     assertNonNullish(
