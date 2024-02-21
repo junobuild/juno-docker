@@ -26,8 +26,8 @@ class IcpIndexModule extends Module {
 
     await super.install({
       state,
-      ...rest,
-      arg
+      arg,
+      ...rest
     });
   }
 }
