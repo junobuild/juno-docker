@@ -5,13 +5,13 @@ import {init} from '../declarations/icp_index.idl';
 import {Module} from '../services/modules.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
-export const ICP_INDEX: ModuleDescription = {
+const ICP_INDEX: ModuleDescription = {
   key: 'icp_index',
   name: 'ICP Index',
   canisterId: 'qhbym-qaaaa-aaaaa-aaafq-cai'
 };
 
-export class IcpIndexModule extends Module {
+class IcpIndexModule extends Module {
   override async install(context: ModuleInstallParams): Promise<void> {
     const {state, ...rest} = context;
 

@@ -5,13 +5,13 @@ import {init} from '../declarations/icp_ledger.idl';
 import {Module} from '../services/modules.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
-export const ICP_LEDGER: ModuleDescription = {
+const ICP_LEDGER: ModuleDescription = {
   key: 'icp_ledger',
   name: 'ICP Ledger',
   canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai'
 };
 
-export class IcpLedgerModule extends Module {
+class IcpLedgerModule extends Module {
   override async install(context: ModuleInstallParams): Promise<void> {
     const {
       identities: {
