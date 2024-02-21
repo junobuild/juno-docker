@@ -2,25 +2,31 @@ import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {isNullish} from '@dfinity/utils';
 import {
-  SatelliteParameters,
   listRules,
   listSatelliteControllers,
   setRule,
-  setSatelliteControllers
+  setSatelliteControllers,
+  type SatelliteParameters
 } from '@junobuild/admin';
 import type {Controller} from '@junobuild/admin/declarations/satellite/satellite.did';
-import type {RulesType, SatelliteDevCollection, SatelliteDevController} from '@junobuild/config';
+import type {
+  Rule,
+  RulesType,
+  SatelliteDevCollection,
+  SatelliteDevController
+} from '@junobuild/config';
 import fetch from 'node-fetch';
 import {readJunoDevConfig} from '../../configs/juno.dev.config';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
-const list = async ({type, satellite}) =>
-  listRules({
+const list = async ({type, satellite}): Promise<Rule[]> => {
+  return await listRules({
     type,
     satellite
   });
+};
 
 const configRules = async ({
   type,
@@ -34,8 +40,8 @@ const configRules = async ({
   const existingRules = await list({type, satellite});
 
   await Promise.all(
-    collections.map(({collection, memory, ...rest}) =>
-      setRule({
+    collections.map(async ({collection, memory, ...rest}) => {
+      await setRule({
         type,
         satellite,
         rule: {
@@ -46,8 +52,8 @@ const configRules = async ({
           memory: memory.toLowerCase() === 'stable' ? 'Stable' : 'Heap',
           ...rest
         }
-      })
-    )
+      });
+    })
   );
 };
 

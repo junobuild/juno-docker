@@ -1,5 +1,5 @@
 import type {HttpAgent, Identity} from '@dfinity/agent';
-import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
+import type {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
 import type {CliState} from '../states/cli.state';
 
 export interface CliContext {
