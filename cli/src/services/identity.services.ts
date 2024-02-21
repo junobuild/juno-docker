@@ -10,9 +10,7 @@ export const getIdentity = ({state, key}: {state: CliState; key: string}): Ed255
     return Ed25519KeyIdentity.fromParsedJson(token);
   }
 
-  // TODO: bump agent-js and remove null
-  // Workaround for agent-js issue https://forum.dfinity.org/t/ed25519keyidentity-generate-without-args-generates-same-principal/27659
-  const newIdentity = Ed25519KeyIdentity.generate(null as unknown as Uint8Array | undefined);
+  const newIdentity = Ed25519KeyIdentity.generate();
   state.saveIdentity({key, jsonIdentity: newIdentity.toJSON()});
 
   return newIdentity;
