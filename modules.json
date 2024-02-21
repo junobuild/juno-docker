@@ -3,12 +3,27 @@
     "commit": "71581fc0fd0abe3bdb6ba783750a2b4ddc3d2a97",
     "sha256": "17620cf418fae5bf743db00256451c164794c4bd0ddd23668571c21bdc525884",
     "repo": "https://github.com/dfinity/internet-identity",
-    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz"
+    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity_dev.wasm.gz",
+    "candid": [
+      "https://github.com/dfinity/internet-identity/releases/download/release-2023-11-17/internet_identity.did"
+    ]
   },
   "satellite": {
     "commit": "403559158d4e0b61f43a69e6903f0e9e731e57be",
     "sha256": "4640768a6f7a92e0856d9ed03b10b586c795610e39a53d9b0aa47e7a52012942",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/satellite-v0.0.15.wasm.gz"
+    "url": "https://cdn.juno.build/releases/satellite-v0.0.15.wasm.gz",
+    "candid": [
+      "https://github.com/junobuild/juno/releases/download/v0.0.27/satellite.did"
+    ]
+  },
+  "icp_ledger": {
+    "commit": "d87954601e4b22972899e9957e800406a0a6b929",
+    "sha256": "55accf02dfef466476372874daa9395545f932d2a114d999f8965928b36833ec",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz",
+    "candid": [
+      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/ledger.did"
+    ]
   }
 }

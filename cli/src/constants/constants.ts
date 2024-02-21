@@ -14,3 +14,4 @@ export const JUNO_DEV_CONFIG_FILENAME = 'juno.dev.config'; // .json | .js | .cjs
 export const JUNO_DEV_JSON = 'juno.dev.json';
 
 export const MAIN_IDENTITY_KEY = 'main';
+export const MINTER_IDENTITY_KEY = 'minter';

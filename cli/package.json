@@ -17,9 +17,10 @@
   "scripts": {
     "format": "prettier . --write",
     "format:check": "prettier --check .",
+    "did": "./scripts/did.sh",
     "build": "node rmdir.mjs && node esbuild.mjs",
     "dev": "node rmdir.mjs && NODE_ENV=development node esbuild.mjs",
-    "lint": "eslint --max-warnings 0 src/**/*.ts"
+    "lint": "eslint --max-warnings 0 'src/**/*.ts'"
   },
   "dependencies": {
     "@babel/core": "^7.23.9",
@@ -33,6 +34,7 @@
     "@dfinity/utils": "^2.1.1",
     "@junobuild/admin": "^0.0.45-next-2024-02-17.2",
     "@junobuild/config": "^0.0.1-next-2024-02-18",
+    "@junobuild/ledger": "^0.0.29",
     "atomically": "^2.0.2",
     "kleur": "^4.1.5",
     "node-fetch": "^3.3.2",
