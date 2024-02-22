@@ -43,7 +43,7 @@ export const run = async () => {
   try {
     await run();
   } catch (err: unknown) {
-    console.log(`${red('⚠️ CLI Error:')}`, err);
+    console.log(`${red('⚠️  CLI Error:')}`, err);
     process.exit(1);
   }
 })();
