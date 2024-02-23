@@ -8,10 +8,6 @@ export const DEV_SATELLITE_WASM_FILENAME = 'satellite.wasm.gz';
 export const DEV_SATELLITE = join(DEV_DEPLOY_FOLDER, DEV_SATELLITE_WASM_FILENAME);
 
 export const JUNO_DEV_CONFIG_FILENAME = 'juno.dev.config'; // .json | .js | .cjs | .mjs | .ts
-/**
- * @deprecated juno.dev.json is deprecated but still supported. We are now using juno.config.xxx
- */
-export const JUNO_DEV_JSON = 'juno.dev.json';
 
 export const MAIN_IDENTITY_KEY = 'main';
 export const MINTER_IDENTITY_KEY = 'minter';

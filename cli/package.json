@@ -33,6 +33,7 @@
     "@dfinity/principal": "^1.0.1",
     "@dfinity/utils": "^2.1.2",
     "@junobuild/admin": "^0.0.46",
+    "@junobuild/cli-tools": "^0.0.3",
     "@junobuild/config": "^0.0.2",
     "@junobuild/ledger": "^0.0.30",
     "atomically": "^2.0.2",
