@@ -4,9 +4,15 @@ A [Juno] Docker image for local dApp development and E2E tests.
 
 ## Introduction
 
-The `junobuild/satellite` Docker container mounts an [Internet Computer](https://internetcomputer.org/) Replica and icx-proxy within a sandbox. Once these are ready, a custom-built CLI takes care of deploying the [Internet Identity](https://identity.internetcomputer.org/) and a Juno [Satellite](https://juno.build/docs/add-juno-to-an-app/create-a-satellite) during the first boot. Additionally, developers can provide a configuration file to set a few parameters for configuring a Satellite. This includes the definitions of the Datastore and Storage collections and a list of additional controllers, if required.
+The `junobuild/satellite` Docker container mounts an [Internet Computer](https://internetcomputer.org/) Replica and icx-proxy within a sandbox. Once these are ready, a custom-built CLI takes care of deploying a Juno [Satellite](https://juno.build/docs/add-juno-to-an-app/create-a-satellite) during the first boot. Additionally, developers can provide a configuration file to set a few parameters for configuring a Satellite. This includes the definitions of the Datastore and Storage collections and a list of additional controllers, if required.
 
 The custom-built CLI also actively monitors changes in the configuration files. Upon detecting modifications, it automatically applies the new configuration settings to the Satellite. Furthermore, the CLI watches a dedicated 'deploy' folder, enabling developers to provide a custom WASM file for their extended Satellite. This is particularly useful for developers who wish to extend Juno's capabilities with 'serverless/blockchainless' functions.
+
+The image also contains other useful standard canisters available on the Internet Computer, namely:
+
+- [Internet Identity](https://identity.internetcomputer.org/)
+- [ICP Ledger](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai)
+- [ICP Index](https://dashboard.internetcomputer.org/canister/qhbym-qaaaa-aaaaa-aaafq-cai)
 
 > This README mentions two CLIs.
 > 1. The "custom-built CLI" is a tool built within the Docker image that facilitates interactions with the container. 
@@ -34,7 +40,7 @@ If you prefer, you can also manually start the image using Docker command line c
 
 You can find a sample, including a configuration file for the Juno Satellite, in the [compose](./compose) folder.
 
-Once you have both files copied to your machine - `docker-componse.yml` and `juno.dev.json` -, you can start the container using the following command:
+Once you have both files copied to your machine - `docker-componse.yml` and `juno.dev.config.json` -, you can start the container using the following command:
 
 ```bash
 docker compose up
