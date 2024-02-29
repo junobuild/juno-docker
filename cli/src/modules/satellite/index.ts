@@ -51,11 +51,17 @@ export class SatelliteModule extends Module {
       throw new Error('Cannot configure satellite for unknown module id.');
     }
 
-    // One after the other to not stress the replica at boot time? Not sure, it makes sense.
-    await configureCollections({...context, canisterId});
-    await configureControllers({...context, canisterId});
+    try {
+      // One after the other to not stress the replica at boot time? Not sure, it makes sense.
+      await configureCollections({...context, canisterId});
+      await configureControllers({...context, canisterId});
 
-    console.log(`✅  ${this.name} configured.`);
+      console.log(`✅  ${this.name} configured.`);
+    } catch (err: unknown) {
+      console.log(
+        `❓  ${this.name} not configured. If you were still editing your configuration file, please ignore this error.`
+      );
+    }
   }
 }
 
