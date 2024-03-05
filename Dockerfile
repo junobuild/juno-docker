@@ -4,6 +4,8 @@ LABEL repository="https://github.com/junobuild/juno-docker"
 LABEL homepage="https://juno.build"
 LABEL maintainer="David Dal Busco <david.dalbusco@outlook.com>"
 
+ENV TZ=UTC
+
 # Install required tools
 RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     jq \
@@ -12,7 +14,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     libunwind-dev \
     netcat \
     ca-certificates \
-    tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 # Install NodeJS
