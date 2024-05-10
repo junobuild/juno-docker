@@ -23,9 +23,10 @@ function download_candid() {
 
     for url in $candid_urls; do
       local download_url=${url/"{commit}"/$commit}
+      local filename=$(basename "$download_url")
 
-      echo "Downloading $key from $download_url"
-      curl -L -o "$DIR/$key.did" "$download_url"
+      echo "Downloading $filename from $download_url"
+      curl -L -o "$DIR/$filename" "$download_url"
     done
 }
 

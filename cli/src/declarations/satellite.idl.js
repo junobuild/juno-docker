@@ -18,7 +18,7 @@ export const idlFactory = ({IDL}) => {
     scope: ControllerScope,
     expires_at: IDL.Opt(IDL.Nat64)
   });
-  const DelDoc = IDL.Record({updated_at: IDL.Opt(IDL.Nat64)});
+  const DelDoc = IDL.Record({version: IDL.Opt(IDL.Nat64)});
   const RulesType = IDL.Variant({Db: IDL.Null, Storage: IDL.Null});
   const DepositCyclesArgs = IDL.Record({
     cycles: IDL.Nat,
@@ -42,12 +42,23 @@ export const idlFactory = ({IDL}) => {
     updated_at: IDL.Nat64,
     encodings: IDL.Vec(IDL.Tuple(IDL.Text, AssetEncodingNoContent)),
     headers: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
-    created_at: IDL.Nat64
+    created_at: IDL.Nat64,
+    version: IDL.Opt(IDL.Nat64)
+  });
+  const AuthenticationConfigInternetIdentity = IDL.Record({
+    derivation_origin: IDL.Opt(IDL.Text)
+  });
+  const AuthenticationConfig = IDL.Record({
+    internet_identity: IDL.Opt(AuthenticationConfigInternetIdentity)
   });
   const StorageConfigIFrame = IDL.Variant({
     Deny: IDL.Null,
     AllowAny: IDL.Null,
     SameOrigin: IDL.Null
+  });
+  const StorageConfigRawAccess = IDL.Variant({
+    Deny: IDL.Null,
+    Allow: IDL.Null
   });
   const StorageConfigRedirect = IDL.Record({
     status_code: IDL.Nat16,
@@ -57,6 +68,7 @@ export const idlFactory = ({IDL}) => {
     iframe: IDL.Opt(StorageConfigIFrame),
     rewrites: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
     headers: IDL.Vec(IDL.Tuple(IDL.Text, IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)))),
+    raw_access: IDL.Opt(StorageConfigRawAccess),
     redirects: IDL.Opt(IDL.Vec(IDL.Tuple(IDL.Text, StorageConfigRedirect)))
   });
   const Config = IDL.Record({storage: StorageConfig});
@@ -65,7 +77,8 @@ export const idlFactory = ({IDL}) => {
     owner: IDL.Principal,
     data: IDL.Vec(IDL.Nat8),
     description: IDL.Opt(IDL.Text),
-    created_at: IDL.Nat64
+    created_at: IDL.Nat64,
+    version: IDL.Opt(IDL.Nat64)
   });
   const HttpRequest = IDL.Record({
     url: IDL.Text,
@@ -139,6 +152,7 @@ export const idlFactory = ({IDL}) => {
   const CustomDomain = IDL.Record({
     updated_at: IDL.Nat64,
     created_at: IDL.Nat64,
+    version: IDL.Opt(IDL.Nat64),
     bn_id: IDL.Opt(IDL.Text)
   });
   const ListResults_1 = IDL.Record({
@@ -155,11 +169,13 @@ export const idlFactory = ({IDL}) => {
     Managed: IDL.Null
   });
   const Rule = IDL.Record({
+    max_capacity: IDL.Opt(IDL.Nat32),
     memory: IDL.Opt(Memory),
     updated_at: IDL.Nat64,
     max_size: IDL.Opt(IDL.Nat),
     read: Permission,
     created_at: IDL.Nat64,
+    version: IDL.Opt(IDL.Nat64),
     mutable_permissions: IDL.Opt(IDL.Bool),
     write: Permission
   });
@@ -174,15 +190,16 @@ export const idlFactory = ({IDL}) => {
     controllers: IDL.Vec(IDL.Principal)
   });
   const SetDoc = IDL.Record({
-    updated_at: IDL.Opt(IDL.Nat64),
     data: IDL.Vec(IDL.Nat8),
-    description: IDL.Opt(IDL.Text)
+    description: IDL.Opt(IDL.Text),
+    version: IDL.Opt(IDL.Nat64)
   });
   const SetRule = IDL.Record({
+    max_capacity: IDL.Opt(IDL.Nat32),
     memory: IDL.Opt(Memory),
-    updated_at: IDL.Opt(IDL.Nat64),
     max_size: IDL.Opt(IDL.Nat),
     read: Permission,
+    version: IDL.Opt(IDL.Nat64),
     mutable_permissions: IDL.Opt(IDL.Bool),
     write: Permission
   });
@@ -212,6 +229,7 @@ export const idlFactory = ({IDL}) => {
     del_rule: IDL.Func([RulesType, IDL.Text, DelDoc], [], []),
     deposit_cycles: IDL.Func([DepositCyclesArgs], [], []),
     get_asset: IDL.Func([IDL.Text, IDL.Text], [IDL.Opt(AssetNoContent)], ['query']),
+    get_auth_config: IDL.Func([], [IDL.Opt(AuthenticationConfig)], ['query']),
     get_config: IDL.Func([], [Config], []),
     get_doc: IDL.Func([IDL.Text, IDL.Text], [IDL.Opt(Doc)], ['query']),
     get_many_assets: IDL.Func(
@@ -237,6 +255,7 @@ export const idlFactory = ({IDL}) => {
     list_docs: IDL.Func([IDL.Text, ListParams], [ListResults_1], ['query']),
     list_rules: IDL.Func([RulesType], [IDL.Vec(IDL.Tuple(IDL.Text, Rule))], ['query']),
     memory_size: IDL.Func([], [MemorySize], ['query']),
+    set_auth_config: IDL.Func([AuthenticationConfig], [], []),
     set_config: IDL.Func([Config], [], []),
     set_controllers: IDL.Func(
       [SetControllersArgs],
