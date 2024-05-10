@@ -12,8 +12,9 @@ import type {Controller} from '@junobuild/admin/declarations/satellite/satellite
 import type {
   Rule,
   RulesType,
-  SatelliteDevCollection,
-  SatelliteDevController
+  SatelliteDevController,
+  SatelliteDevDbCollection,
+  SatelliteDevStorageCollection
 } from '@junobuild/config';
 import fetch from 'node-fetch';
 import {readJunoDevConfig} from '../../configs/juno.dev.config';
@@ -34,7 +35,7 @@ const configRules = async ({
   satellite
 }: {
   type: RulesType;
-  collections: SatelliteDevCollection[];
+  collections: Array<SatelliteDevDbCollection | SatelliteDevStorageCollection>;
   satellite: SatelliteParameters;
 }) => {
   const existingRules = await list({type, satellite});
@@ -49,7 +50,7 @@ const configRules = async ({
             ({collection: existingCollection}) => existingCollection === collection
           ) ?? {}),
           collection,
-          memory: memory.toLowerCase() === 'stable' ? 'Stable' : 'Heap',
+          memory: memory.toLowerCase() === 'stable' ? 'stable' : 'heap',
           ...rest
         }
       });
