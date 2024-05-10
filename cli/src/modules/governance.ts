@@ -77,7 +77,6 @@ class GovernanceModule extends Module {
       node_providers: [],
       default_followees: [],
       short_voting_period_seconds: BigInt(60 * 60 * 12), // 12 hours
-      neuron_management_voting_period_seconds: [],
       metrics: [],
       most_recent_monthly_node_provider_rewards: [],
       cached_daily_maturity_modulation_basis_points: [],
@@ -86,6 +85,7 @@ class GovernanceModule extends Module {
       making_sns_proposal: [],
       migrations: [],
       topic_followee_index: [],
+      neuron_management_voting_period_seconds: [],
       xdr_conversion_rate: [
         {
           timestamp_seconds: [1n],
