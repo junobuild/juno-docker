@@ -41,7 +41,7 @@
     ]
   },
   "governance": {
-    "commit": "6223a38cfae726e9cc83db9ae27f35ca979dd0d8",
+    "commit": "e790c6636115482db53ca3daa2f1900202ab04cf",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/governance-canister.wasm.gz",
     "candid": [
