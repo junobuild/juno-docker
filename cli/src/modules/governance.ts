@@ -1,5 +1,5 @@
 import {IDL} from '@dfinity/candid';
-import {Governance, NetworkEconomics, NeuronsFundEconomics} from '../declarations/governance';
+import type {Governance, NetworkEconomics, NeuronsFundEconomics} from '../declarations/governance';
 import {init} from '../declarations/governance.idl';
 import {Module} from '../services/modules.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
