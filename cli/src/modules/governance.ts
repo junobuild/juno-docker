@@ -73,7 +73,7 @@ class GovernanceModule extends Module {
       economics: [economics],
       latest_reward_event: [],
       in_flight_commands: [],
-      genesis_timestamp_seconds: 1n,
+      genesis_timestamp_seconds: 0n,
       node_providers: [],
       default_followees: [],
       short_voting_period_seconds: BigInt(60 * 60 * 12), // 12 hours
