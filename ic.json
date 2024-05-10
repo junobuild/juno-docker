@@ -1,36 +1,30 @@
 {
   "replica": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "sha256": "1yf4i5yrfn69nj4rcgsh3hxabl4imjs85jpchpaaqiammwbnwcjv",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
   },
   "ic-starter": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "sha256": "0884gx97whdvc7fj972a7rkhvzx7lccvlrf02piby3hm9cx617r4",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-starter.gz"
   },
   "canister_sandbox": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "sha256": "1gdwv0x017b3h7bqdm6zmradf3h41l52bfrwhmvxj8hkcj27qzgg",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
   },
   "sandbox_launcher": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "sha256": "0iy123jfqdfzy72fzg3wr0ay5bsxaxi2k9npxbky0chbr3bwcwn8",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox/sandbox_launcher",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
   },
   "icx-proxy": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "sha256": "1r73b5far02qwjy4dl7p7bxdgnawzmbv60r8g6280zfk2s52m0n2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/boundary_node/icx_proxy",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/icx-proxy-dev.gz"
   },
   "ic-https-outcalls-adapter": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "sha256": "0idvf9c6s4gw5fznh1gwd0fg5sqgxnszcrjf3ijrms8ryn018hv5",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
   }
