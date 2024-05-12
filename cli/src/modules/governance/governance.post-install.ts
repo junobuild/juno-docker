@@ -18,7 +18,6 @@ export const makeIcpXdrProposal = async ({identities}: Pick<ModuleInstallParams,
     agent
   });
 
-  // Example of payload data found it some proposal
   const arg = IDL.encode(
     [
       IDL.Record({
@@ -36,7 +35,7 @@ export const makeIcpXdrProposal = async ({identities}: Pick<ModuleInstallParams,
     ],
     [
       {
-        data_source: '{"icp":["Binance"],"sdr":"xe.com"}',
+        data_source: '{"icp":["Binance"],"sdr":"xe.com"}', // Example of payload data found it some proposal
         timestamp_seconds: BigInt(Math.floor(Date.now() / 1000)), // Timestamp should not be < than 30 days from now
         xdr_permyriad_per_icp: BigInt(41388),
         reason: [{DivergedRate: null}]
@@ -48,7 +47,7 @@ export const makeIcpXdrProposal = async ({identities}: Pick<ModuleInstallParams,
     neuronId: BigInt(NEURON_ID),
     url: 'https://forum.dfinity.org',
     title: 'ICP/XDR Conversion Rate',
-    summary: `Set ICP/XDR conversion rate to ${10_000}`,
+    summary: `Set ICP/XDR conversion rate to ${41_388}`,
     action: {
       ExecuteNnsFunction: {
         nnsFunctionId: NnsFunction.IcpXdrConversionRate,
