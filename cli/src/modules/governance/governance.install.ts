@@ -16,7 +16,7 @@ import {NeuronId} from '@dfinity/nns-proto/dist/proto/nns_common_pb';
 import {neuronSubaccount} from '@dfinity/sns';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {ModuleInstallParams} from '../../types/module';
-import {NEURON_ID} from "./governance.constants";
+import {NEURON_ID} from './governance.constants';
 
 export const prepareGovernanceArgs = ({
   identities
