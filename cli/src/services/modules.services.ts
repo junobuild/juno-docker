@@ -168,6 +168,10 @@ export class Module {
     );
   }
 
+  async postInstall(_context: ModuleInstallParams) {
+    // Default is do nothing after install
+  }
+
   async start(_context: CliContext) {
     // Default is do nothing on start
   }
