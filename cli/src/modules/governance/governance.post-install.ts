@@ -39,7 +39,7 @@ export const makeIcpXdrProposal = async ({identities}: Pick<ModuleInstallParams,
         data_source: '{"icp":["Binance"],"sdr":"xe.com"}',
         timestamp_seconds: BigInt(1683500400),
         xdr_permyriad_per_icp: BigInt(41388),
-        reason: []
+        reason: [{DivergedRate: null}]
       }
     ]
   );
