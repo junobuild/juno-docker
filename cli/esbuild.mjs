@@ -4,7 +4,7 @@ import {existsSync, mkdirSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 
 config({
-  path: process.env.NODE_ENV === 'development' ? `.env.development` : `.env.production`
+  path: process.env.CLI_BUILD === 'console' ? `.env.console` : `.env.satellite`
 });
 
 const define = Object.entries(process.env).reduce(
