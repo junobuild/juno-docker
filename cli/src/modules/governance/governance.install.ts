@@ -4,15 +4,13 @@ import {
   Governance,
   NetworkEconomics,
   Neuron,
+  NeuronId,
   NeuronsFundEconomics,
-  Percentage,
-  PrincipalId
-} from '@dfinity/nns-proto';
-import {
   NeuronsFundMatchedFundingCurveCoefficients,
+  Percentage,
+  PrincipalId,
   XdrConversionRate
-} from '@dfinity/nns-proto/dist/proto/governance_pb';
-import {NeuronId} from '@dfinity/nns-proto/dist/proto/nns_common_pb';
+} from '@dfinity/nns-proto';
 import {neuronSubaccount} from '@dfinity/sns';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {ModuleInstallParams} from '../../types/module';
