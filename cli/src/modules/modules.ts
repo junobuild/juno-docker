@@ -1,5 +1,5 @@
 import {nonNullish, notEmptyString} from '@dfinity/utils';
-import {Module} from '../services/modules.services';
+import type {Module} from '../services/modules.services';
 import {cmc} from './cmc';
 import {governance} from './governance';
 import {icpIndex} from './icp-index';
