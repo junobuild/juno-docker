@@ -44,8 +44,11 @@ COPY --chown=apprunner:apprunner ./docker ./docker
 COPY --chown=apprunner:apprunner ./ic.json ./ic.json
 COPY --chown=apprunner:apprunner ./modules.json ./modules.json
 
-# Install selected node version and build CLI
-RUN ./docker/cli
+# Arguments to build the CLI - either satellite or console
+ARG CLI_BUILD=satellite
+
+# Install and build CLI
+RUN ./docker/cli ${CLI_BUILD}
 
 # Download required artifacts
 RUN ./docker/download

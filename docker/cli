@@ -2,4 +2,8 @@
 
 npm --prefix cli ci
 
-npm --prefix cli run build
+if [ "$1" == "console" ]; then
+  npm --prefix cli run build:console
+else
+  npm --prefix cli run build:satellite
+fi
