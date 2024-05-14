@@ -16,6 +16,22 @@
       "https://raw.githubusercontent.com/junobuild/juno/main/src/satellite/satellite_extension.did"
     ]
   },
+  "console": {
+    "commit": "5cc8c934a65ea09ecedd2bf4f1f983702ffb3e04",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.24/console-v0.0.8.wasm.gz",
+    "candid": [
+      "https://github.com/junobuild/juno/releases/download/v0.0.24/console.did"
+    ]
+  },
+  "observatory": {
+    "commit": "9c1e4a705ef7a06ddf798dcde1126f7940a834ce",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.30/observatory-v0.0.5.wasm.gz",
+    "candid": [
+      "https://github.com/junobuild/juno/releases/download/v0.0.30/observatory.did"
+    ]
+  },
   "icp_ledger": {
     "commit": "d87954601e4b22972899e9957e800406a0a6b929",
     "repo": "https://github.com/dfinity/ic",

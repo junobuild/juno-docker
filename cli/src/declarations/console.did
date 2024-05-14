@@ -1,0 +1,56 @@
+type AssertMissionControlCenterArgs = record {
+  mission_control_id : principal;
+  user : principal;
+};
+type ControllerScope = variant { Write; Admin };
+type CreateCanisterArgs = record { block_index : opt nat64; user : principal };
+type DeleteControllersArgs = record { controllers : vec principal };
+type GetCreateCanisterFeeArgs = record { user : principal };
+type LoadRelease = record { total : nat64; chunks : nat64 };
+type MissionControl = record {
+  updated_at : nat64;
+  credits : Tokens;
+  mission_control_id : opt principal;
+  owner : principal;
+  created_at : nat64;
+};
+type RateConfig = record { max_tokens : nat64; time_per_token_ns : nat64 };
+type ReleasesVersion = record {
+  satellite : opt text;
+  orbiter : opt text;
+  mission_control : opt text;
+};
+type Segment = variant { Orbiter; MissionControl; Satellite };
+type SetController = record {
+  metadata : vec record { text; text };
+  scope : ControllerScope;
+  expires_at : opt nat64;
+};
+type SetControllersArgs = record {
+  controller : SetController;
+  controllers : vec principal;
+};
+type Tokens = record { e8s : nat64 };
+service : () -> {
+  add_credits : (principal, Tokens) -> ();
+  add_invitation_code : (text) -> ();
+  assert_mission_control_center : (AssertMissionControlCenterArgs) -> () query;
+  create_orbiter : (CreateCanisterArgs) -> (principal);
+  create_satellite : (CreateCanisterArgs) -> (principal);
+  del_controllers : (DeleteControllersArgs) -> ();
+  get_create_orbiter_fee : (GetCreateCanisterFeeArgs) -> (opt Tokens) query;
+  get_create_satellite_fee : (GetCreateCanisterFeeArgs) -> (opt Tokens) query;
+  get_credits : () -> (Tokens) query;
+  get_releases_version : () -> (ReleasesVersion) query;
+  get_user_mission_control_center : () -> (opt MissionControl) query;
+  init_user_mission_control_center : () -> (MissionControl);
+  list_user_mission_control_centers : () -> (
+      vec record { principal; MissionControl },
+    ) query;
+  load_release : (Segment, vec nat8, text) -> (LoadRelease);
+  reset_release : (Segment) -> ();
+  set_controllers : (SetControllersArgs) -> ();
+  set_fee : (Segment, Tokens) -> ();
+  update_rate_config : (Segment, RateConfig) -> ();
+  version : () -> (text) query;
+}
