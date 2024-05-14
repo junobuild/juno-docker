@@ -51,4 +51,11 @@ export const deploy = async (args?: string[]) => {
       await mod.install(context);
     })
   );
+
+  // 5. Some canisters may require post installation configuration that needs to be executed only once like that dev-painful Governance canister
+  await Promise.all(
+    rest.map(async (mod) => {
+      await mod.postInstall(context);
+    })
+  );
 };
