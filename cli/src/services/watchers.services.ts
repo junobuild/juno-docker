@@ -34,7 +34,7 @@ export class Watcher {
       return;
     }
 
-    this.#debounceUpgradeSatellite({context});
+    this.#debounceUpgrade({context});
   };
 
   private readonly upgrade = async ({context}: {context: CliContext}) => {
@@ -74,7 +74,7 @@ export class Watcher {
     await this.upgrade({context});
   }
 
-  readonly #debounceUpgradeSatellite = debounce(this.upgrade);
+  readonly #debounceUpgrade = debounce(this.upgrade);
 
   get key(): string {
     return this.#key;
