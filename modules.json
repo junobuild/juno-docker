@@ -49,7 +49,7 @@
     ]
   },
   "cmc": {
-    "commit": "e790c6636115482db53ca3daa2f1900202ab04cf",
+    "commit": "98a61b5cee32dd109a653e41d0a4ddae5c53c916",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/cycles-minting-canister.wasm.gz",
     "candid": [
