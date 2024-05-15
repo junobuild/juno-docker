@@ -1,5 +1,5 @@
 import {notEmptyString} from '@dfinity/utils';
-import {console as consoleModule} from '../modules/console';
+import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
 import {satellite} from '../modules/satellite';
 import type {Watcher} from '../services/watchers.services';

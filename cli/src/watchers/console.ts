@@ -20,16 +20,22 @@ const consoleSatelliteWatcher = new WatcherConsoleInstall({
   moduleFileName: DEV_SATELLITE_WASM_FILENAME
 });
 
+export const MISSION_CONTROL_KEY = 'mission_control';
+export const MISSION_CONTROL_NAME = 'Mission Control';
+
 const consoleMissionControlWatcher = new WatcherConsoleInstall({
-  key: 'mission-control',
-  name: 'Mission Control',
+  key: MISSION_CONTROL_KEY,
+  name: MISSION_CONTROL_NAME,
   consoleCanisterId: CONSOLE_CANISTER_ID,
   moduleFileName: DEV_MISSION_CONTROL_WASM_FILENAME
 });
 
+export const ORBITER_KEY = 'orbiter';
+export const ORBITER_NAME = 'Orbiter';
+
 const consoleOrbiterWatcher = new WatcherConsoleInstall({
-  key: 'orbiter',
-  name: 'Orbiter',
+  key: ORBITER_KEY,
+  name: ORBITER_NAME,
   consoleCanisterId: CONSOLE_CANISTER_ID,
   moduleFileName: DEV_ORBITER_WASM_FILENAME
 });

@@ -3,7 +3,6 @@ import {readFileSync} from 'atomically';
 import type {FileChangeInfo} from 'fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../constants/constants';
-import type {Segment} from '../declarations/console';
 import type {CliContext} from '../types/context';
 import type {ModuleCanisterId} from '../types/module';
 import type {
@@ -11,8 +10,7 @@ import type {
   WatcherDeployDescription,
   WatcherDescription
 } from '../types/watcher';
-import {loadWasm} from '../utils/wasm.utils';
-import {getConsoleActor} from './actor.services';
+import {installRelease} from './console.services';
 import type {Module} from './modules.services';
 
 export abstract class Watcher {
@@ -115,40 +113,17 @@ export class WatcherConsoleInstall extends Watcher {
     try {
       console.log(`📡  New ${this.#name} detected. Starting upload to Console.`);
 
-      const {wasm} = loadWasm({wasmPath: join(DEV_DEPLOY_FOLDER, this.moduleFileName)});
-
       const metadata = JSON.parse(readFileSync(DEV_METADATA, {encoding: 'utf-8'}));
       const version: string = metadata[this.#key.replaceAll('-', '_')];
 
-      const {agent} = context;
-      const {reset_release, load_release} = await getConsoleActor({
-        agent,
-        canisterId: this.#consoleCanisterId
+      await installRelease({
+        context,
+        consoleCanisterId: this.#consoleCanisterId,
+        wasmPath: join(DEV_DEPLOY_FOLDER, this.moduleFileName),
+        version,
+        key: this.#key,
+        name: this.#name
       });
-
-      const segmentType = (): Segment => {
-        switch (this.#key) {
-          case 'satellite':
-            return {Satellite: null};
-          case 'orbiter':
-            return {Orbiter: null};
-          default:
-            return {MissionControl: null};
-        }
-      };
-
-      await reset_release(segmentType());
-
-      const chunkSize = 700000;
-
-      const wasmModule = [...new Uint8Array(wasm)];
-
-      for (let start = 0; start < wasmModule.length; start += chunkSize) {
-        const chunks = wasmModule.slice(start, start + chunkSize);
-        await load_release(segmentType(), chunks, version);
-      }
-
-      console.log(`💫  ${this.#name} uploaded to Console.`);
     } finally {
       this.upgrading = false;
     }
