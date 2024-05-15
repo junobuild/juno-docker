@@ -1,8 +1,9 @@
-import {assertNonNullish, debounce} from '@dfinity/utils';
+import {debounce} from '@dfinity/utils';
 import type {FileChangeInfo} from 'fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER} from '../constants/constants';
 import type {CliContext} from '../types/context';
+import type {ModuleCanisterId} from '../types/module';
 import type {
   WatcherConsoleInstallDescription,
   WatcherDeployDescription,
@@ -97,13 +98,13 @@ export class WatcherDeploy extends Watcher {
 }
 
 export class WatcherConsoleInstall extends Watcher {
-  readonly #initConsoleModule: () => Module;
+  readonly #consoleCanisterId: ModuleCanisterId;
   readonly #key: string;
 
-  constructor({moduleFileName, initConsoleModule, key}: WatcherConsoleInstallDescription) {
+  constructor({moduleFileName, consoleCanisterId, key}: WatcherConsoleInstallDescription) {
     super({moduleFileName});
     this.#key = key;
-    this.#initConsoleModule = initConsoleModule;
+    this.#consoleCanisterId = consoleCanisterId;
   }
 
   protected async tryUpgrade({context}: {context: CliContext}) {
@@ -114,18 +115,10 @@ export class WatcherConsoleInstall extends Watcher {
       // TODO
       const version = 'TODO';
 
-      const {canisterId: loadCanisterId, name} = this.#initConsoleModule();
-      const canisterId = loadCanisterId(context);
-
-      assertNonNullish(
-        canisterId,
-        `⚠️  CanisterID for ${name} is not initialized. This is unexpected!`
-      );
-
       const {agent} = context;
       const {reset_release, load_release} = await getConsoleActor({
         agent,
-        canisterId
+        canisterId: this.#consoleCanisterId
       });
 
       const segmentType = () => {

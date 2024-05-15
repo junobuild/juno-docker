@@ -4,7 +4,7 @@ import {
   DEV_ORBITER_WASM_FILENAME,
   DEV_SATELLITE_WASM_FILENAME
 } from '../constants/constants';
-import {initConsoleModule} from '../modules/console';
+import {CONSOLE_CANISTER_ID, initConsoleModule} from '../modules/console';
 import {WatcherConsoleInstall, WatcherDeploy} from '../services/watchers.services';
 
 const consoleWatcher = new WatcherDeploy({
@@ -14,19 +14,19 @@ const consoleWatcher = new WatcherDeploy({
 
 const consoleSatelliteWatcher = new WatcherConsoleInstall({
   key: 'satellite',
-  initConsoleModule,
+  consoleCanisterId: CONSOLE_CANISTER_ID,
   moduleFileName: DEV_SATELLITE_WASM_FILENAME
 });
 
 const consoleMissionControlWatcher = new WatcherConsoleInstall({
   key: 'mission-control',
-  initConsoleModule,
+  consoleCanisterId: CONSOLE_CANISTER_ID,
   moduleFileName: DEV_MISSION_CONTROL_WASM_FILENAME
 });
 
 const consoleOrbiterWatcher = new WatcherConsoleInstall({
   key: 'orbiter',
-  initConsoleModule,
+  consoleCanisterId: CONSOLE_CANISTER_ID,
   moduleFileName: DEV_ORBITER_WASM_FILENAME
 });
 
