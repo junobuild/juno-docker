@@ -3,6 +3,7 @@ import {readFileSync} from 'atomically';
 import type {FileChangeInfo} from 'fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../constants/constants';
+import type {Segment} from '../declarations/console';
 import type {CliContext} from '../types/context';
 import type {ModuleCanisterId} from '../types/module';
 import type {
@@ -117,7 +118,7 @@ export class WatcherConsoleInstall extends Watcher {
       const {wasm} = loadWasm({wasmPath: join(DEV_DEPLOY_FOLDER, this.moduleFileName)});
 
       const metadata = JSON.parse(readFileSync(DEV_METADATA, {encoding: 'utf-8'}));
-      const version = metadata[this.#key.replaceAll('-', '_')];
+      const version: string = metadata[this.#key.replaceAll('-', '_')];
 
       const {agent} = context;
       const {reset_release, load_release} = await getConsoleActor({
@@ -125,7 +126,7 @@ export class WatcherConsoleInstall extends Watcher {
         canisterId: this.#consoleCanisterId
       });
 
-      const segmentType = () => {
+      const segmentType = (): Segment => {
         switch (this.#key) {
           case 'satellite':
             return {Satellite: null};
