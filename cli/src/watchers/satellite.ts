@@ -1,9 +1,8 @@
 import {DEV_SATELLITE_WASM_FILENAME} from '../constants/constants';
-import {initSatelliteModule, satellite} from '../modules/satellite';
-import {Watcher} from '../services/watchers.services';
+import {initSatelliteModule} from '../modules/satellite';
+import {WatcherDeploy} from '../services/watchers.services';
 
-export const satelliteWatcher = new Watcher({
-  key: satellite.key,
+export const satelliteWatcher = new WatcherDeploy({
   moduleFileName: DEV_SATELLITE_WASM_FILENAME,
   initModule: initSatelliteModule
 });

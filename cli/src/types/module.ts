@@ -4,8 +4,10 @@ export type ModuleStatus = 'initialized' | 'deployed';
 
 export type ModuleCanisterId = string;
 
+export type ModuleKey = string;
+
 export interface ModuleMetadata {
-  key: string;
+  key: ModuleKey;
   name: string;
   canisterId: ModuleCanisterId;
   status: ModuleStatus;

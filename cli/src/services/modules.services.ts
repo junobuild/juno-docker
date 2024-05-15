@@ -2,8 +2,6 @@ import {IDL} from '@dfinity/candid';
 import {ICManagementCanister, InstallMode} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {isNullish, nonNullish} from '@dfinity/utils';
-import {readFileSync} from 'atomically';
-import {createHash} from 'crypto';
 import kleur from 'kleur';
 import {MAIN_IDENTITY_KEY} from '../constants/constants';
 import type {CliContext} from '../types/context';
@@ -14,15 +12,11 @@ import type {
   ModuleMetadata,
   ModuleStatus
 } from '../types/module';
+import {loadWasm, type Wasm} from '../utils/wasm.utils';
 
 const {green, cyan} = kleur;
 
 const EMPTY_ARG = IDL.encode([], []);
-
-interface Wasm {
-  hash: string;
-  wasm: Buffer;
-}
 
 const status = ({key, state}: CliContext & ModuleDescription): ModuleStatus | undefined =>
   state.getModule(key)?.status;
@@ -53,20 +47,6 @@ const createCanister = async ({
   });
 };
 
-const loadWasm = ({
-  key,
-  wasmPath
-}: Pick<ModuleMetadata, 'key'> & Pick<ModuleDescription, 'wasmPath'>): Wasm => {
-  const file = wasmPath ?? `./target/${key}.gz`;
-
-  const wasm = readFileSync(file);
-
-  return {
-    wasm,
-    hash: createHash('sha256').update(wasm).digest('hex')
-  };
-};
-
 const installCode = async ({
   agent,
   arg,
@@ -94,7 +74,7 @@ export class Module {
     this.data = {
       key,
       ...rest,
-      ...loadWasm({key, wasmPath})
+      ...loadWasm({wasmPath: wasmPath ?? `./target/${key}.gz`})
     };
   }
 

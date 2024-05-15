@@ -1,7 +1,13 @@
 import type {Module} from '../services/modules.services';
-import type {ModuleDescription} from './module';
+import type {ModuleCanisterId} from './module';
 
-export type WatcherDescription = {moduleFileName: string; initModule: () => Module} & Pick<
-  ModuleDescription,
-  'key'
->;
+export interface WatcherDescription {
+  moduleFileName: string;
+}
+
+export type WatcherDeployDescription = {initModule: () => Module} & WatcherDescription;
+export type WatcherConsoleInstallDescription = {
+  key: string;
+  name: string;
+  consoleCanisterId: ModuleCanisterId;
+} & WatcherDescription;
