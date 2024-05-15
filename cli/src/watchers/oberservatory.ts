@@ -1,9 +1,8 @@
 import {DEV_OBSERVATORY_WASM_FILENAME} from '../constants/constants';
-import {initObservatoryModule, observatory} from '../modules/observatory';
-import {Watcher} from '../services/watchers.services';
+import {initObservatoryModule} from '../modules/observatory';
+import {WatcherDeploy} from '../services/watchers.services';
 
-export const observatoryWatcher = new Watcher({
-  key: observatory.key,
+export const observatoryWatcher = new WatcherDeploy({
   moduleFileName: DEV_OBSERVATORY_WASM_FILENAME,
   initModule: initObservatoryModule
 });

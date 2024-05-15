@@ -1,13 +1,38 @@
-import {nonNullish, notEmptyString} from '@dfinity/utils';
+import {notEmptyString} from '@dfinity/utils';
+import {console as consoleModule} from '../modules/console';
+import {observatory} from '../modules/observatory';
+import {satellite} from '../modules/satellite';
 import type {Watcher} from '../services/watchers.services';
-import {consoleWatcher} from './console';
+import type {ModuleKey} from '../types/module';
+import {consoleWatchers} from './console';
 import {observatoryWatcher} from './oberservatory';
 import {satelliteWatcher} from './satellite';
 
-const WATCHERS = [satelliteWatcher, consoleWatcher, observatoryWatcher];
+interface WatcherKey {
+  key: ModuleKey;
+  watcher: Watcher;
+}
 
-export const watchers = (process.env.MODULES ?? '')
+const WATCHERS: WatcherKey[] = [
+  {
+    key: satellite.key,
+    watcher: satelliteWatcher
+  },
+  ...consoleWatchers.map((watcher) => ({
+    key: consoleModule.key,
+    watcher
+  })),
+  {
+    key: observatory.key,
+    watcher: observatoryWatcher
+  }
+];
+
+const watchersKeys = (process.env.MODULES ?? '')
   .split(',')
   .filter((moduleKey) => notEmptyString(moduleKey))
-  .map((moduleKey) => WATCHERS.find(({key}) => key === moduleKey.trim()))
-  .filter((watcher) => nonNullish(watcher)) as Watcher[];
+  .map((moduleKey) => moduleKey.trim());
+
+export const watchers = WATCHERS.filter(({key}) => watchersKeys.includes(key)).map(
+  ({watcher}) => watcher
+);
