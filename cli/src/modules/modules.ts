@@ -1,7 +1,7 @@
 import {nonNullish, notEmptyString} from '@dfinity/utils';
 import type {Module} from '../services/modules.services';
 import {cmc} from './cmc';
-import {console as consoleModule} from './console';
+import {consoleModule} from './console';
 import {governance} from './governance';
 import {icpIndex} from './icp-index';
 import {icpLedger} from './icp-ledger';
