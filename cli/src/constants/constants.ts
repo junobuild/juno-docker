@@ -17,6 +17,8 @@ export const DEV_OBSERVATORY = join(DEV_DEPLOY_FOLDER, DEV_OBSERVATORY_WASM_FILE
 export const DEV_ORBITER_WASM_FILENAME = 'orbiter.wasm.gz';
 export const DEV_MISSION_CONTROL_WASM_FILENAME = 'mission_control.wasm.gz';
 
+export const DEV_METADATA = join(DEV_DEPLOY_FOLDER, 'metadata.json');
+
 export const JUNO_DEV_CONFIG_FILENAME = 'juno.dev.config'; // .json | .js | .cjs | .mjs | .ts
 
 export const MAIN_IDENTITY_KEY = 'main';

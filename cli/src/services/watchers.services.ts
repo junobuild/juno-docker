@@ -1,7 +1,8 @@
 import {debounce} from '@dfinity/utils';
+import {readFileSync} from 'atomically';
 import type {FileChangeInfo} from 'fs/promises';
 import {join} from 'node:path';
-import {DEV_DEPLOY_FOLDER} from '../constants/constants';
+import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../constants/constants';
 import type {CliContext} from '../types/context';
 import type {ModuleCanisterId} from '../types/module';
 import type {
@@ -114,8 +115,9 @@ export class WatcherConsoleInstall extends Watcher {
       console.log(`📡  New ${this.#name} detected. Starting upload to Console.`);
 
       const {wasm} = loadWasm({wasmPath: join(DEV_DEPLOY_FOLDER, this.moduleFileName)});
-      // TODO
-      const version = 'TODO';
+
+      const metadata = JSON.parse(readFileSync(DEV_METADATA, {encoding: 'utf-8'}));
+      const version = metadata[this.#key.replaceAll('-', '_')];
 
       const {agent} = context;
       const {reset_release, load_release} = await getConsoleActor({
