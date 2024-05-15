@@ -16,6 +16,22 @@
       "https://raw.githubusercontent.com/junobuild/juno/main/src/satellite/satellite_extension.did"
     ]
   },
+  "mission_control": {
+    "commit": "1f29d130f9c2c34b0619aa4dce9cf6a57423f9a6",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://cdn.juno.build/releases/mission_control-v0.0.10.wasm.gz",
+    "candid": [
+      "https://github.com/junobuild/juno/releases/download/v0.0.28/mission_control.did"
+    ]
+  },
+  "orbiter": {
+    "commit": "9c1e4a705ef7a06ddf798dcde1126f7940a834ce",
+    "repo": "https://github.com/junobuild/juno",
+    "url": "https://cdn.juno.build/releases/orbiter-v0.0.7.wasm.gz",
+    "candid": [
+      "https://github.com/junobuild/juno/releases/download/v0.0.30/orbiter.did"
+    ]
+  },
   "console": {
     "commit": "5cc8c934a65ea09ecedd2bf4f1f983702ffb3e04",
     "repo": "https://github.com/junobuild/juno",
