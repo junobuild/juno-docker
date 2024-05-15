@@ -8,5 +8,6 @@ export interface WatcherDescription {
 export type WatcherDeployDescription = {initModule: () => Module} & WatcherDescription;
 export type WatcherConsoleInstallDescription = {
   key: string;
+  name: string;
   consoleCanisterId: ModuleCanisterId;
 } & WatcherDescription;

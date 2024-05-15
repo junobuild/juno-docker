@@ -19,7 +19,7 @@ export abstract class Watcher {
 
   protected readonly moduleFileName: string;
 
-  constructor({moduleFileName}: WatcherDescription) {
+  protected constructor({moduleFileName}: WatcherDescription) {
     this.moduleFileName = moduleFileName;
   }
 
@@ -100,16 +100,18 @@ export class WatcherDeploy extends Watcher {
 export class WatcherConsoleInstall extends Watcher {
   readonly #consoleCanisterId: ModuleCanisterId;
   readonly #key: string;
+  readonly #name: string;
 
-  constructor({moduleFileName, consoleCanisterId, key}: WatcherConsoleInstallDescription) {
+  constructor({moduleFileName, consoleCanisterId, key, name}: WatcherConsoleInstallDescription) {
     super({moduleFileName});
     this.#key = key;
+    this.#name = name;
     this.#consoleCanisterId = consoleCanisterId;
   }
 
   protected async tryUpgrade({context}: {context: CliContext}) {
     try {
-      console.log(`📡  New ${this.#key} detected. Starting upload to Console.`);
+      console.log(`📡  New ${this.#name} detected. Starting upload to Console.`);
 
       const {wasm} = loadWasm({wasmPath: join(DEV_DEPLOY_FOLDER, this.moduleFileName)});
       // TODO
@@ -143,7 +145,7 @@ export class WatcherConsoleInstall extends Watcher {
         await load_release(segmentType(), chunks, version);
       }
 
-      console.log(`💫  ${this.#key} uploaded to Console.`);
+      console.log(`💫  ${this.#name} uploaded to Console.`);
     } finally {
       this.upgrading = false;
     }
