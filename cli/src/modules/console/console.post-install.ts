@@ -7,7 +7,6 @@ import {
   ORBITER_NAME
 } from '../../watchers/console';
 import {satellite} from '../satellite';
-import {CONSOLE_CANISTER_ID} from './index';
 
 export const installReleases = async (context: ModuleInstallParams) => {
   const promises = [
@@ -23,7 +22,6 @@ export const installReleases = async (context: ModuleInstallParams) => {
   ].map(async ({key, name}) => {
     await installRelease({
       context,
-      consoleCanisterId: CONSOLE_CANISTER_ID,
       wasmPath: `./target/${key}.gz`,
       version: '0.0.1',
       key,

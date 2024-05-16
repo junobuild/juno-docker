@@ -1,19 +1,17 @@
 import type {Segment} from '../declarations/console';
+import {CONSOLE_CANISTER_ID} from '../modules/console';
 import type {CliContext} from '../types/context';
-import type {ModuleCanisterId} from '../types/module';
 import {loadWasm} from '../utils/wasm.utils';
 import {getConsoleActor} from './actor.services';
 
 export const installRelease = async ({
   context,
-  consoleCanisterId,
   key,
   name,
   version,
   wasmPath
 }: {
   context: CliContext;
-  consoleCanisterId: ModuleCanisterId;
   key: string;
   name: string;
   version: string;
@@ -24,7 +22,7 @@ export const installRelease = async ({
   const {agent} = context;
   const {reset_release, load_release} = await getConsoleActor({
     agent,
-    canisterId: consoleCanisterId
+    canisterId: CONSOLE_CANISTER_ID
   });
 
   const segmentType = (): Segment => {

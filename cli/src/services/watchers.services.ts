@@ -4,7 +4,6 @@ import type {FileChangeInfo} from 'fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../constants/constants';
 import type {CliContext} from '../types/context';
-import type {ModuleCanisterId} from '../types/module';
 import type {
   WatcherConsoleInstallDescription,
   WatcherDeployDescription,
@@ -98,15 +97,13 @@ export class WatcherDeploy extends Watcher {
 }
 
 export class WatcherConsoleInstall extends Watcher {
-  readonly #consoleCanisterId: ModuleCanisterId;
   readonly #key: string;
   readonly #name: string;
 
-  constructor({moduleFileName, consoleCanisterId, key, name}: WatcherConsoleInstallDescription) {
+  constructor({moduleFileName, key, name}: WatcherConsoleInstallDescription) {
     super({moduleFileName});
     this.#key = key;
     this.#name = name;
-    this.#consoleCanisterId = consoleCanisterId;
   }
 
   protected async tryUpgrade({context}: {context: CliContext}) {
@@ -118,7 +115,6 @@ export class WatcherConsoleInstall extends Watcher {
 
       await installRelease({
         context,
-        consoleCanisterId: this.#consoleCanisterId,
         wasmPath: join(DEV_DEPLOY_FOLDER, this.moduleFileName),
         version,
         key: this.#key,
