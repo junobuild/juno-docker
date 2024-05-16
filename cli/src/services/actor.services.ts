@@ -22,13 +22,13 @@ export const getConsoleActor = async (params: {
   });
 
 export const getLedgerActor = async (params: {
-    agent: HttpAgent;
-    canisterId: string | Principal;
+  agent: HttpAgent;
+  canisterId: string | Principal;
 }): Promise<IcpLedgerActor> =>
-    await createActor({
-        ...params,
-        idlFactory: idlFactorIcpLedger
-    });
+  await createActor({
+    ...params,
+    idlFactory: idlFactorIcpLedger
+  });
 
 const createActor = async <T = Record<string, ActorMethod>>({
   canisterId,
