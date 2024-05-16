@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+source ./.bashrc
+
 npm --prefix cli ci
 
-if [ "$1" == "console" ]; then
+if [ "$CLI_BUILD" == "console" ]; then
   npm --prefix cli run build:console
 else
   npm --prefix cli run build:satellite
