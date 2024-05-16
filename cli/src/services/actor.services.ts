@@ -9,6 +9,8 @@ import type {IDL} from '@dfinity/candid';
 import type {Principal} from '@dfinity/principal';
 import type {_SERVICE as ConsoleActor} from '../declarations/console';
 import {idlFactory as idlFactorConsole} from '../declarations/console.idl';
+import type {_SERVICE as IcpLedgerActor} from '../declarations/icp_ledger';
+import {idlFactory as idlFactorIcpLedger} from '../declarations/icp_ledger.idl';
 
 export const getConsoleActor = async (params: {
   agent: HttpAgent;
@@ -17,6 +19,15 @@ export const getConsoleActor = async (params: {
   await createActor({
     ...params,
     idlFactory: idlFactorConsole
+  });
+
+export const getLedgerActor = async (params: {
+  agent: HttpAgent;
+  canisterId: string | Principal;
+}): Promise<IcpLedgerActor> =>
+  await createActor({
+    ...params,
+    idlFactory: idlFactorIcpLedger
   });
 
 const createActor = async <T = Record<string, ActorMethod>>({

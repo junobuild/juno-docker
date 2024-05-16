@@ -1,6 +1,7 @@
 import kleur from 'kleur';
 import {version as cliCurrentVersion} from '../package.json';
 import {deploy} from './commands/deploy';
+import {adminServer} from './commands/server';
 import {start} from './commands/start';
 import {wait} from './commands/wait';
 import {watch} from './commands/watch';
@@ -30,6 +31,9 @@ export const run = async () => {
     case 'watch':
       await watch(args);
       break;
+    case 'admin':
+      await adminServer(args);
+      break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
       break;
@@ -44,6 +48,5 @@ export const run = async () => {
     await run();
   } catch (err: unknown) {
     console.log(`${red('⚠️  CLI Error:')}`, err);
-    process.exit(1);
   }
 })();
