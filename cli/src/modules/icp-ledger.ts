@@ -5,10 +5,12 @@ import {init} from '../declarations/icp_ledger.idl';
 import {Module} from '../services/modules.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
+export const ICP_LEDGER_CANISTER_ID = 'ryjl3-tyaaa-aaaaa-aaaba-cai';
+
 const ICP_LEDGER: ModuleDescription = {
   key: 'icp_ledger',
   name: 'ICP Ledger',
-  canisterId: 'ryjl3-tyaaa-aaaaa-aaaba-cai'
+  canisterId: ICP_LEDGER_CANISTER_ID
 };
 
 class IcpLedgerModule extends Module {

@@ -32,7 +32,7 @@ export const run = async () => {
       await watch(args);
       break;
     case 'admin':
-      adminServer(args);
+      await adminServer(args);
       break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
@@ -48,6 +48,5 @@ export const run = async () => {
     await run();
   } catch (err: unknown) {
     console.log(`${red('⚠️  CLI Error:')}`, err);
-    process.exit(1);
   }
 })();
