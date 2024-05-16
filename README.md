@@ -112,6 +112,18 @@ export const internetIdentity = new Module(INTERNET_IDENTITY);
 
 For a more extended solution that overrides installation and start hooks, have a look at the [Satellite module code](./cli/src/modules/satellite).
 
+### Admin Commands
+
+The `junobuild/console` Docker image exposes an additional small server meant to execute various administration commands that can be useful when developing Juno.
+
+Here are the available commands:
+
+| URL                                                                   | Description                                          |
+| --------------------------------------------------------------------- | ---------------------------------------------------- |
+| http://localhost:5999/ledger/transfer/?to=bnz7o-iuaaa-aaaaa-qaaaa-cai | Transfer 55 ICP from the Ledger to the `to` address. |
+
+Those calls can be executed from outside the container.
+
 ## License
 
 MIT © [David Dal Busco](mailto:david.dalbusco@outlook.com)
