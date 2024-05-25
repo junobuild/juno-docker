@@ -20,7 +20,7 @@
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
   },
   "icx-proxy": {
-    "commit": "ec35ebd252d4ffb151d2cfceba3a86c4fb87c6d6",
+    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/boundary_node/icx_proxy",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/icx-proxy-dev.gz"
   },
