@@ -11,4 +11,5 @@
                     --consensus-pool-backend lmdb \
                     --subnet-features canister_sandboxing \
                     --subnet-features http_requests \
+                    --initial-notary-delay-millis 600 \
                     --canister-http-uds-path /juno/.juno/sock
