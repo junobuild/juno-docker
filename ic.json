@@ -1,6 +1,7 @@
 {
   "replica": {
     "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/replica",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
   },
   "ic-starter": {
