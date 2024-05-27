@@ -1,21 +1,21 @@
 {
   "replica": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
+    "commit": "ec35ebd252d4ffb151d2cfceba3a86c4fb87c6d6",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/replica",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
   },
   "ic-starter": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
+    "commit": "ec35ebd252d4ffb151d2cfceba3a86c4fb87c6d6",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-starter.gz"
   },
   "canister_sandbox": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
+    "commit": "ec35ebd252d4ffb151d2cfceba3a86c4fb87c6d6",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
   },
   "sandbox_launcher": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
+    "commit": "ec35ebd252d4ffb151d2cfceba3a86c4fb87c6d6",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox/sandbox_launcher",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
   },
@@ -25,7 +25,7 @@
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/icx-proxy-dev.gz"
   },
   "ic-https-outcalls-adapter": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
+    "commit": "ec35ebd252d4ffb151d2cfceba3a86c4fb87c6d6",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
   }
