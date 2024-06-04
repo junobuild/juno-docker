@@ -35,7 +35,7 @@ jobs:
             type=semver,pattern={{version}}
 
       - name: Build and push Docker image for ${{ matrix.image_name }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           platforms: linux/amd64
