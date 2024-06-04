@@ -10,7 +10,8 @@ import {WatcherConsoleInstall, WatcherDeploy} from '../services/watchers.service
 
 const consoleWatcher = new WatcherDeploy({
   moduleFileName: DEV_CONSOLE_WASM_FILENAME,
-  initModule: initConsoleModule
+  // We require an arrow function here to avoid bundling issue with initConsoleModule being undefined on init.
+  initModule: () => initConsoleModule()
 });
 
 const consoleSatelliteWatcher = new WatcherConsoleInstall({
