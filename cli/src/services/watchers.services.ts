@@ -111,7 +111,7 @@ export class WatcherConsoleInstall extends Watcher {
       console.log(`📡  New ${this.#name} detected. Starting upload to Console.`);
 
       const metadata = JSON.parse(readFileSync(DEV_METADATA, {encoding: 'utf-8'}));
-      const version: string = metadata[this.#key.replaceAll('-', '_')];
+      const version = metadata[this.#key.replaceAll('-', '_')];
 
       await installRelease({
         context,
