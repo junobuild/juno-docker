@@ -1,10 +1,10 @@
-import type {ConfigFilename} from '@junobuild/cli-tools';
+import type {JunoDevConfig, JunoDevConfigFnOrObject} from '@junobuild/config';
+import type {ConfigFilename} from '@junobuild/config-loader';
 import {
   junoConfigExist as junoConfigExistTools,
   junoConfigFile as junoConfigFileTools,
   readJunoConfig as readJunoConfigTools
-} from '@junobuild/cli-tools';
-import type {JunoDevConfig, JunoDevConfigFnOrObject} from '@junobuild/config';
+} from '@junobuild/config-loader';
 import {JUNO_DEV_CONFIG_FILENAME} from '../constants/constants';
 import type {ConfigType} from '../types/config';
 

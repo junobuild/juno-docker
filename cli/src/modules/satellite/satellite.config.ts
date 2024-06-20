@@ -75,14 +75,14 @@ export type SatelliteConfigContext = CliContext & Pick<ModuleMetadata, 'canister
 export const configureCollections = async (context: SatelliteConfigContext) => {
   const {
     satellite: {
-      collections: {db, storage}
+      collections: {datastore, db, storage}
     }
   } = await readJunoDevConfig();
 
   const satellite = buildSatelliteParams(context);
 
   await Promise.all([
-    configRules({type: 'db', collections: db ?? [], satellite}),
+    configRules({type: 'db', collections: datastore ?? db ?? [], satellite}),
     configRules({type: 'storage', collections: storage ?? [], satellite})
   ]);
 };
