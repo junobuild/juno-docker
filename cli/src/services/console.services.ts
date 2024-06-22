@@ -52,8 +52,8 @@ export const installRelease = async ({
   const proposalType = {
     SegmentsDeployment: {
       orbiter: toNullable(key === 'orbiter' ? version : undefined),
-      mission_control_version: toNullable(key === 'mi' ? version : undefined),
-      satellite_version: toNullable(key === 'mission_control' ? version : undefined)
+      mission_control_version: toNullable(key === 'mission_control' ? version : undefined),
+      satellite_version: toNullable(key === 'satellite' ? version : undefined)
     }
   };
 
