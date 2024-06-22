@@ -2,7 +2,7 @@ import {Principal} from '@dfinity/principal';
 import {assertNonNullish, fromNullable, toNullable, uint8ArrayToHexString} from '@dfinity/utils';
 import {commitProposal, initProposal, submitProposal, uploadAsset} from '@junobuild/console';
 import type {ENCODING_TYPE} from '@junobuild/storage';
-import {parse} from 'node:path';
+import {basename} from 'node:path';
 import {CONSOLE_CANISTER_ID} from '../modules/console';
 import {buildConsoleParams} from '../modules/satellite/console.config';
 import type {CliContext} from '../types/context';
@@ -64,7 +64,7 @@ export const installRelease = async ({
     console: CONSOLE
   });
 
-  const filename = `${parse(wasmPath).name}-v${version}.wasm.gz`;
+  const filename = `${basename(wasmPath).replace('.wasm.gz', '')}-v${version}.wasm.gz`;
 
   const fullPath = `/releases/${filename}`;
 
