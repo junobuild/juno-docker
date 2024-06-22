@@ -107,5 +107,5 @@ export const installRelease = async ({
 
   console.log(`🗳️  Proposal ${proposalId} committed.`);
 
-  console.log(`💫  ${name} uploaded to Console.`);
+  console.log(`💫  ${name} uploaded to Console.\n`);
 };
