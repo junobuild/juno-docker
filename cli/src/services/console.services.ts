@@ -1,7 +1,11 @@
 import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
-import type {Segment} from '../declarations/console';
+import {assertNonNullish, fromNullable, toNullable, uint8ArrayToHexString} from '@dfinity/utils';
+import {commitProposal, initProposal, submitProposal, uploadAsset} from '@junobuild/console';
+import type {ENCODING_TYPE} from '@junobuild/storage';
+import {basename} from 'node:path';
 import {CONSOLE_CANISTER_ID} from '../modules/console';
+import {buildConsoleParams} from '../modules/satellite/console.config';
 import type {CliContext} from '../types/context';
 import {loadWasm} from '../utils/wasm.utils';
 import {getConsoleActor} from './actor.services';
@@ -64,33 +68,63 @@ export const installRelease = async ({
 }) => {
   const {wasm} = loadWasm({wasmPath});
 
-  const {agent} = context;
-  const {reset_release, load_release} = await getConsoleActor({
-    agent,
-    canisterId: CONSOLE_CANISTER_ID
-  });
-
-  const segmentType = (): Segment => {
-    switch (key) {
-      case 'satellite':
-        return {Satellite: null};
-      case 'orbiter':
-        return {Orbiter: null};
-      default:
-        return {MissionControl: null};
+  const proposalType = {
+    SegmentsDeployment: {
+      orbiter: toNullable(key === 'orbiter' ? version : undefined),
+      mission_control_version: toNullable(key === 'mission_control' ? version : undefined),
+      satellite_version: toNullable(key === 'satellite' ? version : undefined)
     }
   };
 
-  await reset_release(segmentType());
+  const CONSOLE = buildConsoleParams({...context, canisterId: CONSOLE_CANISTER_ID});
 
-  const chunkSize = 700000;
+  const [proposalId, _] = await initProposal({
+    proposalType,
+    console: CONSOLE
+  });
 
-  const wasmModule = [...new Uint8Array(wasm)];
+  const filename = `${basename(wasmPath).replace('.wasm.gz', '')}-v${version}.wasm.gz`;
 
-  for (let start = 0; start < wasmModule.length; start += chunkSize) {
-    const chunks = wasmModule.slice(start, start + chunkSize);
-    await load_release(segmentType(), chunks, version);
-  }
+  const fullPath = `/releases/${filename}`;
 
-  console.log(`💫  ${name} uploaded to Console.`);
+  const asset = {
+    collection: '#releases',
+    encoding: 'identity' as ENCODING_TYPE,
+    filename,
+    fullPath,
+    headers: [],
+    data: new Blob([wasm])
+  };
+
+  await uploadAsset({
+    asset,
+    proposalId,
+    console: CONSOLE
+  });
+
+  const [__, {sha256, status}] = await submitProposal({
+    proposalId,
+    console: CONSOLE
+  });
+
+  const validation = fromNullable(sha256);
+
+  assertNonNullish(validation);
+
+  console.log('\nProposal submitted to Console.\n');
+  console.log('🆔 ', proposalId);
+  console.log('🔒 ', uint8ArrayToHexString(validation));
+  console.log('⏳ ', status);
+
+  await commitProposal({
+    commitProposal: {
+      proposal_id: proposalId,
+      sha256: validation
+    },
+    console: CONSOLE
+  });
+
+  console.log(`🗳️  Proposal ${proposalId} committed.`);
+
+  console.log(`💫  ${name} uploaded to Console.\n`);
 };
