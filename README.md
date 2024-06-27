@@ -119,8 +119,9 @@ The `junobuild/console` Docker image exposes an additional small server meant to
 Here are the available commands:
 
 | URL                                                                   | Description                                          |
-| --------------------------------------------------------------------- | ---------------------------------------------------- |
+|-----------------------------------------------------------------------|------------------------------------------------------|
 | http://localhost:5999/ledger/transfer/?to=bnz7o-iuaaa-aaaaa-qaaaa-cai | Transfer 55 ICP from the Ledger to the `to` address. |
+| http://localhost:5999/console/controller/?id=<principal-text>         | Add a controller to the Console.                     |
 
 Those calls can be executed from outside the container.
 

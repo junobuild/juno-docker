@@ -1,3 +1,4 @@
+import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {assertNonNullish, fromNullable, toNullable, uint8ArrayToHexString} from '@dfinity/utils';
 import {commitProposal, initProposal, submitProposal, uploadAsset} from '@junobuild/console';
@@ -17,12 +18,30 @@ export const setController = async ({
   searchParams: URLSearchParams;
 }) => {
   const {agent} = context;
+
+  const id = searchParams.get('id') ?? '';
+
+  // Set the controller to the canister.
+  const {updateSettings, canisterStatus} = ICManagementCanister.create({
+    agent
+  });
+
+  const {
+    settings: {controllers}
+  } = await canisterStatus(Principal.from(CONSOLE_CANISTER_ID));
+
+  await updateSettings({
+    canisterId: Principal.from(CONSOLE_CANISTER_ID),
+    settings: {
+      controllers: [...controllers.map((p) => p.toText()), id]
+    }
+  });
+
+  // Add controller to the memory of the canister to allow guarded calls.
   const {set_controllers} = await getConsoleActor({
     agent,
     canisterId: CONSOLE_CANISTER_ID
   });
-
-  const id = searchParams.get('id') ?? '';
 
   await set_controllers({
     controllers: [Principal.fromText(id)],
