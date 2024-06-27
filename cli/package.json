@@ -38,7 +38,7 @@
     "@dfinity/sns": "^3.0.4",
     "@dfinity/utils": "^2.3.0",
     "@junobuild/admin": "^0.0.51",
-    "@junobuild/cli-tools": "^0.0.11",
+    "@junobuild/cli-tools": "^0.0.13",
     "@junobuild/config": "^0.0.10",
     "@junobuild/config-loader": "^0.0.4",
     "@junobuild/console": "^0.0.3",
