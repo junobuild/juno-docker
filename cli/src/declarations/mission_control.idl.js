@@ -122,6 +122,7 @@ export const idlFactory = ({IDL}) => {
       [],
       []
     ),
+    set_satellite: IDL.Func([IDL.Principal, IDL.Opt(IDL.Text)], [Satellite], []),
     set_satellite_metadata: IDL.Func(
       [IDL.Principal, IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text))],
       [Satellite],
@@ -134,6 +135,8 @@ export const idlFactory = ({IDL}) => {
     ),
     status: IDL.Func([StatusesArgs], [SegmentsStatuses], []),
     top_up: IDL.Func([IDL.Principal, Tokens], [], []),
+    unset_orbiter: IDL.Func([IDL.Principal], [], []),
+    unset_satellite: IDL.Func([IDL.Principal], [], []),
     version: IDL.Func([], [IDL.Text], ['query'])
   });
 };
