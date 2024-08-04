@@ -33,11 +33,11 @@
     ]
   },
   "console": {
-    "commit": "9e3cfad8dc3c41432b91be442971f66f501b2c37",
+    "commit": "3b70486647bc659a020a725751db1185e004ede9",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.31/console-v0.0.9.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.32/console-v0.0.10.wasm.gz",
     "candid": [
-      "https://github.com/junobuild/juno/releases/download/v0.0.31/console.did"
+      "https://github.com/junobuild/juno/releases/download/v0.0.32/console.did"
     ]
   },
   "observatory": {
