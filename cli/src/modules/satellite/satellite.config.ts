@@ -13,7 +13,7 @@ import type {
   Rule,
   RulesType,
   SatelliteDevController,
-  SatelliteDevDbCollection,
+  SatelliteDevDataStoreCollection,
   SatelliteDevStorageCollection
 } from '@junobuild/config';
 import fetch from 'node-fetch';
@@ -35,7 +35,7 @@ const configRules = async ({
   satellite
 }: {
   type: RulesType;
-  collections: Array<SatelliteDevDbCollection | SatelliteDevStorageCollection>;
+  collections: Array<SatelliteDevDataStoreCollection | SatelliteDevStorageCollection>;
   satellite: SatelliteParameters;
 }) => {
   const existingRules = await list({type, satellite});
