@@ -1,7 +1,7 @@
 import {IDL} from '@dfinity/candid';
+import {AccountIdentifier} from '@dfinity/ledger-icp';
 import {Principal} from '@dfinity/principal';
 import {assertNonNullish} from '@dfinity/utils';
-import {AccountIdentifier} from '@junobuild/ledger';
 import {MINTER_IDENTITY_KEY} from '../constants/constants';
 import type {CyclesCanisterInitPayload} from '../declarations/cmc';
 import {init} from '../declarations/cmc.idl';

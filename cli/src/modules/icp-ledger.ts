@@ -1,5 +1,5 @@
 import {IDL} from '@dfinity/candid';
-import {AccountIdentifier} from '@junobuild/ledger';
+import {AccountIdentifier} from '@dfinity/ledger-icp';
 import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
 import {init} from '../declarations/icp_ledger.idl';
 import {Module} from '../services/modules.services';
