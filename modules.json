@@ -1,10 +1,10 @@
 {
   "internet_identity": {
-    "commit": "f0dc1b608ba95234a2d11393841db96e1fd9addc",
+    "commit": "6e0f8574125554f69c23c487b2301c7b7b5f85b3",
     "repo": "https://github.com/dfinity/internet-identity",
-    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2024-03-22/internet_identity_dev.wasm.gz",
+    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2024-08-21/internet_identity_dev.wasm.gz",
     "candid": [
-      "https://github.com/dfinity/internet-identity/releases/download/release-2024-03-22/internet_identity.did"
+      "https://github.com/dfinity/internet-identity/releases/download/release-2024-08-21/internet_identity.did"
     ]
   },
   "satellite": {
