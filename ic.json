@@ -1,21 +1,21 @@
 {
   "replica": {
-    "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
+    "commit": "3d0b3f10417fc6708e8b5d844a0bac5e86f3e17d",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/replica",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
   },
   "ic-starter": {
-    "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
+    "commit": "3d0b3f10417fc6708e8b5d844a0bac5e86f3e17d",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-starter.gz"
   },
   "canister_sandbox": {
-    "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
+    "commit": "3d0b3f10417fc6708e8b5d844a0bac5e86f3e17d",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
   },
   "sandbox_launcher": {
-    "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
+    "commit": "3d0b3f10417fc6708e8b5d844a0bac5e86f3e17d",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox/sandbox_launcher",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
   },
