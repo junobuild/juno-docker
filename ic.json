@@ -16,7 +16,7 @@
   },
   "sandbox_launcher": {
     "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox/sandbox_launcher",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
   },
   "icx-proxy": {
