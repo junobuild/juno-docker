@@ -14,6 +14,11 @@
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
   },
+  "compiler_sandbox": {
+    "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
+    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/compiler_sandbox.gz"
+  },
   "sandbox_launcher": {
     "commit": "3d6a76efba59d6f03026d6b7c1c9a1dfce96ee93",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
