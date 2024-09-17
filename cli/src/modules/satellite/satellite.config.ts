@@ -8,7 +8,7 @@ import {
   setSatelliteControllers,
   type SatelliteParameters
 } from '@junobuild/admin';
-import type {Controller} from '@junobuild/admin/declarations/satellite/satellite.did';
+import type {Controller} from '@junobuild/admin/dist/declarations/satellite/satellite.did';
 import type {
   Rule,
   RulesType,
