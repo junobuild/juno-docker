@@ -27,27 +27,39 @@ const buildServer = ({
       res.end('Done.');
     };
 
-    switch (command) {
-      case 'ledger':
-        switch (subCommand) {
-          case 'transfer':
-            await transfer({context, searchParams});
-            done();
-            break;
-        }
-        break;
-      case 'console':
-        switch (subCommand) {
-          case 'controller':
-            await setController({context, searchParams});
-            done();
-            break;
-        }
-        break;
-      default:
-        res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.end('Unknown command');
+    const error404 = () => {
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end('Unknown command');
+    };
+
+    if (command === 'ledger') {
+      switch (subCommand) {
+        case 'transfer':
+          await transfer({context, searchParams});
+          done();
+          return;
+      }
+
+      error404();
+      return;
     }
+
+    // If the CLI was build for the satellite but the /console/ is queried, then the feature is not supported.
+    const consoleBuild = process.env.CLI_BUILD === 'console';
+
+    if (consoleBuild && command === 'console') {
+      switch (subCommand) {
+        case 'controller':
+          await setController({context, searchParams});
+          done();
+          return;
+      }
+
+      error404();
+      return;
+    }
+
+    error404();
   });
 
 export const adminServer = async (args?: string[]) => {
