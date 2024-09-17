@@ -1,4 +1,5 @@
 import {assertNonNullish, isNullish} from '@dfinity/utils';
+import {OutgoingHttpHeaders} from 'http';
 import {createServer, type IncomingMessage, type Server, type ServerResponse} from 'node:http';
 import {setController} from '../services/console.services';
 import {buildContext} from '../services/context.services';
@@ -12,8 +13,21 @@ const buildServer = ({
   context: CliContext;
 }): Server<typeof IncomingMessage, typeof ServerResponse> =>
   createServer(async ({url, headers: {host}}: IncomingMessage, res: ServerResponse) => {
+    // https://stackoverflow.com/a/54309023/5404186
+    const corsHeaders: OutgoingHttpHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+      'Access-Control-Max-Age': 2592000, // 30 days
+      'Access-Control-Allow-Headers': 'content-type'
+    };
+
+    const headers: OutgoingHttpHeaders = {
+      ...corsHeaders,
+      'Content-Type': 'text/plain'
+    };
+
     if (isNullish(url)) {
-      res.writeHead(400, {'Content-Type': 'text/plain'});
+      res.writeHead(400, headers);
       res.end('No URL provided.');
       return;
     }
@@ -23,12 +37,12 @@ const buildServer = ({
     const subCommand = pathname.split('/')[2];
 
     const done = () => {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.writeHead(200, headers);
       res.end('Done.');
     };
 
     const error404 = () => {
-      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.writeHead(404, headers);
       res.end('Unknown command');
     };
 
