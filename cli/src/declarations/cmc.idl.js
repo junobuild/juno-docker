@@ -22,8 +22,8 @@ export const idlFactory = ({IDL}) => {
     public: IDL.Null
   });
   const CanisterSettings = IDL.Record({
-    controller: IDL.Opt(IDL.Principal),
     freezing_threshold: IDL.Opt(IDL.Nat),
+    wasm_memory_threshold: IDL.Opt(IDL.Nat),
     controllers: IDL.Opt(IDL.Vec(IDL.Principal)),
     reserved_cycles_limit: IDL.Opt(IDL.Nat),
     log_visibility: IDL.Opt(log_visibility),
@@ -40,10 +40,6 @@ export const idlFactory = ({IDL}) => {
     Refunded: IDL.Record({
       create_error: IDL.Text,
       refund_amount: IDL.Nat
-    }),
-    RefundFailed: IDL.Record({
-      create_error: IDL.Text,
-      refund_error: IDL.Text
     })
   });
   const CreateCanisterResult = IDL.Variant({
@@ -115,6 +111,7 @@ export const idlFactory = ({IDL}) => {
   return IDL.Service({
     create_canister: IDL.Func([CreateCanisterArg], [CreateCanisterResult], []),
     get_build_metadata: IDL.Func([], [IDL.Text], ['query']),
+    get_default_subnets: IDL.Func([], [IDL.Vec(IDL.Principal)], ['query']),
     get_icp_xdr_conversion_rate: IDL.Func([], [IcpXdrConversionRateResponse], ['query']),
     get_principals_authorized_to_create_canisters_to_subnets: IDL.Func(
       [],
