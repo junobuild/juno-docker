@@ -1,5 +1,5 @@
 import {assertNonNullish, isNullish} from '@dfinity/utils';
-import {OutgoingHttpHeaders} from 'http';
+import type {OutgoingHttpHeaders} from 'http';
 import {createServer, type IncomingMessage, type Server, type ServerResponse} from 'node:http';
 import {setController} from '../services/console.services';
 import {buildContext} from '../services/context.services';
