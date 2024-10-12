@@ -5,8 +5,8 @@ import type {Principal} from '@dfinity/principal';
 export type AccountIdentifier = string;
 export type BlockIndex = bigint;
 export interface CanisterSettings {
-  controller: [] | [Principal];
   freezing_threshold: [] | [bigint];
+  wasm_memory_threshold: [] | [bigint];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
@@ -19,11 +19,9 @@ export interface CreateCanisterArg {
   settings: [] | [CanisterSettings];
   subnet_type: [] | [string];
 }
-export type CreateCanisterError =
-  | {
-      Refunded: {create_error: string; refund_amount: bigint};
-    }
-  | {RefundFailed: {create_error: string; refund_error: string}};
+export type CreateCanisterError = {
+  Refunded: {create_error: string; refund_amount: bigint};
+};
 export type CreateCanisterResult = {Ok: Principal} | {Err: CreateCanisterError};
 export type Cycles = bigint;
 export interface CyclesCanisterInitPayload {
@@ -92,6 +90,7 @@ export type log_visibility = {controllers: null} | {public: null};
 export interface _SERVICE {
   create_canister: ActorMethod<[CreateCanisterArg], CreateCanisterResult>;
   get_build_metadata: ActorMethod<[], string>;
+  get_default_subnets: ActorMethod<[], Array<Principal>>;
   get_icp_xdr_conversion_rate: ActorMethod<[], IcpXdrConversionRateResponse>;
   get_principals_authorized_to_create_canisters_to_subnets: ActorMethod<
     [],
