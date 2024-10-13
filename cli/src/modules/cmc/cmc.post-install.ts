@@ -3,8 +3,8 @@ import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@dfinit
 import {Principal} from '@dfinity/principal';
 import {arrayBufferToUint8Array, createAgent} from '@dfinity/utils';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
+import {NEURON_ID} from '../../constants/modules.constants';
 import type {ModuleInstallParams} from '../../types/module';
-import {NEURON_ID} from '../governance/governance.constants';
 
 export const makeAuthorizedSubnetworksProposal = async ({
   identities
