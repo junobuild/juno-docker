@@ -2,8 +2,8 @@ import {IDL} from '@dfinity/candid';
 import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@dfinity/nns';
 import {createAgent} from '@dfinity/utils';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
+import {NEURON_ID} from '../../constants/modules.constants';
 import type {ModuleInstallParams} from '../../types/module';
-import {NEURON_ID} from './governance.constants';
 
 export const makeIcpXdrProposal = async ({identities}: Pick<ModuleInstallParams, 'identities'>) => {
   const {[MAIN_IDENTITY_KEY]: identity} = identities;
