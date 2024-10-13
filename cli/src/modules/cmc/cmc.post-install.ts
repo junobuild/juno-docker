@@ -32,7 +32,7 @@ export const makeAuthorizedSubnetworksProposal = async ({
     ],
     [
       {
-        who: null,
+        who: [],
         subnets: [subnetId]
       }
     ]
