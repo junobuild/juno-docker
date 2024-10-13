@@ -21,7 +21,7 @@ export const makeAuthorizedSubnetworksProposal = async ({
     agent
   });
 
-  const subnetId = Principal.fromUint8Array(arrayBufferToUint8Array(agent.rootKey));
+  const subnetId = Principal.selfAuthenticating(arrayBufferToUint8Array(agent.rootKey));
 
   const arg = IDL.encode(
     [
