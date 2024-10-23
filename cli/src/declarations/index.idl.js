@@ -12,29 +12,29 @@ export const idlFactory = ({IDL}) => {
       fee: Tokens,
       from: IDL.Text,
       allowance: Tokens,
+      expected_allowance: IDL.Opt(Tokens),
       expires_at: IDL.Opt(TimeStamp),
       spender: IDL.Text
     }),
-    Burn: IDL.Record({from: IDL.Text, amount: Tokens}),
+    Burn: IDL.Record({
+      from: IDL.Text,
+      amount: Tokens,
+      spender: IDL.Opt(IDL.Text)
+    }),
     Mint: IDL.Record({to: IDL.Text, amount: Tokens}),
     Transfer: IDL.Record({
       to: IDL.Text,
       fee: Tokens,
       from: IDL.Text,
-      amount: Tokens
-    }),
-    TransferFrom: IDL.Record({
-      to: IDL.Text,
-      fee: Tokens,
-      from: IDL.Text,
       amount: Tokens,
-      spender: IDL.Text
+      spender: IDL.Opt(IDL.Text)
     })
   });
   const Transaction = IDL.Record({
     memo: IDL.Nat64,
     icrc1_memo: IDL.Opt(IDL.Vec(IDL.Nat8)),
     operation: Operation,
+    timestamp: IDL.Opt(TimeStamp),
     created_at_time: IDL.Opt(TimeStamp)
   });
   const TransactionWithId = IDL.Record({

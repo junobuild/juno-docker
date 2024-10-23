@@ -48,7 +48,7 @@
       "https://github.com/junobuild/juno/releases/download/v0.0.34/observatory.did"
     ]
   },
-  "icp_ledger": {
+  "ledger": {
     "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz",
@@ -56,7 +56,7 @@
       "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/ledger_suite/icp/ledger.did"
     ]
   },
-  "icp_index": {
+  "index": {
     "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz",
