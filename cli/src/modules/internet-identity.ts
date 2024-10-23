@@ -12,7 +12,7 @@ const INTERNET_IDENTITY: ModuleDescription = {
 };
 
 class InternetIdentityModule extends Module {
-  override async install({state, ...rest}: ModuleInstallParams): Promise<void> {
+  override async install(params: ModuleInstallParams): Promise<void> {
     const initArgs: InternetIdentityInit = {
       archive_config: toNullable(),
       canister_creation_cycles_cost: toNullable(),
@@ -33,9 +33,8 @@ class InternetIdentityModule extends Module {
     const arg = IDL.encode(init({IDL}), [[initArgs]]);
 
     await super.install({
-      state,
       arg,
-      ...rest
+      ...params
     });
   }
 }
