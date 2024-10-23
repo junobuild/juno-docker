@@ -57,11 +57,14 @@ export type Operation =
         fee: Tokens;
         from: string;
         allowance: Tokens;
+        expected_allowance: [] | [Tokens];
         expires_at: [] | [TimeStamp];
         spender: string;
       };
     }
-  | {Burn: {from: string; amount: Tokens}}
+  | {
+      Burn: {from: string; amount: Tokens; spender: [] | [string]};
+    }
   | {Mint: {to: string; amount: Tokens}}
   | {
       Transfer: {
@@ -69,15 +72,7 @@ export type Operation =
         fee: Tokens;
         from: string;
         amount: Tokens;
-      };
-    }
-  | {
-      TransferFrom: {
-        to: string;
-        fee: Tokens;
-        from: string;
-        amount: Tokens;
-        spender: string;
+        spender: [] | [string];
       };
     };
 export interface Status {
@@ -93,6 +88,7 @@ export interface Transaction {
   memo: bigint;
   icrc1_memo: [] | [Uint8Array | number[]];
   operation: Operation;
+  timestamp: [] | [TimeStamp];
   created_at_time: [] | [TimeStamp];
 }
 export interface TransactionWithId {
