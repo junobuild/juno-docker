@@ -49,19 +49,19 @@
     ]
   },
   "icp_ledger": {
-    "commit": "b0ade55f7e8999e2842fe3f49df163ba224b71a2",
+    "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz",
     "candid": [
-      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/ledger.did"
+      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/ledger_suite/icp/ledger.did"
     ]
   },
   "icp_index": {
-    "commit": "b0ade55f7e8999e2842fe3f49df163ba224b71a2",
+    "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz",
     "candid": [
-      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/index/index.did"
+      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/ledger_suite/icp/index/index.did"
     ]
   },
   "cmc": {
