@@ -1,7 +1,7 @@
 import {IDL} from '@dfinity/candid';
 import {Principal} from '@dfinity/principal';
 import {assertNonNullish} from '@dfinity/utils';
-import {init} from '../declarations/index.idl';
+import {init} from '../declarations/icp_index.idl';
 import {Module} from '../services/modules.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
