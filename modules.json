@@ -4,7 +4,9 @@
     "repo": "https://github.com/dfinity/internet-identity",
     "url": "https://github.com/dfinity/internet-identity/releases/download/release-2024-08-30/internet_identity_dev.wasm.gz",
     "candid": [
-      "https://github.com/dfinity/internet-identity/releases/download/release-2024-08-30/internet_identity.did"
+      {
+        "url": "https://github.com/dfinity/internet-identity/releases/download/release-2024-08-30/internet_identity.did"
+      }
     ]
   },
   "satellite": {
@@ -12,8 +14,12 @@
     "repo": "https://github.com/junobuild/juno",
     "url": "https://cdn.juno.build/releases/satellite-v0.0.20.wasm.gz",
     "candid": [
-      "https://github.com/junobuild/juno/releases/download/v0.0.34/satellite.did",
-      "https://raw.githubusercontent.com/junobuild/juno/main/src/satellite/satellite_extension.did"
+      {
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/satellite.did"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/junobuild/juno/main/src/satellite/satellite_extension.did"
+      }
     ]
   },
   "mission_control": {
@@ -21,7 +27,9 @@
     "repo": "https://github.com/junobuild/juno",
     "url": "https://cdn.juno.build/releases/mission_control-v0.0.12.wasm.gz",
     "candid": [
-      "https://github.com/junobuild/juno/releases/download/v0.0.34/mission_control.did"
+      {
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/mission_control.did"
+      }
     ]
   },
   "orbiter": {
@@ -29,7 +37,9 @@
     "repo": "https://github.com/junobuild/juno",
     "url": "https://cdn.juno.build/releases/orbiter-v0.0.8.wasm.gz",
     "candid": [
-      "https://github.com/junobuild/juno/releases/download/v0.0.34/orbiter.did"
+      {
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/orbiter.did"
+      }
     ]
   },
   "console": {
@@ -37,7 +47,9 @@
     "repo": "https://github.com/junobuild/juno",
     "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/console-v0.0.12.wasm.gz",
     "candid": [
-      "https://github.com/junobuild/juno/releases/download/v0.0.34/console.did"
+      {
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/console.did"
+      }
     ]
   },
   "observatory": {
@@ -45,23 +57,31 @@
     "repo": "https://github.com/junobuild/juno",
     "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/observatory-v0.0.6.wasm.gz",
     "candid": [
-      "https://github.com/junobuild/juno/releases/download/v0.0.34/observatory.did"
+      {
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/observatory.did"
+      }
     ]
   },
   "icp_ledger": {
-    "commit": "b0ade55f7e8999e2842fe3f49df163ba224b71a2",
+    "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz",
     "candid": [
-      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/ledger.did"
+      {
+        "url": "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/ledger_suite/icp/ledger.did",
+        "filename": "icp_ledger.did"
+      }
     ]
   },
   "icp_index": {
-    "commit": "b0ade55f7e8999e2842fe3f49df163ba224b71a2",
+    "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz",
     "candid": [
-      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/rosetta-api/icp_ledger/index/index.did"
+      {
+        "url": "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/ledger_suite/icp/index/index.did",
+        "filename": "icp_index.did"
+      }
     ]
   },
   "cmc": {
@@ -69,7 +89,9 @@
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/cycles-minting-canister.wasm.gz",
     "candid": [
-      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/nns/cmc/cmc.did"
+      {
+        "url": "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/nns/cmc/cmc.did"
+      }
     ]
   },
   "governance": {
@@ -77,7 +99,9 @@
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/governance-canister.wasm.gz",
     "candid": [
-      "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/nns/governance/canister/governance.did"
+      {
+        "url": "https://raw.githubusercontent.com/dfinity/ic/{commit}/rs/nns/governance/canister/governance.did"
+      }
     ]
   }
 }

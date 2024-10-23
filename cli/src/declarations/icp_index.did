@@ -8,7 +8,8 @@ type GetAccountTransactionsArgs = record {
     account : Account;
     // The txid of the last transaction seen by the client.
     // If None then the results will start from the most recent
-    // txid.
+    // txid. If set then the results will start from the next
+    // most recent txid after start (start won't be included).
     start : opt nat;
     // Maximum number of transactions to fetch.
     max_results : nat;
@@ -40,17 +41,11 @@ type Operation = variant {
     allowance : Tokens;
     expires_at : opt TimeStamp;
     spender : text;
+    expected_allowance : opt Tokens;
   };
-  Burn : record { from : text; amount : Tokens };
+  Burn : record { from : text; amount : Tokens; spender : opt text };
   Mint : record { to : text; amount : Tokens };
-  Transfer : record { to : text; fee : Tokens; from : text; amount : Tokens };
-  TransferFrom : record {
-    to : text;
-    fee : Tokens;
-    from : text;
-    amount : Tokens;
-    spender : text;
-  };
+  Transfer : record { to : text; fee : Tokens; from : text; amount : Tokens; spender : opt text };
 };
 type GetAccountIdentifierTransactionsResult = variant {
   Ok : GetAccountIdentifierTransactionsResponse;
@@ -64,6 +59,7 @@ type Transaction = record {
   icrc1_memo : opt vec nat8;
   operation : Operation;
   created_at_time : opt TimeStamp;
+  timestamp : opt TimeStamp;
 };
 type TransactionWithId = record { id : nat64; transaction : Transaction };
 service : (InitArg) -> {
