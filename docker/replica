@@ -13,4 +13,5 @@
                     --subnet-features canister_sandboxing \
                     --subnet-features http_requests \
                     --initial-notary-delay-millis 600 \
+                    --metrics-addr=[100::]:0 \
                     --canister-http-uds-path /juno/.juno/sock
