@@ -10,15 +10,15 @@
     ]
   },
   "satellite": {
-    "commit": "96de091ab2ee9b5e317d1be61f30e2d07b018beb",
+    "commit": "cc0b8665b32d05e56b01f88e45149f4cbb34753c",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/satellite-v0.0.20.wasm.gz",
+    "url": "https://cdn.juno.build/releases/satellite-v0.0.21.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/satellite.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.37/satellite.did"
       },
       {
-        "url": "https://raw.githubusercontent.com/junobuild/juno/main/src/satellite/satellite_extension.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.37/satellite_extension.did "
       }
     ]
   },
@@ -43,12 +43,12 @@
     ]
   },
   "console": {
-    "commit": "96de091ab2ee9b5e317d1be61f30e2d07b018beb",
+    "commit": "cc0b8665b32d05e56b01f88e45149f4cbb34753c",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/console-v0.0.12.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.37/console-v0.0.14.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/console.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.37/console.did"
       }
     ]
   },
