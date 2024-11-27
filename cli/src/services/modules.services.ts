@@ -1,9 +1,11 @@
 import {IDL} from '@dfinity/candid';
-import {ICManagementCanister, InstallMode} from '@dfinity/ic-management';
+import {ICManagementCanister, type canister_install_mode} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {isNullish, nonNullish} from '@dfinity/utils';
+import {upgradeModule} from '@junobuild/admin';
 import kleur from 'kleur';
 import {MAIN_IDENTITY_KEY} from '../constants/constants';
+import {INSTALL_MODE_INSTALL, INSTALL_MODE_UPGRADE} from '../constants/upgrade.constants';
 import type {CliContext} from '../types/context';
 import type {
   ModuleCanisterId,
@@ -52,14 +54,19 @@ const installCode = async ({
   arg,
   canisterId,
   wasm: wasmModule,
-  mode
+  mode,
+  identities: {[MAIN_IDENTITY_KEY]: mainIdentity}
 }: CliContext &
-  Omit<ModuleMetadata, 'status'> & {arg?: ArrayBuffer; wasm: Buffer; mode: InstallMode}) => {
-  const {installCode} = ICManagementCanister.create({
-    agent
-  });
-
-  await installCode({
+  Omit<ModuleMetadata, 'status'> & {
+    arg?: ArrayBuffer;
+    wasm: Buffer;
+    mode: canister_install_mode;
+  }) => {
+  await upgradeModule({
+    actor: {
+      agent,
+      identity: mainIdentity
+    },
     mode,
     canisterId: Principal.from(canisterId),
     wasmModule,
@@ -129,7 +136,7 @@ export class Module {
       throw new Error('Module has not been initialized and therefore cannot be deployed!');
     }
 
-    const mode = this.status(context) === 'deployed' ? InstallMode.Upgrade : InstallMode.Install;
+    const mode = this.status(context) === 'deployed' ? INSTALL_MODE_UPGRADE : INSTALL_MODE_INSTALL;
 
     await installCode({...context, ...metadata, wasm: this.wasm, mode});
 
@@ -142,7 +149,7 @@ export class Module {
     const {name, canisterId} = metadata;
 
     console.log(
-      `🚀  ${green(name)} ${mode === InstallMode.Upgrade ? 'upgraded' : 'deployed'}. ID: ${cyan(
+      `🚀  ${green(name)} ${'upgrade' in mode ? 'upgraded' : 'deployed'}. ID: ${cyan(
         canisterId.toString()
       )}`
     );
