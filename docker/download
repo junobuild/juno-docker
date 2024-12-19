@@ -31,9 +31,10 @@ function download() {
     local unpkg=$3
 
     local url=($(jq -r ".\"${key}\".url" ${metadata}))
-    local commit=($(jq -r ".\"${key}\".commit" ${metadata}))
+    local commit_or_tag=($(jq -r ".\"${key}\" | if has(\"tag\") then .tag else .commit end" ${metadata}))
 
-    local download_url=${url/"{commit}"/$commit}
+    local download_url=${url//\{commit\}/$commit_or_tag}
+    download_url=${download_url//\{tag\}/$commit_or_tag}
 
     echo "Downloading $key from $download_url"
     curl -L -o "$DIR/$key.gz" "$download_url"

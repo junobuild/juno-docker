@@ -33,5 +33,11 @@
     "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
+  },
+  "pocket-ic": {
+    "tag": "7.0.0",
+    "commit": "172f8c78653c93ad101af75b94251439b4ccf098",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/pocket_ic_server",
+    "url": "https://github.com/dfinity/pocketic/releases/download/{tag}/pocket-ic-x86_64-linux.gz"
   }
 }
