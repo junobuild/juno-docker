@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
 
-./docker/ic-https-outcalls-adapter &
-
-./docker/replica &
-
-./docker/wait-port "$REPLICA_PORT"
-
-./docker/icx-proxy
+# TODO: 10800 -> 3 hours (in seconds) -> 1 year
+./target/pocket-ic --port "$REPLICA_PORT" --ttl 10800
