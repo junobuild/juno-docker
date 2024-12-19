@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# TODO: this can be improved by checking the status of the IC
+# curl https://icp0.io/api/v2/status | xxd -p
+# cbor.me decode "replica_health_status": "healthy"
+# Only for this use case - we still gonna use wait-port for other features
 ./docker/wait-port "$PORT"
 
 # Pinging the icx-proxy and replica ports does not necessarily mean the replica is fully mounted and "healthy" - i.e. ready.
