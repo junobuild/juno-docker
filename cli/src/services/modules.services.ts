@@ -62,6 +62,9 @@ const installCode = async ({
     wasm: Buffer;
     mode: canister_install_mode;
   }) => {
+  // TODO: to be removed - debug
+  console.log('--------- ABOUT TO INSTALL ----->', canisterId);
+
   await upgradeModule({
     actor: {
       agent,
@@ -70,8 +73,12 @@ const installCode = async ({
     mode,
     canisterId: Principal.from(canisterId),
     wasmModule,
-    arg: new Uint8Array(arg ?? EMPTY_ARG)
+    arg: new Uint8Array(arg ?? EMPTY_ARG),
+    takeSnapshot: false
   });
+
+  // TODO: to be removed - debug
+  console.log('--------- INSTALLED ----->', canisterId);
 };
 
 export class Module {
