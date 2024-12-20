@@ -35,6 +35,7 @@ VOLUME /juno/.juno
 # Environment variables
 ENV PORT=5987
 ENV ADMIN_PORT=5999
+RUN echo "export STATE_REPLICA_DIR=/juno/.juno/replica" >> ./.bashrc
 RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 RUN echo "export STATE_CLI_DIR=/juno/.juno/cli" >> ./.bashrc
 
