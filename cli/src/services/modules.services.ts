@@ -70,7 +70,8 @@ const installCode = async ({
     mode,
     canisterId: Principal.from(canisterId),
     wasmModule,
-    arg: new Uint8Array(arg ?? EMPTY_ARG)
+    arg: new Uint8Array(arg ?? EMPTY_ARG),
+    takeSnapshot: false
   });
 };
 
