@@ -1,8 +1,7 @@
 {
   "pocket-ic": {
-    "tag": "release-2024-12-06_03-16-base",
-    "commit": "172f8c78653c93ad101af75b94251439b4ccf098",
+    "commit": "1ffd4822301562698fdd46cfb8c1dd1c9f8b99e2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/pocket_ic_server",
-    "url": "https://github.com/dfinity/ic/releases/download/{tag}/pocket-ic-x86_64-linux.gz"
+    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/pocket-ic.gz"
   }
 }
