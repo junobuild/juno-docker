@@ -15,3 +15,6 @@ set -m
 # now we bring the primary process back into the foreground
 # and leave it there
 fg %1
+
+# TODO: this is probably not called yet
+./docker/clean-up
