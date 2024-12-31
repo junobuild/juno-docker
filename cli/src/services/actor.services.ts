@@ -11,6 +11,8 @@ import type {_SERVICE as ConsoleActor} from '../declarations/console';
 import {idlFactory as idlFactorConsole} from '../declarations/console.idl';
 import type {_SERVICE as IcpLedgerActor} from '../declarations/icp_ledger';
 import {idlFactory as idlFactorIcpLedger} from '../declarations/icp_ledger.idl';
+import type {_SERVICE as ObservatoryActor} from '../declarations/observatory';
+import {idlFactory as idlFactorObservatory} from '../declarations/observatory.idl';
 
 export const getConsoleActor = async (params: {
   agent: HttpAgent;
@@ -19,6 +21,15 @@ export const getConsoleActor = async (params: {
   await createActor({
     ...params,
     idlFactory: idlFactorConsole
+  });
+
+export const getObservatoryActor = async (params: {
+  agent: HttpAgent;
+  canisterId: string | Principal;
+}): Promise<ObservatoryActor> =>
+  await createActor({
+    ...params,
+    idlFactory: idlFactorObservatory
   });
 
 export const getLedgerActor = async (params: {
