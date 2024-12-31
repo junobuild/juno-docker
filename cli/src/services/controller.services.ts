@@ -1,5 +1,6 @@
 import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
+import {type ControllerScope} from '../declarations/observatory';
 import {CONSOLE_CANISTER_ID} from '../modules/console';
 import {observatory, OBSERVATORY_CANISTER_ID} from '../modules/observatory';
 import type {CliContext} from '../types/context';
@@ -18,24 +19,36 @@ export const setController = async ({
   const {agent} = context;
 
   const id = searchParams.get('id') ?? '';
-
-  // Set the controller to the canister.
-  const {updateSettings, canisterStatus} = ICManagementCanister.create({
-    agent
-  });
+  const scope: ControllerScope =
+    searchParams.get('scope') === 'write' ? {Write: null} : {Admin: null};
 
   const canisterId = key === observatory.key ? OBSERVATORY_CANISTER_ID : CONSOLE_CANISTER_ID;
 
-  const {
-    settings: {controllers}
-  } = await canisterStatus(Principal.from(canisterId));
+  const updateControllers = async () => {
+    // Set the controller to the canister.
+    const {updateSettings, canisterStatus} = ICManagementCanister.create({
+      agent
+    });
 
-  await updateSettings({
-    canisterId: Principal.from(canisterId),
-    settings: {
-      controllers: [...controllers.map((p) => p.toText()), id]
-    }
-  });
+    const {
+      settings: {controllers}
+    } = await canisterStatus(Principal.from(canisterId));
+
+    await updateSettings({
+      canisterId: Principal.from(canisterId),
+      settings: {
+        controllers: [...controllers.map((p) => p.toText()), id]
+      }
+    });
+  };
+
+  const controllersFn =
+    'Write' in scope
+      ? async (): Promise<void> => {
+          await Promise.resolve();
+        }
+      : updateControllers;
+  await controllersFn();
 
   const getActorFn = key === observatory.key ? getObservatoryActor : getConsoleActor;
 
@@ -49,7 +62,7 @@ export const setController = async ({
     controllers: [Principal.fromText(id)],
     controller: {
       metadata: [],
-      scope: {Admin: null},
+      scope,
       expires_at: []
     }
   });
