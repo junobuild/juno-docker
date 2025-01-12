@@ -53,12 +53,12 @@
     ]
   },
   "observatory": {
-    "commit": "96de091ab2ee9b5e317d1be61f30e2d07b018beb",
+    "commit": "d6182a379d3f9dd600f7a64306fa6857a0198e56",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/observatory-v0.0.6.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.41/observatory-v0.0.9.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.34/observatory.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.41/observatory.did"
       }
     ]
   },
