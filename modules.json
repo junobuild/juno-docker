@@ -10,15 +10,15 @@
     ]
   },
   "satellite": {
-    "commit": "cc0b8665b32d05e56b01f88e45149f4cbb34753c",
+    "commit": "3db292a6c9390a0669e9552adce678c500486cfd",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/satellite-v0.0.21.wasm.gz",
+    "url": "https://cdn.juno.build/releases/satellite-v0.0.22.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.37/satellite.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.44/satellite.did"
       },
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.37/satellite_extension.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.44/satellite_extension.did"
       }
     ]
   },
