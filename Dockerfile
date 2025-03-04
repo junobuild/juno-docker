@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL repository="https://github.com/junobuild/juno-docker"
 LABEL homepage="https://juno.build"
@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     curl \
     liblmdb-dev \
     libunwind-dev \
-    netcat \
+    netcat-traditional \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
