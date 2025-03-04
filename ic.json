@@ -1,37 +1,7 @@
 {
-  "replica": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/replica",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
-  },
-  "ic-starter": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-starter.gz"
-  },
-  "canister_sandbox": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
-  },
-  "compiler_sandbox": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/compiler_sandbox.gz"
-  },
-  "sandbox_launcher": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
-  },
-  "icx-proxy": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/boundary_node/icx_proxy",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/icx-proxy-dev.gz"
-  },
-  "ic-https-outcalls-adapter": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
+  "pocket-ic": {
+    "commit": "1ffd4822301562698fdd46cfb8c1dd1c9f8b99e2",
+    "repo": "https://github.com/dfinity/ic/tree/master/rs/pocket_ic_server",
+    "url": "https://raw.githubusercontent.com/junobuild/juno-docker/feat/pocket-ic/pocket-ic.tar.gz"
   }
 }
