@@ -2,6 +2,6 @@
   "pocket-ic": {
     "commit": "1ffd4822301562698fdd46cfb8c1dd1c9f8b99e2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/pocket_ic_server",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/pocket-ic.gz"
+    "url": "https://raw.githubusercontent.com/junobuild/juno-docker/feat/pocket-ic/pocket-ic.tar.gz"
   }
 }
