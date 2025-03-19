@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+DIR=target
+
+if [ ! -d "$DIR" ]; then
+  mkdir "$DIR"
+fi
+
+curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/heads/main.tar.gz
+
+tar -xf "$DIR/juno.tar.gz" -C "$DIR"
+
+echo "juno source downloaded and extracted to $DIR/juno-main."
