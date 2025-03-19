@@ -3,9 +3,9 @@ import {
   DEV_MISSION_CONTROL_WASM_FILENAME,
   DEV_ORBITER_WASM_FILENAME,
   DEV_SATELLITE_WASM_FILENAME
-} from '../constants/constants';
-import {initConsoleModule} from '../modules/console';
-import {satellite} from '../modules/satellite';
+} from '../../constants/constants';
+import {initConsoleModule} from '../../modules/console';
+import {satellite} from '../../modules/satellite';
 import {WatcherConsoleInstall, WatcherDeploy} from '../services/watchers.services';
 
 const consoleWatcher = new WatcherDeploy({

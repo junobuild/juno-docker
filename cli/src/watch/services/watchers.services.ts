@@ -2,15 +2,15 @@ import {debounce} from '@dfinity/utils';
 import {readFileSync} from 'atomically';
 import type {FileChangeInfo} from 'fs/promises';
 import {join} from 'node:path';
-import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../constants/constants';
-import type {CliContext} from '../types/context';
+import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../../constants/constants';
+import {installRelease} from '../../services/console.services';
+import type {Module} from '../../services/modules.services';
+import type {CliContext} from '../../types/context';
 import type {
   WatcherConsoleInstallDescription,
   WatcherDeployDescription,
   WatcherDescription
-} from '../types/watcher';
-import {installRelease} from './console.services';
-import type {Module} from './modules.services';
+} from '../../types/watcher';
 
 export abstract class Watcher {
   protected upgrading = false;

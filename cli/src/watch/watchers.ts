@@ -2,11 +2,11 @@ import {notEmptyString} from '@dfinity/utils';
 import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
 import {satellite} from '../modules/satellite';
-import type {Watcher} from '../services/watchers.services';
 import type {ModuleKey} from '../types/module';
-import {consoleWatchers} from './console';
-import {observatoryWatcher} from './oberservatory';
-import {satelliteWatcher} from './satellite';
+import {consoleWatchers} from './modules/console';
+import {observatoryWatcher} from './modules/oberservatory';
+import {satelliteWatcher} from './modules/satellite';
+import type {Watcher} from './services/watchers.services';
 
 interface WatcherKey {
   key: ModuleKey;

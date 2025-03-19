@@ -8,7 +8,7 @@ import {DEV_DEPLOY_FOLDER} from '../constants/constants';
 import {initSatelliteModule} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
-import {watchers} from '../watchers/watchers';
+import {watchers} from '../watch/watchers';
 
 const {green} = kleur;
 
