@@ -20,6 +20,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
 RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
 RUN apt-get install nodejs=22.14.0-1nodesource1 -y
 
+RUN node --version
+RUN npm --version
+
 # Create and use a user instead of using root
 RUN useradd -ms /bin/bash apprunner
 USER apprunner
