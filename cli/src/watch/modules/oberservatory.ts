@@ -1,8 +1,8 @@
 import {DEV_OBSERVATORY_WASM_FILENAME} from '../../constants/constants';
 import {initObservatoryModule} from '../../modules/observatory';
-import {WatcherDeploy} from '../services/watchers.services';
+import {DeployWatcher} from '../services/deploy.watcher';
 
-export const observatoryWatcher = new WatcherDeploy({
+export const observatoryWatcher = new DeployWatcher({
   moduleFileName: DEV_OBSERVATORY_WASM_FILENAME,
   initModule: initObservatoryModule
 });
