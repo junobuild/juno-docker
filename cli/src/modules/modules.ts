@@ -1,5 +1,4 @@
 import {nonNullish, notEmptyString} from '@dfinity/utils';
-import type {Module} from '../services/modules.services';
 import {cmc} from './cmc';
 import {consoleModule} from './console';
 import {governance} from './governance';
@@ -20,9 +19,8 @@ const MODULES = [
   observatory
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 export const modules = (process.env.MODULES ?? '')
   .split(',')
   .filter((moduleKey) => notEmptyString(moduleKey))
   .map((moduleKey) => MODULES.find(({key}) => key === moduleKey.trim()))
-  .filter((mod) => nonNullish(mod)) as Module[];
+  .filter((mod) => nonNullish(mod));

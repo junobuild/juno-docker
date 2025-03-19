@@ -19,6 +19,7 @@ class GovernanceModule extends Module {
 
     await super.install({
       state,
+      // eslint-disable-next-line  @typescript-eslint/no-unsafe-type-assertion
       arg: args.serializeBinary().buffer as ArrayBuffer,
       identities,
       ...rest
