@@ -19,7 +19,7 @@ class GovernanceModule extends Module {
 
     await super.install({
       state,
-      arg: args.serializeBinary(),
+      arg: args.serializeBinary().buffer as ArrayBuffer,
       identities,
       ...rest
     });
