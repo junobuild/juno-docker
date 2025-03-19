@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-SCRIPTS_DIR=./wasm/build
-
 CANISTER="sputnik"
 ONLY_DEPS=
 WITH_CERTIFICATION=1
@@ -12,7 +10,7 @@ TARGET="wasm32-wasip1"
 
 SRC_ROOT_DIR="/juno/target/juno-main/src"
 
-source "$SCRIPTS_DIR/build-canister"
+source "/juno/target/juno-main/docker/build-canister"
 
 export CARGO_TARGET_DIR="/juno/target/juno-main/target"
 

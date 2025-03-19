@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-./wasm/build/download
-
-./wasm/build/build-sputnik

@@ -52,23 +52,22 @@ COPY --chown=apprunner:apprunner ./modules.json ./modules.json
 # Download required artifacts
 RUN ./docker/download
 
-# Copy WASM bootstrap resources
-COPY --chown=apprunner:apprunner ./wasm/bootstrap ./wasm/bootstrap
-COPY --chown=apprunner:apprunner ./rust-toolchain.toml ./rust-toolchain.toml
-
-# Install Rust and Cargo in /opt
+# Install Rust and Cargo in apprunner home
 ENV RUSTUP_HOME=/home/apprunner/.rustup \
     CARGO_HOME=/home/apprunner/.cargo \
     PATH=/home/apprunner/.cargo/bin:$PATH
 
+# Copy WASM setup scripts
+COPY --chown=apprunner:apprunner ./kit/setup ./kit/setup
+
 # Install tools for building WASM within the container
-RUN if [ "$CLI_BUILD" = "satellite" ]; then ./wasm/bootstrap/bootstrap; fi
+RUN if [ "$CLI_BUILD" = "satellite" ]; then ./kit/setup/init; fi
 
 # Copy WASM build resources
-COPY --chown=apprunner:apprunner ./wasm/build ./wasm/build
+COPY --chown=apprunner:apprunner ./kit/build ./kit/build
 
-# Setup the environment to build WASM within the container
-RUN if [ "$CLI_BUILD" = "satellite" ]; then ./wasm/build/setup; fi
+# Build Sputnik dependencies
+RUN if [ "$CLI_BUILD" = "satellite" ]; then ./kit/build/build-deps; fi
 
 # Copy CLI resources
 COPY --chown=apprunner:apprunner ./cli ./cli
