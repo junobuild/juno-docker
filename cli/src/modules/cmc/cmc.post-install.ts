@@ -1,3 +1,4 @@
+import {IC_ROOT_KEY, fromHex} from '@dfinity/agent';
 import {IDL} from '@dfinity/candid';
 import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@dfinity/nns';
 import {Principal} from '@dfinity/principal';
@@ -5,7 +6,6 @@ import {arrayBufferToUint8Array, createAgent} from '@dfinity/utils';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {NEURON_ID} from '../../constants/modules.constants';
 import type {ModuleInstallParams} from '../../types/module';
-import {fromHex, IC_ROOT_KEY} from "@dfinity/agent";
 
 export const makeAuthorizedSubnetworksProposal = async ({
   identities
