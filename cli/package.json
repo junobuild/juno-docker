@@ -46,7 +46,6 @@
     "@junobuild/storage": "^0.1.5",
     "atomically": "^2.0.3",
     "kleur": "^4.1.5",
-    "node-fetch": "^3.3.2",
     "semver": "^7.7.1"
   },
   "devDependencies": {
