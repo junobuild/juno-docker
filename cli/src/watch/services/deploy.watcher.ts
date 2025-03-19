@@ -11,14 +11,14 @@ export class DeployWatcher extends Watcher {
     this.#initModule = initModule;
   }
 
-  protected async tryUpgrade({context}: {context: CliContext}) {
+  protected async onExec({context}: {context: CliContext}) {
     const mod = this.#initModule();
 
     if (mod.isDeployed(context)) {
-      this.upgrading = false;
+      this.executing = false;
       console.log(`ℹ️  ${mod.name} already deployed. No changes detected.`);
 
-      await this.processPendingUpgrade({context});
+      await this.processPendingRequest({context});
       return;
     }
 
@@ -31,7 +31,7 @@ export class DeployWatcher extends Watcher {
 
       await mod.install(context);
     } finally {
-      this.upgrading = false;
+      this.executing = false;
     }
   }
 }

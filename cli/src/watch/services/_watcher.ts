@@ -4,8 +4,8 @@ import type {CliContext} from '../../types/context';
 import type {WatcherDescription} from '../../types/watcher';
 
 export abstract class Watcher {
-  protected upgrading = false;
-  #requestUpgrade = false;
+  protected executing = false;
+  #requestExecution = false;
 
   protected readonly moduleFileName: string;
 
@@ -24,32 +24,32 @@ export abstract class Watcher {
       return;
     }
 
-    if (this.upgrading) {
-      this.#requestUpgrade = true;
+    if (this.executing) {
+      this.#requestExecution = true;
       return;
     }
 
-    this.#debounceUpgrade({context});
+    this.#debounceExec({context});
   };
 
-  private readonly upgrade = async ({context}: {context: CliContext}) => {
-    this.upgrading = true;
+  private readonly exec = async ({context}: {context: CliContext}) => {
+    this.executing = true;
 
-    await this.tryUpgrade({context});
+    await this.onExec({context});
 
-    await this.processPendingUpgrade({context});
+    await this.processPendingRequest({context});
   };
 
-  protected abstract tryUpgrade({context}: {context: CliContext}): Promise<void>;
+  protected abstract onExec({context}: {context: CliContext}): Promise<void>;
 
-  protected async processPendingUpgrade({context}: {context: CliContext}) {
-    if (!this.#requestUpgrade) {
+  protected async processPendingRequest({context}: {context: CliContext}) {
+    if (!this.#requestExecution) {
       return;
     }
 
-    this.#requestUpgrade = false;
-    await this.upgrade({context});
+    this.#requestExecution = false;
+    await this.exec({context});
   }
 
-  readonly #debounceUpgrade = debounce(this.upgrade);
+  readonly #debounceExec = debounce(this.exec);
 }
