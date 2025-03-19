@@ -5,6 +5,7 @@ import {arrayBufferToUint8Array, createAgent} from '@dfinity/utils';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {NEURON_ID} from '../../constants/modules.constants';
 import type {ModuleInstallParams} from '../../types/module';
+import {fromHex, IC_ROOT_KEY} from "@dfinity/agent";
 
 export const makeAuthorizedSubnetworksProposal = async ({
   identities
@@ -21,7 +22,9 @@ export const makeAuthorizedSubnetworksProposal = async ({
     agent
   });
 
-  const subnetId = Principal.selfAuthenticating(arrayBufferToUint8Array(agent.rootKey));
+  const icRootKey = fromHex(IC_ROOT_KEY);
+
+  const subnetId = Principal.selfAuthenticating(arrayBufferToUint8Array(icRootKey));
 
   const arg = IDL.encode(
     [
