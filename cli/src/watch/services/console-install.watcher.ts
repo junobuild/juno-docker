@@ -16,7 +16,7 @@ export class ConsoleInstallWatcher extends Watcher {
     this.#name = name;
   }
 
-  protected async tryUpgrade({context}: {context: CliContext}) {
+  protected async onExec({context}: {context: CliContext}) {
     try {
       console.log(`📡  New ${this.#name} detected. Starting upload to Console.`);
 
@@ -32,7 +32,7 @@ export class ConsoleInstallWatcher extends Watcher {
         name: this.#name
       });
     } finally {
-      this.upgrading = false;
+      this.executing = false;
     }
   }
 }
