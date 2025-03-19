@@ -18,7 +18,7 @@
     "format": "prettier . --write",
     "format:check": "prettier --check .",
     "did": "./scripts/did.sh",
-    "build": "node rmdir.mjs && node esbuild.mjs",
+    "build": "tsc --noEmit && node rmdir.mjs && node esbuild.mjs",
     "build:satellite": "CLI_BUILD=satellite npm run build",
     "build:console": "CLI_BUILD=console npm run build",
     "dev": "node rmdir.mjs && NODE_ENV=development node esbuild.mjs",
