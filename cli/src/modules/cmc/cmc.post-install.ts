@@ -1,3 +1,4 @@
+import {IC_ROOT_KEY, fromHex} from '@dfinity/agent';
 import {IDL} from '@dfinity/candid';
 import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@dfinity/nns';
 import {Principal} from '@dfinity/principal';
@@ -21,7 +22,9 @@ export const makeAuthorizedSubnetworksProposal = async ({
     agent
   });
 
-  const subnetId = Principal.selfAuthenticating(arrayBufferToUint8Array(agent.rootKey));
+  const icRootKey = fromHex(IC_ROOT_KEY);
+
+  const subnetId = Principal.selfAuthenticating(arrayBufferToUint8Array(icRootKey));
 
   const arg = IDL.encode(
     [
