@@ -1,5 +1,4 @@
 import {nonNullish, notEmptyString} from '@dfinity/utils';
-import type {Module} from '../services/modules.services';
 import {cmc} from './cmc';
 import {consoleModule} from './console';
 import {governance} from './governance';
