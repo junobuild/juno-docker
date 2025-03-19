@@ -1,10 +1,10 @@
 import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
-import {type ControllerScope} from '../declarations/observatory';
+import type {ControllerScope} from '../declarations/observatory';
 import {CONSOLE_CANISTER_ID} from '../modules/console';
 import {observatory, OBSERVATORY_CANISTER_ID} from '../modules/observatory';
 import type {CliContext} from '../types/context';
-import {type ModuleKey} from '../types/module';
+import type {ModuleKey} from '../types/module';
 import {getConsoleActor, getObservatoryActor} from './actor.services';
 
 export const setController = async ({

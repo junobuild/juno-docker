@@ -11,13 +11,13 @@ export const checkNodeVersion = (): {valid: boolean} => {
 
     if (nodeMajor < NODE_20) {
       console.log(
-        `Your version of Node is ${yellow(`${version}`)}. This CLI requires Node ${green(
+        `Your version of Node is ${yellow(version)}. This CLI requires Node ${green(
           `${NODE_20}`
         )} or a more recent version.`
       );
       return {valid: false};
     }
-  } catch (e) {
+  } catch (_err: unknown) {
     console.error(`Cannot detect your Node runtime version. Is NodeJS installed on your machine?`);
     return {valid: false};
   }

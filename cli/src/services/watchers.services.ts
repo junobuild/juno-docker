@@ -111,6 +111,7 @@ export class WatcherConsoleInstall extends Watcher {
       console.log(`📡  New ${this.#name} detected. Starting upload to Console.`);
 
       const metadata = JSON.parse(readFileSync(DEV_METADATA, {encoding: 'utf-8'}));
+      // eslint-disable-next-line @typescript-eslint/prefer-destructuring, @typescript-eslint/no-unsafe-member-access
       const version = metadata[this.#key.replaceAll('-', '_')];
 
       await installRelease({

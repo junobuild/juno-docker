@@ -9,11 +9,7 @@ import {transfer} from '../services/ledger.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
 
-const buildServer = ({
-  context
-}: {
-  context: CliContext;
-}): Server<typeof IncomingMessage, typeof ServerResponse> =>
+const buildServer = ({context}: {context: CliContext}): Server =>
   createServer(async ({url, headers: {host}}: IncomingMessage, res: ServerResponse) => {
     // https://stackoverflow.com/a/54309023/5404186
     const corsHeaders: OutgoingHttpHeaders = {
@@ -35,7 +31,9 @@ const buildServer = ({
     }
 
     const {pathname, searchParams} = new URL(url, `http://${host}`);
+    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const command = pathname.split('/')[1];
+    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const subCommand = pathname.split('/')[2];
 
     const done = () => {

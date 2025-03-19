@@ -57,7 +57,7 @@ export class SatelliteModule extends Module {
       await configureControllers({...context, canisterId});
 
       console.log(`✅  ${this.name} configured.`);
-    } catch (err: unknown) {
+    } catch (_err: unknown) {
       console.log(
         `❓  ${this.name} not configured. If you were still editing your configuration file, please ignore this error.`
       );

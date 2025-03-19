@@ -47,7 +47,7 @@ export const makeIcpXdrProposal = async ({identities}: Pick<ModuleInstallParams,
     neuronId: BigInt(NEURON_ID),
     url: 'https://forum.dfinity.org',
     title: 'ICP/XDR Conversion Rate',
-    summary: `Set ICP/XDR conversion rate to ${41_388}`,
+    summary: `Set ICP/XDR conversion rate to 41388`,
     action: {
       ExecuteNnsFunction: {
         nnsFunctionId: NnsFunction.IcpXdrConversionRate,

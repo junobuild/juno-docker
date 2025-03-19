@@ -30,6 +30,7 @@ class CliStore {
   }
 
   get<T>(key: string): T | undefined {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.data?.[key];
   }
 }
