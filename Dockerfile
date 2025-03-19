@@ -1,4 +1,4 @@
-FROM junobuild/juno-base:latest
+FROM junobuild/base:latest
 
 # Use a user instead of using root. User was created in base.
 USER apprunner
