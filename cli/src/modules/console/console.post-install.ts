@@ -5,7 +5,7 @@ import {
   MISSION_CONTROL_NAME,
   ORBITER_KEY,
   ORBITER_NAME
-} from '../../watchers/console';
+} from '../../watch/modules/console';
 import {satellite} from '../satellite';
 
 export const installReleases = async (context: ModuleInstallParams) => {
