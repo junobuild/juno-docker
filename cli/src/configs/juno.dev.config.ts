@@ -10,9 +10,8 @@ import type {ConfigType} from '../types/config';
 
 const JUNO_DEV_CONFIG_FILE: {filename: ConfigFilename} = {filename: JUNO_DEV_CONFIG_FILENAME};
 
-export const junoDevConfigExist = async (): Promise<boolean> => {
-  return await junoConfigExistTools(JUNO_DEV_CONFIG_FILE);
-};
+export const junoDevConfigExist = async (): Promise<boolean> =>
+  await junoConfigExistTools(JUNO_DEV_CONFIG_FILE);
 
 export const junoDevConfigFile = (): {configPath: string; configType: ConfigType} =>
   junoConfigFileTools(JUNO_DEV_CONFIG_FILE);

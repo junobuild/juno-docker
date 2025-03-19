@@ -22,12 +22,11 @@ import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
-const list = async ({type, satellite}): Promise<Rule[]> => {
-  return await listRules({
+const list = async ({type, satellite}): Promise<Rule[]> =>
+  await listRules({
     type,
     satellite
   });
-};
 
 const configRules = async ({
   type,

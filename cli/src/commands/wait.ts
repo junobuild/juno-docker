@@ -23,7 +23,7 @@ const isReplicaHealthy = async (agent: HttpAgent): Promise<boolean> => {
     const {replica_health_status} = await agent.status();
 
     return replica_health_status === 'healthy';
-  } catch (err: unknown) {
+  } catch (_err: unknown) {
     // We ignore the errors here
     return false;
   }

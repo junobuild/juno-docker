@@ -20,6 +20,7 @@ const MODULES = [
   observatory
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 export const modules = (process.env.MODULES ?? '')
   .split(',')
   .filter((moduleKey) => notEmptyString(moduleKey))

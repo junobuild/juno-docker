@@ -69,6 +69,7 @@ export const prepareGovernanceArgs = ({
   const neuron = prepareNeuron({identity});
 
   const gov = new Governance();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
   gov.getNeuronsMap().set(neuron.getId()?.getId() ?? NEURON_ID, neuron);
   gov.setWaitForQuietThresholdSeconds(60 * 60 * 24 * 4); // 4 days
   gov.setEconomics(eco);
@@ -83,6 +84,7 @@ const prepareNeuron = ({identity}: {identity: Identity}): Neuron => {
   const id = new NeuronId();
   id.setId(NEURON_ID);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   const subAccount = neuronSubaccount({
     index: 0,
     controller: identity.getPrincipal()
