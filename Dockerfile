@@ -1,27 +1,6 @@
-FROM ubuntu:24.04
+FROM junobuild/juno-base:latest
 
-LABEL repository="https://github.com/junobuild/juno-docker"
-LABEL homepage="https://juno.build"
-LABEL maintainer="David Dal Busco <david.dalbusco@outlook.com>"
-
-ENV TZ=UTC
-
-# Install required tools
-RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
-    jq \
-    curl \
-    liblmdb-dev \
-    libunwind-dev \
-    netcat-traditional \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
-RUN apt-get install nodejs -y
-
-# Create and use a user instead of using root
-RUN useradd -ms /bin/bash apprunner
+# Use a user instead of using root. User was created in base.
 USER apprunner
 
 # Define working directories

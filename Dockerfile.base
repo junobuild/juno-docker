@@ -1,0 +1,34 @@
+FROM --platform=linux/amd64 ubuntu@sha256:bbf3d1baa208b7649d1d0264ef7d522e1dc0deeeaaf6085bf8e4618867f03494
+
+LABEL repository="https://github.com/junobuild/juno-docker"
+LABEL homepage="https://juno.build"
+LABEL maintainer="David Dal Busco <david.dalbusco@outlook.com>"
+
+ENV TZ=UTC
+
+# Install required tools
+RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
+    jq \
+    curl \
+    liblmdb-dev \
+    libunwind-dev \
+    netcat-traditional \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
+RUN apt-get install nodejs=22.14.0-1nodesource1 -y
+
+# Create and use a user instead of using root
+RUN useradd -ms /bin/bash apprunner
+USER apprunner
+
+# Set script directory
+WORKDIR /usr/local/bin/juno-scripts
+
+# Copy common build scripts
+COPY --chown=apprunner:apprunner ./base/bootstrap ./base/build-canister /usr/local/bin/juno-scripts/
+
+# Ensure scripts are executable
+RUN chmod +x /usr/local/bin/juno-scripts/bootstrap /usr/local/bin/juno-scripts/build-canister
