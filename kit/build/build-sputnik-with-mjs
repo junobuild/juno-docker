@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+export DEV_SCRIPT_PATH="$PWD/target/deploy/index.sputnik.mjs"
+
+./kit/build/build-sputnik

@@ -2,16 +2,4 @@
 
 set -euo pipefail
 
-CANISTER="sputnik"
-ONLY_DEPS=1
-WITH_CERTIFICATION=1
-BUILD_TYPE="extended"
-TARGET="wasm32-wasip1"
-
-SRC_ROOT_DIR="/juno/target/juno-main/src"
-
-source "/juno/target/juno-main/docker/build-canister"
-
-export CARGO_TARGET_DIR="/juno/target/juno-main/target"
-
-build_canister "$CANISTER" "$SRC_ROOT_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"
+./kit/build/build-sputnik --only-deps
