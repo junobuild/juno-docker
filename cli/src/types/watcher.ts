@@ -9,3 +9,4 @@ export type WatcherConsoleInstallDescription = {
   key: string;
   name: string;
 } & WatcherDescription;
+export type WatcherBuildDescription = {buildCmd: string} & WatcherDeployDescription;

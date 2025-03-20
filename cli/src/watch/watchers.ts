@@ -7,6 +7,7 @@ import {consoleWatchers} from './modules/console';
 import {observatoryWatcher} from './modules/oberservatory';
 import {satelliteWatcher} from './modules/satellite';
 import type {Watcher} from './services/_watcher';
+import {sputnikWatcher} from "./modules/sputnik";
 
 interface WatcherKey {
   key: ModuleKey;
@@ -17,6 +18,10 @@ const WATCHERS: WatcherKey[] = [
   {
     key: satellite.key,
     watcher: satelliteWatcher
+  },
+  {
+    key: satellite.key,
+    watcher: sputnikWatcher
   },
   ...consoleWatchers.map((watcher) => ({
     key: consoleModule.key,
