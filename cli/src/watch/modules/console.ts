@@ -3,7 +3,7 @@ import {
   DEV_MISSION_CONTROL_WASM_FILENAME,
   DEV_ORBITER_WASM_FILENAME,
   DEV_SATELLITE_WASM_FILENAME
-} from '../../constants/constants';
+} from '../../constants/dev.constants';
 import {initConsoleModule} from '../../modules/console';
 import {satellite} from '../../modules/satellite';
 import {ConsoleInstallWatcher} from '../services/console-install.watcher';

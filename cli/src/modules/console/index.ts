@@ -1,5 +1,5 @@
 import {existsSync} from 'node:fs';
-import {DEV_CONSOLE} from '../../constants/constants';
+import {DEV_CONSOLE} from '../../constants/dev.constants';
 import {Module} from '../../services/modules.services';
 import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
 import {installReleases} from './console.post-install';
