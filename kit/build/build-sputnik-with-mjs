@@ -8,7 +8,7 @@ DEPLOY_DIR="$PWD/target/deploy"
 export DEV_SCRIPT_PATH="$DEPLOY_DIR/index.sputnik.mjs"
 
 # Build the Sputnik canister.
-./kit/build/build-sputnik
+./kit/build/build-sputnik > /dev/null
 
 # Move the compressed WASM file to the deploy directory.
 # This allows upgrading the Satellite and exposing the build output to the developer.

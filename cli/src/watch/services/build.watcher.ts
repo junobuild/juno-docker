@@ -17,7 +17,7 @@ export class BuildWatcher extends Watcher {
   protected async onExec(_params: {context: CliContext}) {
     const mod = this.#initModule();
 
-    console.log(`🌀  New ${mod.name} detected. Starting build.`);
+    console.log(`🌀  Building ${mod.name}...`);
 
     await this.executeUpgrade();
   }
