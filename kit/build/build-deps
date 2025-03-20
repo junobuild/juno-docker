@@ -3,7 +3,7 @@
 set -euo pipefail
 
 CANISTER="sputnik"
-ONLY_DEPS=
+ONLY_DEPS=1
 WITH_CERTIFICATION=1
 BUILD_TYPE="extended"
 TARGET="wasm32-wasip1"
