@@ -5,7 +5,7 @@ import {
   junoConfigFile as junoConfigFileTools,
   readJunoConfig as readJunoConfigTools
 } from '@junobuild/config-loader';
-import {JUNO_DEV_CONFIG_FILENAME} from '../constants/constants';
+import {JUNO_DEV_CONFIG_FILENAME} from '../constants/dev.constants';
 import type {ConfigType} from '../types/config';
 
 const JUNO_DEV_CONFIG_FILE: {filename: ConfigFilename} = {filename: JUNO_DEV_CONFIG_FILENAME};

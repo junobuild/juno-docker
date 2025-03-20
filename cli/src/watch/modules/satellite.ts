@@ -1,4 +1,4 @@
-import {DEV_SATELLITE_WASM_FILENAME} from '../../constants/constants';
+import {DEV_SATELLITE_WASM_FILENAME} from '../../constants/dev.constants';
 import {initSatelliteModule} from '../../modules/satellite';
 import {DeployWatcher} from '../services/deploy.watcher';
 

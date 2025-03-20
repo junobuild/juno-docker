@@ -4,7 +4,7 @@ import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {watch as fsWatch} from 'node:fs/promises';
 import {junoDevConfigExist, junoDevConfigFile} from '../configs/juno.dev.config';
-import {DEV_DEPLOY_FOLDER} from '../constants/constants';
+import {DEV_DEPLOY_FOLDER} from '../constants/dev.constants';
 import {initSatelliteModule} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
