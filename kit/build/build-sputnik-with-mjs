@@ -5,7 +5,7 @@ set -euo pipefail
 DEPLOY_DIR="$PWD/target/deploy"
 
 # Set the path for the developer JS bundle used in the build process.
-export DEV_SCRIPT_PATH="$DEPLOY_DIR/index.sputnik.mjs"
+export DEV_SCRIPT_PATH="$DEPLOY_DIR/sputnik.index.mjs"
 
 # Build the Sputnik canister.
 ./kit/build/build-sputnik > /dev/null

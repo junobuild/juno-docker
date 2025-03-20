@@ -32,5 +32,5 @@ export const JUNO_DEV_CONFIG_FILENAME = 'juno.dev.config'; // .json | .js | .cjs
 
 export const DEV_KIT_FOLDER = join(process.cwd(), 'kit');
 
-export const DEV_SPUTNIK_MJS_FILENAME = 'index.sputnik.mjs';
+export const DEV_SPUTNIK_MJS_FILENAME = 'sputnik.index.mjs';
 export const DEV_BUILD_SPUTNIK = join(DEV_KIT_FOLDER, 'build', 'build-sputnik-with-mjs');
