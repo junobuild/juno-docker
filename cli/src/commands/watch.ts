@@ -49,7 +49,7 @@ const onConfigFileWatch = async ({
 };
 
 const updateConfig = async ({context}: {context: CliContext}) => {
-  console.log(`🎬  New config detected. Starting update of the configuration.`);
+  console.log(`🔧  Updating configuration...`);
 
   const mod = initSatelliteModule();
 
