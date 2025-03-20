@@ -18,8 +18,13 @@ TARGET="wasm32-wasip1"
 
 SRC_ROOT_DIR="/juno/target/juno-main/src"
 
-source "/juno/target/juno-main/docker/build-canister"
+# Ensure we rebuild the canister by updating the timestamp of its source file.
+touch "$SRC_ROOT_DIR"/"$CANISTER"/src/lib.rs
 
+# Set the Cargo target directory because we are executing the command from the working directory /juno.
 export CARGO_TARGET_DIR="/juno/target/juno-main/target"
+
+# Build the canister using the script from Juno's main repository.
+source "/juno/target/juno-main/docker/build-canister"
 
 build_canister "$CANISTER" "$SRC_ROOT_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"
