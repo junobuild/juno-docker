@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+./kit/setup/download
+
+./kit/setup/bootstrap

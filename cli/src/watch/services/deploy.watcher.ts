@@ -27,7 +27,7 @@ export class DeployWatcher extends Watcher {
 
   private async executeUpgrade({context, mod}: {context: CliContext; mod: Module}) {
     try {
-      console.log(`🎬  New ${mod.name} detected. Starting upgrade.`);
+      console.log(`🎬  Upgrading ${mod.name}...`);
 
       await mod.install(context);
     } finally {
