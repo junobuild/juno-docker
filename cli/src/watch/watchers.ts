@@ -6,8 +6,8 @@ import type {ModuleKey} from '../types/module';
 import {consoleWatchers} from './modules/console';
 import {observatoryWatcher} from './modules/oberservatory';
 import {satelliteWatcher} from './modules/satellite';
+import {sputnikWatcher} from './modules/sputnik';
 import type {Watcher} from './services/_watcher';
-import {sputnikWatcher} from "./modules/sputnik";
 
 interface WatcherKey {
   key: ModuleKey;
