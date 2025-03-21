@@ -1,5 +1,5 @@
 import {debounce} from '@dfinity/utils';
-import type {FileChangeInfo} from 'fs/promises';
+import {basename} from 'node:path';
 import type {CliContext} from '../../types/context';
 import type {WatcherDescription} from '../../types/watcher';
 
@@ -13,13 +13,9 @@ export abstract class Watcher {
     this.moduleFileName = moduleFileName;
   }
 
-  onWatch = async ({
-    $event: {filename},
-    context
-  }: {
-    $event: FileChangeInfo<string>;
-    context: CliContext;
-  }) => {
+  onWatch = async ({filePath, context}: {filePath: string; context: CliContext}) => {
+    const filename = basename(filePath);
+
     if (filename !== this.moduleFileName) {
       return;
     }

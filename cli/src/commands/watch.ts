@@ -1,4 +1,5 @@
 import {debounce} from '@dfinity/utils';
+import chokidar from 'chokidar';
 import type {FileChangeInfo} from 'fs/promises';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
@@ -10,7 +11,7 @@ import {buildContext} from '../services/context.services';
 import type {CliContext} from '../types/context';
 import {watchers} from '../watch/watchers';
 
-const {green} = kleur;
+const {green, red} = kleur;
 
 export const watch = async (args?: string[]) => {
   await Promise.all([watchDeploy(args), watchConfig(args)]);
@@ -70,12 +71,22 @@ const watchDeploy = async (args?: string[]) => {
 
   const context = await buildContext(args);
 
-  const watcher = fsWatch(DEV_DEPLOY_FOLDER);
-  for await (const $event of watcher) {
+  const watchOnEvent = async (path: string) => {
     await Promise.allSettled(
       watchers.map(async (watcher) => {
-        await watcher.onWatch({$event, context});
+        await watcher.onWatch({filePath: path, context});
       })
     );
-  }
+  };
+
+  chokidar
+    .watch(DEV_DEPLOY_FOLDER, {
+      ignoreInitial: true,
+      awaitWriteFinish: true
+    })
+    .on('add', watchOnEvent)
+    .on('change', watchOnEvent)
+    .on('error', (err) => {
+      console.log(red('️‼️  Unexpected error while live reloading:'), err);
+    });
 };
