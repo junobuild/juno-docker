@@ -8,8 +8,14 @@ if [ ! -d "$DIR" ]; then
   mkdir "$DIR"
 fi
 
-curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/heads/main.tar.gz
+# Use a specific commit (optional, or switch to refs/heads/main if needed)
+COMMIT=11a3b4a8c09d449c6139546c55930bb447633e0b
+
+curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/$COMMIT.tar.gz
 
 tar -xf "$DIR/juno.tar.gz" -C "$DIR"
+
+# Rename the extracted folder to juno-main
+mv "$DIR/juno-$COMMIT" "$DIR/juno-main"
 
 echo "juno source downloaded and extracted to $DIR/juno-main."
