@@ -8,7 +8,7 @@ export const buildSputnik = async () => {
 
   const env = {
     ...process.env,
-    ...(nonNullish(version) && notEmptyString(version) && {CUSTOM_BUILD_VERSION: version})
+    ...(nonNullish(version) && notEmptyString(version) && {DEV_BUILD_VERSION: version})
   };
 
   await execute({
