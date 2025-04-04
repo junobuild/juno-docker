@@ -1,4 +1,3 @@
-import {execute} from '@junobuild/cli-tools';
 import type {Module} from '../../services/modules.services';
 import type {CliContext} from '../../types/context';
 import type {WatcherBuildDescription} from '../../types/watcher';
@@ -6,12 +5,12 @@ import {Watcher} from './_watcher';
 
 export class BuildWatcher extends Watcher {
   readonly #initModule: () => Module;
-  readonly #buildCmd: string;
+  readonly #build: () => Promise<void>;
 
-  constructor({moduleFileName, initModule, buildCmd}: WatcherBuildDescription) {
+  constructor({moduleFileName, initModule, build}: WatcherBuildDescription) {
     super({moduleFileName});
     this.#initModule = initModule;
-    this.#buildCmd = buildCmd;
+    this.#build = build;
   }
 
   protected async onExec(_params: {context: CliContext}) {
@@ -19,14 +18,12 @@ export class BuildWatcher extends Watcher {
 
     console.log(`🌀  Building ${mod.name}...`);
 
-    await this.executeUpgrade();
+    await this.execute();
   }
 
-  private async executeUpgrade() {
+  private async execute() {
     try {
-      await execute({
-        command: this.#buildCmd
-      });
+      await this.#build();
     } finally {
       this.executing = false;
     }

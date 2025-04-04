@@ -34,3 +34,5 @@ export const DEV_KIT_FOLDER = join(process.cwd(), 'kit');
 
 export const DEV_SPUTNIK_MJS_FILENAME = 'sputnik.index.mjs';
 export const DEV_BUILD_SPUTNIK = join(DEV_KIT_FOLDER, 'build', 'build-sputnik-with-mjs');
+
+export const DEV_SPUTNIK_PACKAGE_JSON = join(DEV_DEPLOY_FOLDER, 'sputnik.package.json');
