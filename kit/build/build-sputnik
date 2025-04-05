@@ -7,12 +7,21 @@ ONLY_DEPS=0
 # Source directory where to find $CANISTER/juno.package.json
 PKG_JSON_DIR=
 
-for arg in "$@"; do
-  if [[ "$arg" == "--only-deps" ]]; then
-    ONLY_DEPS=1
-  elif [[ "$arg" == --pkg-json-dir=* ]]; then
-    PKG_JSON_DIR="${arg#--pkg-json-dir=}"
-  fi
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --only-deps)
+      ONLY_DEPS=1
+      shift
+      ;;
+    --pkg-json-dir=*)
+      PKG_JSON_DIR="${1#*=}"
+      shift
+      ;;
+    *)
+      echo "Unknown argument: $1"
+      exit 1
+      ;;
+  esac
 done
 
 CANISTER="sputnik"
