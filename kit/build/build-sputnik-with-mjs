@@ -3,12 +3,13 @@
 set -euo pipefail
 
 DEPLOY_DIR="$PWD/target/deploy"
+PKG_JSON_DIR="$PWD/target/sputnik"
 
 # Set the path for the developer JS bundle used in the build process.
 export DEV_SCRIPT_PATH="$DEPLOY_DIR/sputnik.index.mjs"
 
 # Build the Sputnik canister.
-./kit/build/build-sputnik > /dev/null
+./kit/build/build-sputnik --pkg-json-dir="$PKG_JSON_DIR" > /dev/null
 
 # Move the compressed WASM file to the deploy directory.
 # This allows upgrading the Satellite and exposing the build output to the developer.
