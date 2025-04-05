@@ -4,10 +4,14 @@ set -euo pipefail
 
 ONLY_DEPS=0
 
+# Source directory where to find $CANISTER/juno.package.json
+PKG_JSON_DIR=
+
 for arg in "$@"; do
   if [[ "$arg" == "--only-deps" ]]; then
     ONLY_DEPS=1
-    break
+  elif [[ "$arg" == --pkg-json-dir=* ]]; then
+    PKG_JSON_DIR="${arg#--pkg-json-dir=}"
   fi
 done
 
@@ -27,4 +31,4 @@ export CARGO_TARGET_DIR="/juno/target/juno-main/target"
 # Build the canister using the script from Juno's main repository.
 source "/juno/target/juno-main/docker/build-canister"
 
-build_canister "$CANISTER" "$SRC_ROOT_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"
+build_canister "$CANISTER" "$SRC_ROOT_DIR" "$PKG_JSON_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+NAME=
+VERSION=
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --name)
+      NAME="$2"
+      shift 2
+      ;;
+    --version)
+      VERSION="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown argument: $1"
+      exit 1
+      ;;
+  esac
+done
+
+# Ensure required args
+if [[ -z "${NAME:-}" || -z "${VERSION:-}" ]]; then
+  echo "ERROR: --name and --version are required."
+  exit 1
+fi
+
+DEPENDENCIES_CSV=satellite,sputnik
+
+SRC_ROOT_DIR="/juno/target/juno-main/src"
+
+# Output for the juno.package.json
+PKG_JSON_DIR="$PWD/target/sputnik"
+
+mkdir -p "$PKG_JSON_DIR"
+
+# Prepare the canister package.json
+source "/juno/target/juno-main/docker/prepare-package"
+
+generate_juno_package_json "$NAME" "$VERSION" "$SRC_ROOT_DIR" "$PKG_JSON_DIR" "$DEPENDENCIES_CSV"
