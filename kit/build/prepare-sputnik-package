@@ -28,6 +28,8 @@ if [[ -z "${NAME:-}" || -z "${VERSION:-}" ]]; then
   exit 1
 fi
 
+echo "OK: $NAME and $VERSION required."
+
 DEPENDENCIES_CSV=satellite,sputnik
 
 SRC_ROOT_DIR="/juno/target/juno-main/src"
@@ -37,7 +39,11 @@ PKG_JSON_DIR="$PWD/target/sputnik"
 
 mkdir -p "$PKG_JSON_DIR"
 
+echo "Dir created $PKG_JSON_DIR"
+
 # Prepare the canister package.json
 source "/juno/target/juno-main/docker/prepare-package"
+
+echo "OK SOURCE"
 
 generate_juno_package_json "$NAME" "$VERSION" "$SRC_ROOT_DIR" "$PKG_JSON_DIR" "$DEPENDENCIES_CSV"
