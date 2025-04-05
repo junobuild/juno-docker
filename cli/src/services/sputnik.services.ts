@@ -1,10 +1,9 @@
 import {isEmptyString, isNullish} from '@dfinity/utils';
-import {execute, type PackageJson, readPackageJson} from '@junobuild/cli-tools';
-import {existsSync} from 'node:fs';
+import {execute, type PackageJson} from '@junobuild/cli-tools';
 import {
   DEV_BUILD_SPUTNIK,
   DEV_PREPARE_PKG_SPUTNIK,
-  DEV_SPUTNIK_PACKAGE_JSON
+  DEV_SPUTNIK_MJS_FILE_PATH
 } from '../constants/dev.constants';
 
 export const buildSputnik = async () => {
@@ -45,21 +44,17 @@ const generateMetadata = async (): Promise<{success: boolean}> => {
 const buildMetadata = async (): Promise<
   Pick<PackageJson, 'name' | 'version'> | undefined | null
 > => {
-  if (!existsSync(DEV_SPUTNIK_PACKAGE_JSON)) {
-    return null;
-  }
-
   try {
-    const {name, version, juno} = await readPackageJson({
-      packageJsonPath: DEV_SPUTNIK_PACKAGE_JSON
-    });
+    const {__juno_package__} = await import(DEV_SPUTNIK_MJS_FILE_PATH);
+
+    const {juno, name, version} = __juno_package__;
 
     return {
       name: juno?.functions?.name ?? name,
       version: juno?.functions?.version ?? version
     };
   } catch (_err: unknown) {
-    // The build will use the build version of Sputnik for the extended build version.
+    // The build will be skipped.
     return undefined;
   }
 };
