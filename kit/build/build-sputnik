@@ -4,11 +4,24 @@ set -euo pipefail
 
 ONLY_DEPS=0
 
-for arg in "$@"; do
-  if [[ "$arg" == "--only-deps" ]]; then
-    ONLY_DEPS=1
-    break
-  fi
+# Source directory where to find $CANISTER/juno.package.json
+PKG_JSON_DIR=
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --only-deps)
+      ONLY_DEPS=1
+      shift
+      ;;
+    --pkg-json-dir=*)
+      PKG_JSON_DIR="${1#*=}"
+      shift
+      ;;
+    *)
+      echo "Unknown argument: $1"
+      exit 1
+      ;;
+  esac
 done
 
 CANISTER="sputnik"
@@ -27,4 +40,4 @@ export CARGO_TARGET_DIR="/juno/target/juno-main/target"
 # Build the canister using the script from Juno's main repository.
 source "/juno/target/juno-main/docker/build-canister"
 
-build_canister "$CANISTER" "$SRC_ROOT_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"
+build_canister "$CANISTER" "$SRC_ROOT_DIR" "$PKG_JSON_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"
