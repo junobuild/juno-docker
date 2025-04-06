@@ -37,7 +37,7 @@ export const installRelease = async ({
     console: CONSOLE
   });
 
-  const filename = `${basename(wasmPath).replace('.wasm.gz', '')}-v${version}.wasm.gz`;
+  const filename = `${basename(wasmPath).replace('.wasm.gz', '').replace('.gz', '')}-v${version}.wasm.gz`;
 
   const fullPath = `/releases/${filename}`;
 
