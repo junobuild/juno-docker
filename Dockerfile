@@ -73,7 +73,7 @@ RUN ./kit/build/build-deps
 COPY --chown=apprunner:apprunner ./cli ./cli
 
 # Install and build CLI
-RUN ./docker/cli
+RUN ./docker/cli/setup
 
 # Make downloaded files executable
 RUN chmod +x target/*
