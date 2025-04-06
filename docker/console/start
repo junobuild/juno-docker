@@ -5,7 +5,7 @@ source ./.bashrc
 JUNO_REPO="/juno/target/juno-main"
 
 if [ "$CLI_BUILD" == "satellite" ]; then
-  npm --prefix ${JUNO_REPO} npm run --silent dev:silent -- --port "$CONSOLE_PORT" &
+  npm --prefix ${JUNO_REPO} run --silent dev:silent -- --port "$CONSOLE_PORT" &
 
   ./docker/wait-port "$CONSOLE_PORT"
 
