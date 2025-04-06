@@ -57,7 +57,7 @@ const buildMetadata = async (): Promise<{
 }> => {
   try {
     const mjs = readFileSync(DEV_SPUTNIK_MJS_FILE_PATH, 'utf-8');
-    const banner = mjs.match(/^\/\/\s*@juno:package\s+({.*})/);
+    const banner = /^\/\/\s*@juno:package\s+({.*})/.exec(mjs);
 
     if (isNullish(banner)) {
       return {
@@ -69,7 +69,7 @@ const buildMetadata = async (): Promise<{
     }
 
     const [_fullMatch, match] = banner;
-    const {juno, name, version} = JSON.parse(match);
+    const {juno, name, version}: PackageJson = JSON.parse(match);
 
     const result = {
       name: juno?.functions?.name ?? name,
