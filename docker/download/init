@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-./download/artifacts
+./docker/download/artifacts
 
 if [ "$CLI_BUILD" == "satellite" ]; then
-  ./download/juno-source
+  ./docker/download/juno-source
 fi
