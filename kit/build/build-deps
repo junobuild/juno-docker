@@ -2,4 +2,6 @@
 
 set -euo pipefail
 
-./kit/build/build-sputnik --only-deps
+if [ "$CLI_BUILD" == "satellite" ]; then
+  ./kit/build/build-sputnik --only-deps
+fi

@@ -61,13 +61,13 @@ ENV RUSTUP_HOME=/home/apprunner/.rustup \
 COPY --chown=apprunner:apprunner ./kit/setup ./kit/setup
 
 # Install tools for building WASM within the container
-RUN if [ "$CLI_BUILD" = "satellite" ]; then ./kit/setup/init; fi
+RUN ./kit/setup/init
 
 # Copy WASM build resources
 COPY --chown=apprunner:apprunner ./kit/build ./kit/build
 
 # Build Sputnik dependencies
-RUN if [ "$CLI_BUILD" = "satellite" ]; then ./kit/build/build-deps; fi
+RUN ./kit/build/build-deps
 
 # Copy CLI resources
 COPY --chown=apprunner:apprunner ./cli ./cli

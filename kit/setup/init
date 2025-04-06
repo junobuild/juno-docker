@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
-./kit/setup/download
+if [ "$CLI_BUILD" == "satellite" ]; then
+  ./kit/setup/download
 
-./kit/setup/bootstrap
+  ./kit/setup/bootstrap
+fi
