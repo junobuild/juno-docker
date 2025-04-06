@@ -4,41 +4,72 @@
 
 ## Introduction
 
-This repository provides Docker images for both dApp development using [Juno] Satellite and for developing Juno itself.
+This repository provides Docker images to support local development with [Juno](https://juno.build), whether you're building a dApp using a Satellite or working directly on Juno’s core modules.
 
-### Juno Satellite Docker Image
-
-The `junobuild/satellite` Docker container mounts an [Internet Computer](https://internetcomputer.org/) Replica and icx-proxy within a sandbox. Once these are ready, a custom-built CLI takes care of deploying a Juno [Satellite](https://juno.build/docs/add-juno-to-an-app/create-a-satellite) during the first boot. Additionally, developers can provide a configuration file to set a few parameters for configuring a Satellite. This includes the definitions of the Datastore and Storage collections and a list of additional controllers, if required.
-
-The custom-built CLI also actively monitors changes in the configuration files. Upon detecting modifications, it automatically applies the new configuration settings to the Satellite. Furthermore, the CLI watches a dedicated 'deploy' folder, enabling developers to provide a custom WASM file for their extended Satellite. This is particularly useful for developers who wish to extend Juno's capabilities with 'serverless/blockchainless' functions.
-
-The image also contains other useful standard canisters available on the Internet Computer, namely:
-
-- [Internet Identity](https://identity.internetcomputer.org/)
-- [ICP Ledger](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai)
-- [ICP Index](https://dashboard.internetcomputer.org/canister/qhbym-qaaaa-aaaaa-aaafq-cai)
-
+> [!NOTE]
 > This README mentions two CLIs.
 >
 > 1. The "custom-built CLI" is a tool built within the Docker image that facilitates interactions with the container.
 > 2. The "Juno CLI" or "CLI" is the command-line interface developers use on Juno to develop or upgrade their dApps.
 
-### Juno Console Docker Image
+### 🧪 Juno Skylab Docker Image
 
-The `junobuild/console` Docker container is similar to the Satellite image but is specifically tailored to provide the backbone for developing Juno locally. Instead of spinning and monitoring a Satellite, it manages other types of smart contracts, including the Console and Observatory. Additionally, it spins up essential canisters required by the platform, such as:
+The `junobuild/skylab` Docker image is an all-in-one environment for local Juno development. It bundles everything you need to build, test, and explore the Juno ecosystem:
 
-- [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)
-- [CMC](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)
+- ✅ Juno Console (smart contract + UI)
+- 🛰️ Satellites (support for multiple application containers)
+- 📊 Orbiter (analytics and tracking module)
+- ⚙️ Supporting infrastructure (see table below)
+
+This container mounts an [Internet Computer](https://internetcomputer.org/) Replica and `icx-proxy` within a sandbox. Once ready, a custom-built CLI takes care of deploying and setting up the modules during the first boot.
+
+It also actively watches a shared folder, allowing you to live reload serverless functions written in Rust or TypeScript.
+
+### 🛰️ Juno Satellite Docker Image
+
+Unlike Skylab, this image runs a single Juno [Satellite](https://juno.build/docs/add-juno-to-an-app/create-a-satellite) in a sandboxed local environment.
+
+You can configure the Satellite with a JSON file to define Datastore and Storage collections, additional controllers, and optional serverless extensions. Like Skylab, it also supports live reloading for these serverless functions through a shared folder.
+
+The CLI watches configuration files and a dedicated `deploy` folder, automatically applying changes and upgrading modules as needed.
+
+> [!TIP]
+> Compared to Skylab, this image is **lighter and more focused**, as it doesn’t spin up the Console or supporting infrastructure.  
+> It’s a great fit for **resource-conscious setups** or **CI environments** running end-to-end tests on a dedicated Satellite.
+
+### 🧠 Juno Console Docker Image
+
+The `junobuild/console` Docker container is tailored for developing and maintaining the Juno platform itself.
+
+This image is mainly intended for contributors working on the Juno infrastructure rather than app developers.
+
+### 🗂️ Infrastructure Availability by Image
+
+| Module                    | Skylab ✅   | Satellite ✅   | Console ✅     |
+|---------------------------|------------|---------------|---------------|
+| Satellite (auto-deployed) | ✅          | ✅             | ❌             |
+| Juno Console (backend)    | ✅          | ❌             | ✅             |
+| Juno Console (UI)         | ✅          | ❌             | ❌             |
+| Observatory               | ✅          | ❌             | ✅             |
+| Internet Identity         | ✅          | ✅             | ✅             |
+| ICP Ledger                | ✅          | ✅             | ✅             |
+| ICP Index                 | ✅          | ✅             | ✅             |
+| NNS Governance            | ✅          | ❌             | ✅             |
+| CMC (Cycles Minting)      | ✅          | ❌             | ✅             |
+
+> [!NOTE]
+> **Satellite (auto-deployed)** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
+> This avoids the need to manually create it through the Console during development.
 
 ## Documentation
 
 Find the setup and usage instructions for each Juno Docker container below.
 
-### For Juno Satellite
+### For Juno Skylab and Satellite
 
 Please find the documentation about prerequisites, how to run the image, and configuration options on Juno's website.
 
-👉 [https://juno.build/docs/miscellaneous/local-development](https://juno.build/docs/miscellaneous/local-development)
+👉 [https://juno.build/docs/guides/local-development](https://juno.build/docs/guides/local-development)
 
 ## Execution
 
@@ -114,16 +145,24 @@ For a more extended solution that overrides installation and start hooks, have a
 
 ### Admin Commands
 
-The `junobuild/console` Docker image exposes an additional small server meant to execute various administration commands that can be useful when developing Juno.
+The Docker images expose a small internal server with a set of administration commands that can be useful when developing with Juno.
 
 Here are the available commands:
 
-| URL                                                                   | Description                                          |
-|-----------------------------------------------------------------------|------------------------------------------------------|
-| http://localhost:5999/ledger/transfer/?to=bnz7o-iuaaa-aaaaa-qaaaa-cai | Transfer 55 ICP from the Ledger to the `to` address. |
-| http://localhost:5999/console/controller/?id=<principal-text>         | Add a controller to the Console.                     |
+| URL                                                                   | Description                                          | Available In                               |
+|-----------------------------------------------------------------------|------------------------------------------------------|--------------------------------------------|
+| http://localhost:5999/ledger/transfer/?to=bnz7o-iuaaa-aaaaa-qaaaa-cai | Transfers 55 ICP from the Ledger to the `to` address | All images                                 |
+| http://localhost:5999/console/controller/?id=<principal-text>         | Adds a controller to the Console canister            | `junobuild/skylab` and `junobuild/console` |
 
-Those calls can be executed from outside the container.
+### Ports
+
+The containers expose the following ports:
+
+| Port   | Description                                                                                            |
+|--------|--------------------------------------------------------------------------------------------------------|
+| `5987` | Local Replica. Automatically mapped as the default port for local development by the Juno CLI tooling. |
+| `5866` | Console UI (if available).                                                                             |
+| `5999` | Admin little server (for utility endpoints like transfers or controller updates).                      |
 
 ## License
 
