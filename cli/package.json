@@ -50,19 +50,19 @@
     "semver": "^7.7.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.0",
-    "@eslint/js": "^9.22.0",
-    "@types/node": "^22.13.11",
-    "@types/semver": "^7.5.8",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.24.0",
+    "@types/node": "^22.14.0",
+    "@types/semver": "^7.7.0",
     "dotenv": "^16.4.7",
-    "esbuild": "^0.25.1",
-    "eslint": "^9.22.0",
+    "esbuild": "^0.25.2",
+    "eslint": "^9.24.0",
     "eslint-config-love": "^119.0.0",
     "eslint-config-prettier": "^10.1.1",
     "globals": "^16.0.0",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "repository": {
     "type": "git",
