@@ -8,7 +8,7 @@ set -m
 
 ./docker/server/replica/serve &
 
-./docker/console/start &
+./docker/server/console/start &
 
 ./docker/server/cli/start
 
