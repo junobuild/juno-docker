@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-if [ "$CLI_BUILD" == "satellite" ]; then
-  ./kit/setup/download
-
-  ./kit/setup/bootstrap
-fi

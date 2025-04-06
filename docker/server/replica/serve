@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+./docker/server/replica/ic-https-outcalls-adapter &
+
+./docker/server/replica/ic-starter &
+
+./docker/server/wait-port "$REPLICA_PORT"
+
+./docker/server/replica/icx-proxy

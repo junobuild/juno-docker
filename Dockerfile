@@ -45,13 +45,13 @@ RUN echo "export STATE_CLI_DIR=/juno/.juno/cli" >> ./.bashrc
 ARG CLI_BUILD=satellite
 RUN echo "export CLI_BUILD=${CLI_BUILD}" >> ./.bashrc
 
-# Copy core resources
-COPY --chown=apprunner:apprunner ./docker ./docker
+# Copy list of resources and scripts to download them
+COPY --chown=apprunner:apprunner ./docker/download ./docker/download
 COPY --chown=apprunner:apprunner ./ic.json ./ic.json
 COPY --chown=apprunner:apprunner ./modules.json ./modules.json
 
-# Download required artifacts
-RUN ./docker/download
+# Download required artifacts and sources
+RUN ./download/init
 
 # Install Rust and Cargo in apprunner home
 ENV RUSTUP_HOME=/home/apprunner/.rustup \
@@ -62,7 +62,7 @@ ENV RUSTUP_HOME=/home/apprunner/.rustup \
 COPY --chown=apprunner:apprunner ./kit/setup ./kit/setup
 
 # Install tools for building WASM within the container
-RUN ./kit/setup/init
+RUN ./kit/setup/bootstrap
 
 # Copy WASM build resources
 COPY --chown=apprunner:apprunner ./kit/build ./kit/build
@@ -70,11 +70,14 @@ COPY --chown=apprunner:apprunner ./kit/build ./kit/build
 # Build Sputnik dependencies
 RUN ./kit/build/build-deps
 
+# Copy server resources for running replica and cli
+COPY --chown=apprunner:apprunner ./download/server ./download/server
+
 # Copy CLI resources
 COPY --chown=apprunner:apprunner ./cli ./cli
 
 # Install and build CLI
-RUN ./docker/cli/setup
+RUN ./docker/server/cli/setup
 
 # Install Console UI
 RUN ./docker/console/setup
@@ -82,7 +85,7 @@ RUN ./docker/console/setup
 # Make downloaded files executable
 RUN chmod +x target/*
 
-ENTRYPOINT ["./docker/app"]
+ENTRYPOINT ["./docker/server/app"]
 
 EXPOSE ${PORT}
 EXPOSE ${ADMIN_PORT}
