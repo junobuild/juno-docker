@@ -88,5 +88,5 @@ export const installRelease = async ({
 
   verbose(`🗳️  Proposal ${proposalId} committed.`);
 
-  console.log(`💫  ${name} uploaded to Console.\n`);
+  console.log(`💫  ${name} uploaded to Console.${process.env.CLI_BUILD === 'console' ? '\n' : ''}`);
 };
