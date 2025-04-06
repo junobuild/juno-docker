@@ -6,9 +6,9 @@ source ./.bashrc
 # turn on bash's job control
 set -m
 
-./docker/serve &
+./docker/server/replica/serve &
 
-./docker/cli/start
+./docker/server/cli/start
 
 # now we bring the primary process back into the foreground
 # and leave it there

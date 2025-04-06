@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+./download/artifacts
+
+if [ "$CLI_BUILD" == "satellite" ]; then
+  ./download/juno-source
+fi

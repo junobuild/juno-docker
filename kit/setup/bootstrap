@@ -4,9 +4,16 @@ set -euo pipefail
 
 BOOTSTRAP_SCRIPT="/juno/target/juno-main/docker/bootstrap"
 
-if [[ ! -f "$BOOTSTRAP_SCRIPT" ]]; then
-    echo "Error: $BOOTSTRAP_SCRIPT not found!" >&2
-    exit 1
-fi
+function bootstrap() {
+    if [[ ! -f "$BOOTSTRAP_SCRIPT" ]]; then
+        echo "Error: $BOOTSTRAP_SCRIPT not found!" >&2
+        exit 1
+    fi
 
-exec "$BOOTSTRAP_SCRIPT"
+    exec "$BOOTSTRAP_SCRIPT"
+}
+
+# Bootstrap Rust toolchain for the build Satellite that supports building WASM within the container
+if [ "$CLI_BUILD" == "satellite" ]; then
+  bootstrap
+fi
