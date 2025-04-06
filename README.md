@@ -45,17 +45,17 @@ This image is mainly intended for contributors working on the Juno infrastructur
 
 ### 🗂️ Infrastructure Availability by Image
 
-| Module                    | Skylab ✅   | Satellite ✅   | Console ✅     |
-|---------------------------|------------|---------------|---------------|
-| Satellite (auto-deployed) | ✅          | ✅             | ❌             |
-| Juno Console (backend)    | ✅          | ❌             | ✅             |
-| Juno Console (UI)         | ✅          | ❌             | ❌             |
-| Observatory               | ✅          | ❌             | ✅             |
-| Internet Identity         | ✅          | ✅             | ✅             |
-| ICP Ledger                | ✅          | ✅             | ✅             |
-| ICP Index                 | ✅          | ✅             | ✅             |
-| NNS Governance            | ✅          | ❌             | ✅             |
-| CMC (Cycles Minting)      | ✅          | ❌             | ✅             |
+| Module                                                                                                | Skylab ✅   | Satellite ✅   | Console ✅     |
+|-------------------------------------------------------------------------------------------------------|------------|---------------|---------------|
+| Satellite (auto-deployed)                                                                             | ✅          | ✅             | ❌             |
+| Juno Console ([backend](https://dashboard.internetcomputer.org/canister/cokmz-oiaaa-aaaal-aby6q-cai)) | ✅          | ❌             | ✅             |
+| Juno Console (UI)                                                                                     | ✅          | ❌             | ❌             |
+| [Observatory](https://dashboard.internetcomputer.org/canister/klbfr-lqaaa-aaaak-qbwsa-cai)            | ✅          | ❌             | ✅             |
+| [Internet Identity](https://identity.internetcomputer.org/)                                           | ✅          | ✅             | ✅             |
+| [ICP Ledger](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai)             | ✅          | ✅             | ✅             |
+| [ICP Index](https://dashboard.internetcomputer.org/canister/qhbym-qaaaa-aaaaa-aaafq-cai)              | ✅          | ✅             | ✅             |
+| [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)         | ✅          | ❌             | ✅             |
+| [CMC (Cycles Minting)](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)   | ✅          | ❌             | ✅             |
 
 > [!NOTE]
 > **Satellite (auto-deployed)** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
