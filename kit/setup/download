@@ -9,7 +9,7 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # Use a specific commit (optional, or switch to refs/heads/main if needed)
-COMMIT=359899d5bc691eeeb7c8ea0299c9968c8f001ad9
+COMMIT=66d21cd287df368d2a8f7c6f79660ff299b09121
 
 curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/$COMMIT.tar.gz
 
