@@ -1,10 +1,14 @@
-import {isEmptyString, isNullish} from '@dfinity/utils';
+import {isEmptyString, isNullish, nonNullish} from '@dfinity/utils';
 import {execute, type PackageJson} from '@junobuild/cli-tools';
+import {readFileSync} from 'atomically';
+import kleur from 'kleur';
 import {
   DEV_BUILD_SPUTNIK,
   DEV_PREPARE_PKG_SPUTNIK,
   DEV_SPUTNIK_MJS_FILE_PATH
 } from '../constants/dev.constants';
+
+const {red} = kleur;
 
 export const buildSputnik = async () => {
   const {success} = await generateMetadata();
@@ -19,7 +23,13 @@ export const buildSputnik = async () => {
 };
 
 const generateMetadata = async (): Promise<{success: boolean}> => {
-  const metadata = await buildMetadata();
+  const {result: metadata, err} = await buildMetadata();
+
+  if (nonNullish(err)) {
+    console.log(red('️‼️  Error reading metadata.'));
+    console.log(err);
+    return {success: false};
+  }
 
   if (isNullish(metadata?.name) || isEmptyString(metadata.name)) {
     console.log(`⚠️  Missing "name" in package metadata. Aborting build!`);
@@ -41,20 +51,36 @@ const generateMetadata = async (): Promise<{success: boolean}> => {
   return {success: true};
 };
 
-const buildMetadata = async (): Promise<
-  Pick<PackageJson, 'name' | 'version'> | undefined | null
-> => {
+const buildMetadata = async (): Promise<{
+  result: Pick<PackageJson, 'name' | 'version'> | undefined | null;
+  err?: unknown;
+}> => {
   try {
-    const {__juno_package__} = await import(DEV_SPUTNIK_MJS_FILE_PATH);
+    const mjs = readFileSync(DEV_SPUTNIK_MJS_FILE_PATH, 'utf-8');
+    const banner = mjs.match(/^\/\/\s*@juno:package\s+({.*})/);
 
-    const {juno, name, version} = __juno_package__;
+    if (isNullish(banner)) {
+      return {
+        result: null,
+        err: new Error(
+          `⚠️  Missing Juno package metadata banner at the top of ${DEV_SPUTNIK_MJS_FILE_PATH}. Aborting build!`
+        )
+      };
+    }
 
-    return {
+    const [_fullMatch, match] = banner;
+    const {juno, name, version} = JSON.parse(match);
+
+    const result = {
       name: juno?.functions?.name ?? name,
       version: juno?.functions?.version ?? version
     };
-  } catch (_err: unknown) {
-    // The build will be skipped.
-    return undefined;
+
+    return {result};
+  } catch (err: unknown) {
+    return {
+      result: undefined,
+      err
+    };
   }
 };
