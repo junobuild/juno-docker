@@ -36,6 +36,7 @@ VOLUME /juno/.juno
 # Environment variables
 ENV PORT=5987
 ENV ADMIN_PORT=5999
+ENV CONSOLE_PORT=5866
 RUN echo "export STATE_REPLICA_DIR=/juno/.juno/replica" >> ./.bashrc
 RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 RUN echo "export STATE_CLI_DIR=/juno/.juno/cli" >> ./.bashrc
@@ -75,6 +76,9 @@ COPY --chown=apprunner:apprunner ./cli ./cli
 # Install and build CLI
 RUN ./docker/cli/setup
 
+# Install Console UI
+RUN ./docker/console/setup
+
 # Make downloaded files executable
 RUN chmod +x target/*
 
@@ -82,3 +86,4 @@ ENTRYPOINT ["./docker/app"]
 
 EXPOSE ${PORT}
 EXPOSE ${ADMIN_PORT}
+EXPOSE ${CONSOLE_PORT}

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+source ./.bashrc
+
+JUNO_REPO="/juno/target/juno-main"
+
+if [ "$CLI_BUILD" == "satellite" ]; then
+  npm --prefix ${JUNO_REPO} run dev -- --port "$CONSOLE_PORT"
+fi

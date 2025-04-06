@@ -8,6 +8,8 @@ set -m
 
 ./docker/serve &
 
+./docker/console/start &
+
 ./docker/cli/start
 
 # now we bring the primary process back into the foreground
