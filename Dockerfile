@@ -50,7 +50,7 @@ COPY --chown=apprunner:apprunner ./ic.json ./ic.json
 COPY --chown=apprunner:apprunner ./modules.json ./modules.json
 
 # Download required artifacts and sources
-RUN ./download/init
+RUN ./docker/download/init
 
 # Install Rust and Cargo in apprunner home
 ENV RUSTUP_HOME=/home/apprunner/.rustup \
@@ -70,7 +70,7 @@ COPY --chown=apprunner:apprunner ./kit/build ./kit/build
 RUN ./kit/build/build-deps
 
 # Copy server resources for running replica and cli
-COPY --chown=apprunner:apprunner ./download/server ./download/server
+COPY --chown=apprunner:apprunner ./docker/server ./docker/server
 
 # Copy CLI resources
 COPY --chown=apprunner:apprunner ./cli ./cli
