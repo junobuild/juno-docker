@@ -80,7 +80,7 @@ COPY --chown=apprunner:apprunner ./cli ./cli
 RUN ./docker/server/cli/setup
 
 # Install Console UI
-RUN ./docker/console/setup
+RUN ./docker/server/console/setup
 
 # Make downloaded files executable
 RUN chmod +x target/*
