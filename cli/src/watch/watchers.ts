@@ -33,7 +33,7 @@ const WATCHERS: WatcherKey[] = [
   }
 ];
 
-const watchersKeys = (process.env.MODULES ?? '')
+const watchersKeys = (process.env.WATCHERS ?? '')
   .split(',')
   .filter((moduleKey) => notEmptyString(moduleKey))
   .map((moduleKey) => moduleKey.trim());

@@ -4,7 +4,12 @@ import {existsSync, mkdirSync, writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 
 config({
-  path: process.env.CLI_BUILD === 'console' ? `.env.console` : `.env.satellite`
+  path:
+    process.env.CLI_BUILD === 'console'
+      ? `.env.console`
+      : process.env.CLI_BUILD === 'skylab'
+        ? `.env.skylab`
+        : `.env.satellite`
 });
 
 const define = Object.entries(process.env).reduce(

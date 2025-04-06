@@ -16,6 +16,12 @@ Console:
 docker build . --file Dockerfile -t juno-console --build-arg CLI_BUILD=console --progress=plain --no-cache --platform=linux/amd64
 ```
 
+Skylab:
+
+```bash
+docker build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/amd64
+```
+
 ### Run
 
 ```bash
