@@ -4,6 +4,6 @@ set -euo pipefail
 
 ./docker/download/artifacts
 
-if [ "$CLI_BUILD" == "satellite" ]; then
+if [ "$CLI_BUILD" != "console" ]; then
   ./docker/download/juno-source
 fi

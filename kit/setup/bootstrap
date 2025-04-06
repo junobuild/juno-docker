@@ -14,6 +14,6 @@ function bootstrap() {
 }
 
 # Bootstrap Rust toolchain for the build Satellite that supports building WASM within the container
-if [ "$CLI_BUILD" == "satellite" ]; then
+if [ "$CLI_BUILD" != "console" ]; then
   bootstrap
 fi

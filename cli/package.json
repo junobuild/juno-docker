@@ -21,6 +21,7 @@
     "build": "tsc --noEmit && node rmdir.mjs && node esbuild.mjs",
     "build:satellite": "CLI_BUILD=satellite npm run build",
     "build:console": "CLI_BUILD=console npm run build",
+    "build:skylab": "CLI_BUILD=skylab npm run build",
     "dev": "node rmdir.mjs && NODE_ENV=development node esbuild.mjs",
     "lint": "eslint --max-warnings 0 'src/**/*.ts'"
   },

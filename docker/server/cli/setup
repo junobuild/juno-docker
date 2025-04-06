@@ -4,8 +4,14 @@ source ./.bashrc
 
 npm --prefix cli ci
 
-if [ "$CLI_BUILD" == "console" ]; then
-  npm --prefix cli run build:console
-else
-  npm --prefix cli run build:satellite
-fi
+case "$CLI_BUILD" in
+  console)
+    npm --prefix cli run build:console
+    ;;
+  skylab)
+    npm --prefix cli run build:skylab
+    ;;
+  *)
+    npm --prefix cli run build:satellite
+    ;;
+esac

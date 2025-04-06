@@ -58,7 +58,10 @@ const buildServer = ({context}: {context: CliContext}): Server =>
       return;
     }
 
-    if (['console', 'observatory'].includes(command)) {
+    // If the CLI was build for the satellite but the /console/ is queried, then the feature is not supported.
+    const satelliteBuild = process.env.CLI_BUILD === 'satellite';
+
+    if (!satelliteBuild && ['console', 'observatory'].includes(command)) {
       switch (subCommand) {
         case 'controller':
           await setController({

@@ -4,7 +4,7 @@ source ./.bashrc
 
 JUNO_REPO="/juno/target/juno-main"
 
-if [ "$CLI_BUILD" == "satellite" ]; then
+if [ "$CLI_BUILD" == "skylab" ]; then
   # npm error signal SIGILL esbuild because package-lock contains a reference to esbuild arm
   rm ${JUNO_REPO}/package-lock.json
   npm --prefix ${JUNO_REPO} install
