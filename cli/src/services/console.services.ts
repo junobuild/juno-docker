@@ -65,10 +65,18 @@ export const installRelease = async ({
 
   assertNonNullish(validation);
 
-  console.log('\nProposal submitted to Console.\n');
-  console.log('🆔 ', proposalId);
-  console.log('🔒 ', uint8ArrayToHexString(validation));
-  console.log('⏳ ', status);
+  const verbose = (message?: unknown, ...optionalParams: unknown[]) => {
+    if (process.env.CLI_BUILD !== 'console') {
+      return;
+    }
+
+    console.log(message, optionalParams);
+  };
+
+  verbose('\nProposal submitted to Console.\n');
+  verbose('🆔 ', proposalId);
+  verbose('🔒 ', uint8ArrayToHexString(validation));
+  verbose('⏳ ', status);
 
   await commitProposal({
     commitProposal: {
@@ -78,7 +86,7 @@ export const installRelease = async ({
     console: CONSOLE
   });
 
-  console.log(`🗳️  Proposal ${proposalId} committed.`);
+  verbose(`🗳️  Proposal ${proposalId} committed.`);
 
   console.log(`💫  ${name} uploaded to Console.\n`);
 };
