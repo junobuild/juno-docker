@@ -1,4 +1,5 @@
-import {createAgent, isNullish} from '@dfinity/utils';
+import {isNullish} from '@dfinity/utils';
+import {createAgent} from '../api/agent.api';
 import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
 import {CliState} from '../states/cli.state';
 import type {CliContext} from '../types/context';
@@ -27,13 +28,13 @@ export const buildContext = async (args?: string[]): Promise<CliContext> => {
 
   const agent = await createAgent({
     identity: mainIdentity,
-    host: `http://localhost:${port}`,
-    fetchRootKey: true
+    port
   });
 
   return {
     identities: {[MAIN_IDENTITY_KEY]: mainIdentity, [MINTER_IDENTITY_KEY]: minterIdentity},
     agent,
-    state
+    state,
+    port
   };
 };

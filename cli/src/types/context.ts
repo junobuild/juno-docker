@@ -6,4 +6,5 @@ export interface CliContext {
   identities: {[MAIN_IDENTITY_KEY]: Identity; [MINTER_IDENTITY_KEY]: Identity};
   agent: HttpAgent;
   state: CliState;
+  port: string | undefined;
 }
