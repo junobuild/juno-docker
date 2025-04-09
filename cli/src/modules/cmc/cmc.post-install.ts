@@ -2,20 +2,21 @@ import {IC_ROOT_KEY, fromHex} from '@dfinity/agent';
 import {IDL} from '@dfinity/candid';
 import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@dfinity/nns';
 import {Principal} from '@dfinity/principal';
-import {arrayBufferToUint8Array, createAgent} from '@dfinity/utils';
+import {arrayBufferToUint8Array} from '@dfinity/utils';
+import {createAgent} from '../../api/agent.api';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {NEURON_ID} from '../../constants/modules.constants';
 import type {ModuleInstallParams} from '../../types/module';
 
 export const makeAuthorizedSubnetworksProposal = async ({
-  identities
-}: Pick<ModuleInstallParams, 'identities'>) => {
+  identities,
+  port
+}: Pick<ModuleInstallParams, 'identities' | 'port'>) => {
   const {[MAIN_IDENTITY_KEY]: identity} = identities;
 
   const agent = await createAgent({
     identity,
-    host: 'http://127.0.0.1:5987',
-    fetchRootKey: true
+    port
   });
 
   const {makeProposal} = GovernanceCanister.create({
