@@ -1,22 +1,19 @@
-import type {Module} from '../../services/modules.services';
 import type {CliContext} from '../../types/context';
-import type {WatcherBuildDescription} from '../../types/watcher';
+import {WatcherBuildDescription} from '../../types/watcher';
 import {Watcher} from './_watcher';
 
 export class BuildWatcher extends Watcher {
-  readonly #initModule: () => Module;
+  readonly #moduleName: string;
   readonly #build: () => Promise<void>;
 
-  constructor({moduleFileName, initModule, build}: WatcherBuildDescription) {
+  constructor({moduleFileName, build, name}: WatcherBuildDescription) {
     super({moduleFileName});
-    this.#initModule = initModule;
+    this.#moduleName = name;
     this.#build = build;
   }
 
   protected async onExec(_params: {context: CliContext}) {
-    const mod = this.#initModule();
-
-    console.log(`🌀  Building ${mod.name}...`);
+    console.log(`🌀  Building ${this.#moduleName}...`);
 
     await this.execute();
   }
