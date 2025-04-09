@@ -26,7 +26,6 @@ done
 
 CANISTER="sputnik"
 WITH_CERTIFICATION=1
-BUILD_TYPE="extended"
 TARGET="wasm32-wasip1"
 
 SRC_ROOT_DIR="/juno/target/juno-main/src"
@@ -40,4 +39,4 @@ export CARGO_TARGET_DIR="/juno/target/juno-main/target"
 # Build the canister using the script from Juno's main repository.
 source "/juno/target/juno-main/docker/build-canister"
 
-build_canister "$CANISTER" "$SRC_ROOT_DIR" "$PKG_JSON_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$BUILD_TYPE" "$TARGET"
+build_canister "$CANISTER" "$SRC_ROOT_DIR" "$PKG_JSON_DIR" "." "$ONLY_DEPS" "$WITH_CERTIFICATION" "$TARGET"
