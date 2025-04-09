@@ -8,4 +8,7 @@ if [ "$CLI_BUILD" == "skylab" ]; then
   # npm error signal SIGILL esbuild because package-lock contains a reference to esbuild arm
   rm ${JUNO_REPO}/package-lock.json
   npm --prefix ${JUNO_REPO} install
+
+  # we use npm run preview to run the console that's why we need to build the application
+  npm --prefix ${JUNO_REPO} run build:skylab
 fi
