@@ -5,7 +5,7 @@ set -euo pipefail
 METADATA_IC=./ic.json
 METADATA_MODULES=./modules.json
 
-DIR=target
+DIR="$TARGET_DIR"
 
 if [ ! -d "$DIR" ]; then
   mkdir "$DIR"

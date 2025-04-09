@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./target/ic-starter --replica-path ./target/replica \
+"$TARGET_DIR/ic-starter" --replica-path "$TARGET_DIR/replica" \
                     --http-port "$REPLICA_PORT" \
                     --state-dir "$STATE_REPLICA_DIR" \
                     --create-funds-whitelist '*' \
