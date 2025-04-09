@@ -27,4 +27,4 @@ if [ ! -f "$CONFIG_PATH" ]; then
   create_config
 fi
 
-./target/ic-https-outcalls-adapter "$CONFIG_PATH"
+"$TARGET_DIR/ic-https-outcalls-adapter" "$CONFIG_PATH"

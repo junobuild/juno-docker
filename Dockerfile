@@ -33,13 +33,23 @@ RUN mkdir -p /juno/.juno/replica
 RUN mkdir /juno/.juno/cli
 VOLUME /juno/.juno
 
-# Environment variables
+# Exposed ports
 ENV PORT=5987
 ENV ADMIN_PORT=5999
 ENV CONSOLE_PORT=5866
+
+# Environment variables where files are downloaded and executed
+ENV TARGET_DIR=/juno/target
+RUN echo "export TARGET_DIR=${TARGET_DIR}" >> ./.bashrc
+
+# Environment variables for the server
 RUN echo "export STATE_REPLICA_DIR=/juno/.juno/replica" >> ./.bashrc
 RUN echo "export REPLICA_PORT=8000" >> ./.bashrc
 RUN echo "export STATE_CLI_DIR=/juno/.juno/cli" >> ./.bashrc
+
+# Environment variables for using the Juno source repo
+ENV JUNO_MAIN_DIR=${TARGET_DIR}/juno-main
+RUN echo "export JUNO_MAIN_DIR=${JUNO_MAIN_DIR}" >> ./.bashrc
 
 # Arguments to build the CLI - either satellite or console
 ARG CLI_BUILD=satellite
@@ -83,7 +93,7 @@ RUN ./docker/server/cli/setup
 RUN ./docker/server/console/setup
 
 # Make downloaded files executable
-RUN chmod +x target/*
+RUN chmod +x ${TARGET_DIR}/*
 
 ENTRYPOINT ["./docker/server/app"]
 
