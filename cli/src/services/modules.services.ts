@@ -163,4 +163,8 @@ export class Module {
   async start(_context: CliContext) {
     // Default is do nothing on start
   }
+
+  async config(_context: CliContext) {
+    // Default do nothing
+  }
 }

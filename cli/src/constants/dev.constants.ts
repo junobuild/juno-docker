@@ -24,6 +24,7 @@ export const DEV_METADATA = join(DEV_DEPLOY_FOLDER, 'metadata.json');
  * Configuration
  */
 
+export const JUNO_CONFIG_FILENAME = 'juno.config'; // .json | .js | .cjs | .mjs | .ts
 export const JUNO_DEV_CONFIG_FILENAME = 'juno.dev.config'; // .json | .js | .cjs | .mjs | .ts
 
 /**

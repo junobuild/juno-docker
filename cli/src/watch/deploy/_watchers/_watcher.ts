@@ -6,11 +6,13 @@ import type {WatcherDescription} from '../_types/watcher';
 export abstract class Watcher {
   protected executing = false;
   #requestExecution = false;
+  readonly #debounceExec: (...args: unknown[]) => void;
 
   protected readonly moduleFileName: string;
 
-  protected constructor({moduleFileName}: WatcherDescription) {
+  protected constructor({moduleFileName, debounceDelay}: WatcherDescription) {
     this.moduleFileName = moduleFileName;
+    this.#debounceExec = debounce(this.exec, debounceDelay);
   }
 
   onWatch = async ({filePath, context}: {filePath: string; context: CliContext}) => {
@@ -46,6 +48,4 @@ export abstract class Watcher {
     this.#requestExecution = false;
     await this.exec({context});
   }
-
-  readonly #debounceExec = debounce(this.exec);
 }
