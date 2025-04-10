@@ -5,6 +5,7 @@ import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
 import {buildContext} from '../services/context.services';
 import {setController} from '../services/controller.services';
+import {collectIdentities} from '../services/identity.services';
 import {transfer} from '../services/ledger.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
@@ -70,6 +71,25 @@ const buildServer = ({context}: {context: CliContext}): Server =>
             key: command === 'observatory' ? observatory.key : consoleModule.key
           });
           done();
+          return;
+      }
+
+      error404();
+      return;
+    }
+
+    if (command === 'admin') {
+      switch (subCommand) {
+        case 'identities':
+          const identities = collectIdentities({context});
+
+          const headers: OutgoingHttpHeaders = {
+            ...corsHeaders,
+            'Content-Type': 'application/json'
+          };
+
+          res.writeHead(200, headers);
+          res.end(JSON.stringify(identities));
           return;
       }
 
