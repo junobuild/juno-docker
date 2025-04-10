@@ -58,6 +58,7 @@ class SatelliteDynamicModule extends SatelliteModule {
       key: this.key,
       name: this.name,
       canisterId,
+      // Deployed because the Satellite was created by the dev with the Console UI
       status: 'deployed',
       hash
     });
