@@ -32,7 +32,7 @@ export class DeployWatcher extends Watcher {
     const {mod} = result;
 
     if (mod.isDeployed(context)) {
-      console.log(`ℹ️  ${mod.name} already deployed. No changes detected.`);
+      console.log(`ℹ️   ${mod.name} already deployed. No changes detected.`);
 
       await cancelExecution();
       return;
