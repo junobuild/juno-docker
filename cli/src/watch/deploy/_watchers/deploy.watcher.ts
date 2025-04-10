@@ -1,6 +1,6 @@
 import type {Module} from '../../../services/modules.services';
 import type {CliContext} from '../../../types/context';
-import type {WatcherDeployDescription} from '../../../types/watcher';
+import type {WatcherDeployDescription} from '../_types/watcher';
 import {Watcher} from './_watcher';
 
 export class DeployWatcher extends Watcher {

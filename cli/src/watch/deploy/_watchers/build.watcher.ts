@@ -1,5 +1,5 @@
 import type {CliContext} from '../../../types/context';
-import type {WatcherBuildDescription} from '../../../types/watcher';
+import type {WatcherBuildDescription} from '../_types/watcher';
 import {Watcher} from './_watcher';
 
 export class BuildWatcher extends Watcher {
