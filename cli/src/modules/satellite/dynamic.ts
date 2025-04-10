@@ -28,8 +28,6 @@ class SatelliteDynamicModule extends SatelliteModule {
 
     const metadata = state.getModule(this.key);
 
-    console.log(metadata, canisterId);
-
     // We check the canisterId in case the developer update their configuration at runtime.
     if (nonNullish(metadata) && metadata.canisterId === canisterId) {
       // Satellite has already been registered and initialized once. We do not need to add it to the state again.
@@ -39,20 +37,20 @@ class SatelliteDynamicModule extends SatelliteModule {
     // We gather the current hash of the canister by fetching the canister status with th IC mgmt.
     // This is useful otherwise dev would have to build twice to make the watcher notice the hash is really different and upgrade the satellite.
     // Plus, this allows to preventively checks if the main identity is a controller of the Satellite.
-    let hash: string;
+    let hash: string | undefined = undefined;
 
     try {
-      const moduleHash = await this.currentModuleHash({context, canisterId});
-
-      if (isNullish(moduleHash)) {
-        throw new Error(
-          `‼️  Unexpected error while fetching the status of ${SATELLITE.name}. ID: ${cyan(canisterId.toString())}. Does it exist?`
-        );
-      }
-
-      hash = moduleHash;
+      hash = await this.currentModuleHash({context, canisterId});
     } catch (err: unknown) {
-      console.log(err instanceof Error ? red(err.message) : err);
+      console.log(red('️‼️  Unexpected error while fetching current module hash:'), err);
+      throw err;
+    }
+
+    if (isNullish(hash)) {
+      const err = new Error(
+        `‼️  The module hash for ${SATELLITE.name}, ID: ${cyan(canisterId.toString())} is undefined.`
+      );
+      console.log(red(err.message));
       throw err;
     }
 
