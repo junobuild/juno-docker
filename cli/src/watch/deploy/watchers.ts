@@ -1,13 +1,13 @@
 import {notEmptyString} from '@dfinity/utils';
-import {consoleModule} from '../modules/console';
-import {observatory} from '../modules/observatory';
-import {satellite} from '../modules/satellite';
-import type {ModuleKey} from '../types/module';
-import {consoleWatchers} from './modules/console';
-import {observatoryWatcher} from './modules/oberservatory';
-import {satelliteWatcher} from './modules/satellite';
-import {sputnikWatcher} from './modules/sputnik';
-import type {Watcher} from './services/_watcher';
+import {consoleModule} from '../../modules/console';
+import {observatory} from '../../modules/observatory';
+import {satellite} from '../../modules/satellite';
+import type {ModuleKey} from '../../types/module';
+import {consoleWatchers} from './_modules/console';
+import {observatoryWatcher} from './_modules/oberservatory';
+import {satelliteWatcher} from './_modules/satellite';
+import {sputnikWatcher} from './_modules/sputnik';
+import type {Watcher} from './_watchers/_watcher';
 
 interface WatcherKey {
   key: ModuleKey;

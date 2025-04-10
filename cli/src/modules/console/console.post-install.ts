@@ -1,12 +1,12 @@
 import {installRelease} from '../../services/console.services';
 import type {ModuleInstallParams} from '../../types/module';
+import {satellite} from '../satellite';
 import {
   MISSION_CONTROL_KEY,
   MISSION_CONTROL_NAME,
   ORBITER_KEY,
   ORBITER_NAME
-} from '../../watch/modules/console';
-import {satellite} from '../satellite';
+} from './console.constants';
 
 export const installReleases = async (context: ModuleInstallParams) => {
   const promises = [
