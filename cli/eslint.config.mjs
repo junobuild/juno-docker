@@ -41,6 +41,7 @@ export default defineConfig([
       '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/no-deprecated': 'off',
       '@typescript-eslint/class-methods-use-this': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
