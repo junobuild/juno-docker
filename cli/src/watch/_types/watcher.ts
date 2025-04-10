@@ -19,4 +19,4 @@ export type WatcherBuildDescription = {
   build: () => Promise<void>;
 } & WatcherConsoleInstallDescription;
 
-export type WatcherConfigDescription = Omit<WatcherDeployDescription, "debounceDelay">;
+export type WatcherConfigDescription = Omit<WatcherDeployDescription, 'debounceDelay'>;
