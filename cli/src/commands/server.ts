@@ -80,7 +80,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
 
     if (command === 'admin') {
       switch (subCommand) {
-        case 'identities':
+        case 'identities': {
           const identities = collectIdentities({context});
 
           const headers: OutgoingHttpHeaders = {
@@ -91,6 +91,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
           res.writeHead(200, headers);
           res.end(JSON.stringify(identities));
           return;
+        }
       }
 
       error404();
