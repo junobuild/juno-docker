@@ -45,7 +45,7 @@ export class SatelliteModule extends Module {
     await this.config(context);
   }
 
-  async config(context: CliContext) {
+  override async config(context: CliContext) {
     const canisterId = this.canisterId(context);
 
     if (isNullish(canisterId)) {
