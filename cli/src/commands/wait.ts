@@ -4,8 +4,8 @@ import {buildContext} from '../services/context.services';
 export const wait = async (args?: string[]) => {
   const {agent} = await buildContext(args);
 
-  // 10 seconds from now
-  const timeout = Date.now() + 10_000;
+  // 20 seconds from now
+  const timeout = Date.now() + 20_000;
 
   while (Date.now() < timeout) {
     const healthy = await isReplicaHealthy(agent);
@@ -19,6 +19,12 @@ export const wait = async (args?: string[]) => {
 };
 
 const isReplicaHealthy = async (agent: HttpAgent): Promise<boolean> => {
+  // TODO: Workaround for agent-js. Disable console.warn.
+  // See https://github.com/dfinity/agent-js/issues/843
+  // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+  const hideAgentJsConsoleWarn = globalThis.console.warn;
+  globalThis.console.warn = (): null => null;
+
   try {
     const {replica_health_status} = await agent.status();
 
@@ -26,5 +32,8 @@ const isReplicaHealthy = async (agent: HttpAgent): Promise<boolean> => {
   } catch (_err: unknown) {
     // We ignore the errors here
     return false;
+  } finally {
+    // Redo console.warn
+    globalThis.console.warn = hideAgentJsConsoleWarn;
   }
 };
