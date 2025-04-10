@@ -117,13 +117,25 @@ export class Module {
   async prepare(context: CliContext): Promise<void> {
     const canisterId = await createCanister({...context, ...this.data});
 
+    this.initialize({context, canisterId: canisterId.toString()});
+  }
+
+  protected initialize({
+    context,
+    canisterId,
+    status
+  }: {
+    context: CliContext;
+    canisterId: ModuleCanisterId;
+    status?: ModuleStatus;
+  }): void {
     const {state} = context;
 
     state.saveModule({
       key: this.key,
       name: this.name,
-      canisterId: canisterId.toString(),
-      status: 'initialized',
+      canisterId,
+      status: status ?? 'initialized',
       hash: this.hash
     });
   }

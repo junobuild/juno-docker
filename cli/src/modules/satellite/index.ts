@@ -1,12 +1,12 @@
 import {IDL} from '@dfinity/candid';
-import {isNullish, nonNullish} from '@dfinity/utils';
+import {isNullish} from '@dfinity/utils';
 import {existsSync} from 'node:fs';
 import {junoDevConfigExist} from '../../configs/juno.dev.config';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {DEV_SATELLITE} from '../../constants/dev.constants';
 import {Module} from '../../services/modules.services';
 import type {CliContext} from '../../types/context';
-import type {ModuleCanisterId, ModuleDescription, ModuleInstallParams} from '../../types/module';
+import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
 import {configureCollections, configureControllers} from './satellite.config';
 
 export const SATELLITE: ModuleDescription = {
@@ -66,12 +66,9 @@ export class SatelliteModule extends Module {
   }
 }
 
-export const initSatelliteModule = (
-  params: {canisterId?: ModuleCanisterId} = {}
-): SatelliteModule =>
+export const initSatelliteModule = (): SatelliteModule =>
   new SatelliteModule({
     ...SATELLITE,
-    canisterId: nonNullish(params.canisterId) ? params.canisterId : SATELLITE.canisterId,
     ...(existsSync(DEV_SATELLITE) && {wasmPath: DEV_SATELLITE})
   });
 

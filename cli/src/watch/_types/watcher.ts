@@ -1,4 +1,5 @@
 import type {Module} from '../../services/modules.services';
+import type {CliContext} from '../../types/context';
 import type {ModuleDescription} from '../../types/module';
 
 export interface WatcherDescription {
@@ -7,7 +8,7 @@ export interface WatcherDescription {
 }
 
 export type WatcherDeployDescription = WatcherDescription & {
-  initModule: () => Promise<Module | undefined>;
+  initModule: (params: {context: CliContext}) => Promise<Module | undefined>;
 };
 
 export type WatcherJobDescription = Pick<ModuleDescription, 'key' | 'name'> & WatcherDescription;

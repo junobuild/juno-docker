@@ -1,6 +1,6 @@
 import {DEV_SATELLITE_WASM_FILENAME} from '../../constants/dev.constants';
 import {initSatelliteModule} from '../../modules/satellite';
-import {initSatelliteDynamicModule} from '../../modules/satellite/init';
+import {initSatelliteDynamicModule} from '../../modules/satellite/dynamic';
 import type {Module} from '../../services/modules.services';
 import {DeployWatcher} from '../_watchers/deploy.watcher';
 
