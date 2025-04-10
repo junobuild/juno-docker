@@ -1,10 +1,13 @@
+import kleur from 'kleur';
 import type {Module} from '../../services/modules.services';
 import type {CliContext} from '../../types/context';
-import type {WatcherDeployDescription} from '../_types/watcher';
+import type {WatcherDeployDescription, WatcherDeployInitModule} from '../_types/watcher';
 import {Watcher} from './_watcher';
 
+const {red} = kleur;
+
 export class DeployWatcher extends Watcher {
-  readonly #initModule: () => Module;
+  readonly #initModule: WatcherDeployInitModule;
 
   constructor({moduleFileName, initModule}: WatcherDeployDescription) {
     super({moduleFileName});
@@ -12,13 +15,26 @@ export class DeployWatcher extends Watcher {
   }
 
   protected async onExec({context}: {context: CliContext}) {
-    const mod = this.#initModule();
+    const result = await this.#initModule({context});
 
-    if (mod.isDeployed(context)) {
+    const cancelExecution = async () => {
       this.executing = false;
-      console.log(`ℹ️   ${mod.name} already deployed. No changes detected.`);
 
       await this.processPendingRequest({context});
+    };
+
+    if ('err' in result) {
+      // No stacktrace printed here. It's update to the consumer to print out messages if the module cannot be loaded.
+      await cancelExecution();
+      return;
+    }
+
+    const {mod} = result;
+
+    if (mod.isDeployed(context)) {
+      console.log(`ℹ️   ${mod.name} already deployed. No changes detected.`);
+
+      await cancelExecution();
       return;
     }
 
@@ -30,6 +46,8 @@ export class DeployWatcher extends Watcher {
       console.log(`🎬  Upgrading ${mod.name}...`);
 
       await mod.install(context);
+    } catch (err: unknown) {
+      console.log(red('️‼️  Unexpected error while installing the module:'), err);
     } finally {
       this.executing = false;
     }

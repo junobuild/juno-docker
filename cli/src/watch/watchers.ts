@@ -5,12 +5,13 @@ import {satellite} from '../modules/satellite';
 import type {ModuleKey} from '../types/module';
 import {consoleWatchers} from './_modules/console';
 import {observatoryWatcher} from './_modules/oberservatory';
-import {satelliteWatcher} from './_modules/satellite';
+import {satelliteDynamicWatcher, satelliteWatcher} from './_modules/satellite';
 import {sputnikWatcher} from './_modules/sputnik';
 import type {Watcher} from './_watchers/_watcher';
 
 interface WatcherKey {
-  key: ModuleKey;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  key: ModuleKey | `${ModuleKey}-dynamic` | 'sputnik';
   watcher: Watcher;
 }
 
@@ -20,7 +21,11 @@ const WATCHERS: WatcherKey[] = [
     watcher: satelliteWatcher
   },
   {
-    key: satellite.key,
+    key: `${satellite.key}-dynamic`,
+    watcher: satelliteDynamicWatcher
+  },
+  {
+    key: 'sputnik',
     watcher: sputnikWatcher
   },
   ...consoleWatchers.map((watcher) => ({
