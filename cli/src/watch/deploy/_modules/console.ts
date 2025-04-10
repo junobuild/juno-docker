@@ -3,11 +3,17 @@ import {
   DEV_MISSION_CONTROL_WASM_FILENAME,
   DEV_ORBITER_WASM_FILENAME,
   DEV_SATELLITE_WASM_FILENAME
-} from '../../constants/dev.constants';
-import {initConsoleModule} from '../../modules/console';
-import {satellite} from '../../modules/satellite';
-import {ConsoleInstallWatcher} from '../services/console-install.watcher';
-import {DeployWatcher} from '../services/deploy.watcher';
+} from '../../../constants/dev.constants';
+import {initConsoleModule} from '../../../modules/console';
+import {
+  MISSION_CONTROL_KEY,
+  MISSION_CONTROL_NAME,
+  ORBITER_KEY,
+  ORBITER_NAME
+} from '../../../modules/console/console.constants';
+import {satellite} from '../../../modules/satellite';
+import {ConsoleInstallWatcher} from '../_watchers/console-install.watcher';
+import {DeployWatcher} from '../_watchers/deploy.watcher';
 
 const consoleWatcher = new DeployWatcher({
   moduleFileName: DEV_CONSOLE_WASM_FILENAME,
@@ -21,17 +27,11 @@ const consoleSatelliteWatcher = new ConsoleInstallWatcher({
   moduleFileName: DEV_SATELLITE_WASM_FILENAME
 });
 
-export const MISSION_CONTROL_KEY = 'mission_control';
-export const MISSION_CONTROL_NAME = 'Mission Control';
-
 const consoleMissionControlWatcher = new ConsoleInstallWatcher({
   key: MISSION_CONTROL_KEY,
   name: MISSION_CONTROL_NAME,
   moduleFileName: DEV_MISSION_CONTROL_WASM_FILENAME
 });
-
-export const ORBITER_KEY = 'orbiter';
-export const ORBITER_NAME = 'Orbiter';
 
 const consoleOrbiterWatcher = new ConsoleInstallWatcher({
   key: ORBITER_KEY,

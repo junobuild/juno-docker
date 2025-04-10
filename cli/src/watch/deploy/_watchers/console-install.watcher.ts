@@ -1,9 +1,9 @@
 import {readFileSync} from 'atomically';
 import {join} from 'node:path';
-import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../../constants/dev.constants';
-import {installRelease} from '../../services/console.services';
-import type {CliContext} from '../../types/context';
-import type {WatcherConsoleInstallDescription} from '../../types/watcher';
+import {DEV_DEPLOY_FOLDER, DEV_METADATA} from '../../../constants/dev.constants';
+import {installRelease} from '../../../services/console.services';
+import type {CliContext} from '../../../types/context';
+import type {WatcherConsoleInstallDescription} from '../../../types/watcher';
 import {Watcher} from './_watcher';
 
 export class ConsoleInstallWatcher extends Watcher {

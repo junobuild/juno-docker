@@ -1,7 +1,7 @@
 import {debounce} from '@dfinity/utils';
 import {basename} from 'node:path';
-import type {CliContext} from '../../types/context';
-import type {WatcherDescription} from '../../types/watcher';
+import type {CliContext} from '../../../types/context';
+import type {WatcherDescription} from '../../../types/watcher';
 
 export abstract class Watcher {
   protected executing = false;
