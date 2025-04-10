@@ -67,7 +67,7 @@ const watch = async ({
 
   chokidar
     .watch(configPath, {
-      ignoreInitial: false,
+      ignoreInitial: true,
       awaitWriteFinish: true
     })
     .on('add', watchOnEvent)
