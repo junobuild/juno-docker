@@ -16,7 +16,7 @@ export class DeployWatcher extends Watcher {
 
     if (mod.isDeployed(context)) {
       this.executing = false;
-      console.log(`ℹ️  ${mod.name} already deployed. No changes detected.`);
+      console.log(`ℹ️   ${mod.name} already deployed. No changes detected.`);
 
       await this.processPendingRequest({context});
       return;
