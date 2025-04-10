@@ -86,11 +86,11 @@ COPY --chown=apprunner:apprunner ./docker/server ./docker/server
 # Copy CLI resources
 COPY --chown=apprunner:apprunner ./cli ./cli
 
-# Install and build CLI
-RUN ./docker/server/cli/setup
-
 # Install Console UI
 RUN ./docker/server/console/setup
+
+# Install and build CLI
+RUN ./docker/server/cli/setup
 
 # Make downloaded files executable
 RUN chmod +x ${TARGET_DIR}/*
