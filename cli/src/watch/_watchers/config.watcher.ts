@@ -1,5 +1,5 @@
-import type {Module} from '../../../services/modules.services';
-import type {CliContext} from '../../../types/context';
+import type {Module} from '../../services/modules.services';
+import type {CliContext} from '../../types/context';
 import type {WatcherConfigDescription} from '../_types/watcher';
 import {Watcher} from './_watcher';
 

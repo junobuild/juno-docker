@@ -1,5 +1,5 @@
-import type {Module} from '../../../services/modules.services';
-import type {ModuleDescription} from '../../../types/module';
+import type {Module} from '../../services/modules.services';
+import type {ModuleDescription} from '../../types/module';
 
 export interface WatcherDescription {
   moduleFileName: string;

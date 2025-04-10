@@ -6,9 +6,9 @@ import {
 import chokidar from 'chokidar';
 import kleur from 'kleur';
 import {basename} from 'node:path';
-import {JUNO_CONFIG_FILENAME, JUNO_DEV_CONFIG_FILENAME} from '../../constants/dev.constants';
-import {initSatelliteModule} from '../../modules/satellite';
-import {buildContext} from '../../services/context.services';
+import {JUNO_CONFIG_FILENAME, JUNO_DEV_CONFIG_FILENAME} from '../constants/dev.constants';
+import {initSatelliteModule} from '../modules/satellite';
+import {buildContext} from '../services/context.services';
 import type {WatcherDescription} from './_types/watcher';
 import type {Watcher} from './_watchers/_watcher';
 import {ConfigWatcher} from './_watchers/config.watcher';

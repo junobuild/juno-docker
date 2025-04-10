@@ -1,8 +1,8 @@
 import {notEmptyString} from '@dfinity/utils';
-import {consoleModule} from '../../modules/console';
-import {observatory} from '../../modules/observatory';
-import {satellite} from '../../modules/satellite';
-import type {ModuleKey} from '../../types/module';
+import {consoleModule} from '../modules/console';
+import {observatory} from '../modules/observatory';
+import {satellite} from '../modules/satellite';
+import type {ModuleKey} from '../types/module';
 import {consoleWatchers} from './_modules/console';
 import {observatoryWatcher} from './_modules/oberservatory';
 import {satelliteWatcher} from './_modules/satellite';

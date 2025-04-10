@@ -1,8 +1,8 @@
 import chokidar from 'chokidar';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
-import {DEV_DEPLOY_FOLDER} from '../../constants/dev.constants';
-import {buildContext} from '../../services/context.services';
+import {DEV_DEPLOY_FOLDER} from '../constants/dev.constants';
+import {buildContext} from '../services/context.services';
 import {watchers} from './watchers';
 
 const {green, red} = kleur;

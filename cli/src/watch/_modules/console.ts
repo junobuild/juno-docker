@@ -3,15 +3,15 @@ import {
   DEV_MISSION_CONTROL_WASM_FILENAME,
   DEV_ORBITER_WASM_FILENAME,
   DEV_SATELLITE_WASM_FILENAME
-} from '../../../constants/dev.constants';
-import {initConsoleModule} from '../../../modules/console';
+} from '../../constants/dev.constants';
+import {initConsoleModule} from '../../modules/console';
 import {
   MISSION_CONTROL_KEY,
   MISSION_CONTROL_NAME,
   ORBITER_KEY,
   ORBITER_NAME
-} from '../../../modules/console/console.constants';
-import {satellite} from '../../../modules/satellite';
+} from '../../modules/console/console.constants';
+import {satellite} from '../../modules/satellite';
 import {ConsoleInstallWatcher} from '../_watchers/console-install.watcher';
 import {DeployWatcher} from '../_watchers/deploy.watcher';
 
