@@ -11,7 +11,7 @@ import type {Watcher} from './_watchers/_watcher';
 
 interface WatcherKey {
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  key: ModuleKey | `${ModuleKey}-dynamic`;
+  key: ModuleKey | `${ModuleKey}-dynamic` | 'sputnik';
   watcher: Watcher;
 }
 
@@ -25,7 +25,7 @@ const WATCHERS: WatcherKey[] = [
     watcher: satelliteDynamicWatcher
   },
   {
-    key: satellite.key,
+    key: 'sputnik',
     watcher: sputnikWatcher
   },
   ...consoleWatchers.map((watcher) => ({
