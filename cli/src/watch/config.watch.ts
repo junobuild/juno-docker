@@ -15,8 +15,6 @@ import {ConfigWatcher} from './_watchers/config.watcher';
 
 const {red} = kleur;
 
-const ON_WATCH_DEBOUNCE_DELAY = 5000;
-
 export const watchConfig = async (args?: string[]) => {
   await watch({
     args,
@@ -24,8 +22,7 @@ export const watchConfig = async (args?: string[]) => {
     initWatcher: ({moduleFileName}: Pick<WatcherDescription, 'moduleFileName'>): ConfigWatcher =>
       new ConfigWatcher({
         moduleFileName,
-        initModule: initSatelliteModule,
-        debounceDelay: ON_WATCH_DEBOUNCE_DELAY
+        initModule: initSatelliteModule
       })
   });
 };
@@ -37,8 +34,7 @@ export const watchDevConfig = async (args?: string[]) => {
     initWatcher: ({moduleFileName}: Pick<WatcherDescription, 'moduleFileName'>): ConfigWatcher =>
       new ConfigWatcher({
         moduleFileName,
-        initModule: initSatelliteModule,
-        debounceDelay: ON_WATCH_DEBOUNCE_DELAY
+        initModule: initSatelliteModule
       })
   });
 };

@@ -3,11 +3,13 @@ import type {CliContext} from '../../types/context';
 import type {WatcherConfigDescription} from '../_types/watcher';
 import {Watcher} from './_watcher';
 
+const ON_WATCH_DEBOUNCE_DELAY = 5000;
+
 export class ConfigWatcher extends Watcher {
   readonly #initModule: () => Module;
 
   constructor({moduleFileName, initModule}: WatcherConfigDescription) {
-    super({moduleFileName});
+    super({moduleFileName, debounceDelay: ON_WATCH_DEBOUNCE_DELAY});
     this.#initModule = initModule;
   }
 
