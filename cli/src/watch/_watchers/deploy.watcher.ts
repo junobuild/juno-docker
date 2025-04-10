@@ -1,15 +1,13 @@
-import {isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
-import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {Module} from '../../services/modules.services';
 import type {CliContext} from '../../types/context';
-import type {WatcherDeployDescription} from '../_types/watcher';
+import type {WatcherDeployDescription, WatcherDeployInitModule} from '../_types/watcher';
 import {Watcher} from './_watcher';
 
 const {red} = kleur;
 
 export class DeployWatcher extends Watcher {
-  readonly #initModule: (params: {context: CliContext}) => Promise<Module | undefined>;
+  readonly #initModule: WatcherDeployInitModule;
 
   constructor({moduleFileName, initModule}: WatcherDeployDescription) {
     super({moduleFileName});
@@ -17,18 +15,26 @@ export class DeployWatcher extends Watcher {
   }
 
   protected async onExec({context}: {context: CliContext}) {
-    const mod = await this.#initModule({context});
+    const result = await this.#initModule({context});
 
-    if (isNullish(mod)) {
+    const cancelExecution = async () => {
+      this.executing = false;
+
+      await this.processPendingRequest({context});
+    };
+
+    if ('err' in result) {
       // No stacktrace printed here. It's update to the consumer to print out messages if the module cannot be loaded.
+      await cancelExecution();
       return;
     }
 
+    const {mod} = result;
+
     if (mod.isDeployed(context)) {
-      this.executing = false;
       console.log(`ℹ️  ${mod.name} already deployed. No changes detected.`);
 
-      await this.processPendingRequest({context});
+      await cancelExecution();
       return;
     }
 
@@ -38,9 +44,6 @@ export class DeployWatcher extends Watcher {
   private async executeUpgrade({context, mod}: {context: CliContext; mod: Module}) {
     try {
       console.log(`🎬  Upgrading ${mod.name}...`);
-
-      const {[MAIN_IDENTITY_KEY]: identity} = context.identities;
-      console.log('--->', identity.getPrincipal().toText());
 
       await mod.install(context);
     } catch (err: unknown) {

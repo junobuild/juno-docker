@@ -7,8 +7,14 @@ export interface WatcherDescription {
   debounceDelay?: number;
 }
 
+export type WatcherDeployInitModuleResult = {mod: Module} | {err: unknown};
+
+export type WatcherDeployInitModule = (params: {
+  context: CliContext;
+}) => Promise<WatcherDeployInitModuleResult>;
+
 export type WatcherDeployDescription = WatcherDescription & {
-  initModule: (params: {context: CliContext}) => Promise<Module | undefined>;
+  initModule: WatcherDeployInitModule;
 };
 
 export type WatcherJobDescription = Pick<ModuleDescription, 'key' | 'name'> & WatcherDescription;

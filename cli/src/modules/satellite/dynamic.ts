@@ -1,18 +1,29 @@
-import {isNullish, nonNullish} from '@dfinity/utils';
+import {ICManagementCanister} from '@dfinity/ic-management';
+import {Principal} from '@dfinity/principal';
+import {fromNullable, isNullish, nonNullish, uint8ArrayToHexString} from '@dfinity/utils';
 import {
   junoConfigExist as junoConfigExistTools,
   junoConfigFile as junoConfigFileTools
 } from '@junobuild/config-loader';
+import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {basename} from 'node:path';
 import {readJunoConfig} from '../../configs/juno.config';
 import {DEV_SATELLITE, JUNO_CONFIG_FILENAME} from '../../constants/dev.constants';
 import type {CliContext} from '../../types/context';
 import type {ModuleCanisterId} from '../../types/module';
+import type {WatcherDeployInitModuleResult} from '../../watch/_types/watcher';
 import {SATELLITE, SatelliteModule} from './index';
 
+const {red, cyan} = kleur;
+
+interface SatelliteDynamicModuleRegisterParams {
+  context: CliContext;
+  canisterId: ModuleCanisterId;
+}
+
 class SatelliteDynamicModule extends SatelliteModule {
-  register({context, canisterId}: {context: CliContext; canisterId: ModuleCanisterId}) {
+  async register({context, canisterId}: SatelliteDynamicModuleRegisterParams): Promise<void> {
     const {state} = context;
 
     const metadata = state.getModule(this.key);
@@ -25,23 +36,70 @@ class SatelliteDynamicModule extends SatelliteModule {
       return;
     }
 
+    // We gather the current hash of the canister by fetching the canister status with th IC mgmt.
+    // This is useful otherwise dev would have to build twice to make the watcher notice the hash is really different and upgrade the satellite.
+    // Plus, this allows to preventively checks if the main identity is a controller of the Satellite.
+    let hash: string;
 
-    this.initialize({context, canisterId, status: 'deployed'});
+    try {
+      const moduleHash = await this.currentModuleHash({context, canisterId});
 
-    console.log(context.state.getModule(this.key));
+      if (isNullish(moduleHash)) {
+        throw new Error(
+          `‼️  Unexpected error while fetching the status of ${SATELLITE.name}. ID: ${cyan(canisterId.toString())}. Does it exist?`
+        );
+      }
+
+      hash = moduleHash;
+    } catch (err: unknown) {
+      console.log(err instanceof Error ? red(err.message) : err);
+      throw err;
+    }
+
+    state.saveModule({
+      key: this.key,
+      name: this.name,
+      canisterId,
+      status: 'deployed',
+      hash
+    });
   }
 
+  private async currentModuleHash({
+    context,
+    canisterId
+  }: SatelliteDynamicModuleRegisterParams): Promise<string | undefined> {
+    const {agent} = context;
 
+    const {canisterStatus} = ICManagementCanister.create({
+      agent
+    });
+
+    const {module_hash} = await canisterStatus(Principal.from(canisterId));
+
+    const installedHash = fromNullable(module_hash);
+
+    if (isNullish(installedHash)) {
+      return undefined;
+    }
+
+    return uint8ArrayToHexString(installedHash);
+  }
 }
 
 export const initSatelliteDynamicModule = async ({
   context
 }: {
   context: CliContext;
-}): Promise<SatelliteDynamicModule | undefined> => {
+}): Promise<WatcherDeployInitModuleResult> => {
   if (!(await junoConfigExistTools({filename: JUNO_CONFIG_FILENAME}))) {
-    console.log(`ℹ️  No configuration file provided. Skipping upgrade of ${SATELLITE.name}.`);
-    return undefined;
+    const err = new Error(
+      `ℹ️  No configuration file provided. Skipping upgrade of ${SATELLITE.name}.`
+    );
+    console.log(err.message);
+    return {
+      err
+    };
   }
 
   const config = await readJunoConfig();
@@ -51,8 +109,14 @@ export const initSatelliteDynamicModule = async ({
   if (isNullish(satelliteId)) {
     const {configPath} = junoConfigFileTools({filename: JUNO_CONFIG_FILENAME});
 
-    console.log(`ℹ️  No ${SATELLITE.name} provided in ${basename(configPath)}. Skipping upgrade.`);
-    return undefined;
+    const err = new Error(
+      `ℹ️  No ${SATELLITE.name} provided in ${basename(configPath)}. Skipping upgrade.`
+    );
+    console.log(err.message);
+
+    return {
+      err
+    };
   }
 
   const mod = new SatelliteDynamicModule({
@@ -61,9 +125,13 @@ export const initSatelliteDynamicModule = async ({
     ...(existsSync(DEV_SATELLITE) && {wasmPath: DEV_SATELLITE})
   });
 
-  // The Satellite is not attached to a static canister ID and is created by the DEV in the Console.
-  // That's why we need to register it in the state as if it was deployed - which it is.
-  mod.register({context, canisterId: satelliteId});
+  try {
+    // The Satellite is not attached to a static canister ID and is created by the DEV in the Console.
+    // That's why we need to register it in the state as if it was deployed - which it is.
+    await mod.register({context, canisterId: satelliteId});
+  } catch (err: unknown) {
+    return {err};
+  }
 
-  return mod;
+  return {mod};
 };

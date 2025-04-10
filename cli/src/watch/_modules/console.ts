@@ -12,14 +12,17 @@ import {
   ORBITER_NAME
 } from '../../modules/console/console.constants';
 import {satellite} from '../../modules/satellite';
-import type {Module} from '../../services/modules.services';
+import type {WatcherDeployInitModuleResult} from '../_types/watcher';
 import {ConsoleInstallWatcher} from '../_watchers/console-install.watcher';
 import {DeployWatcher} from '../_watchers/deploy.watcher';
 
 const consoleWatcher = new DeployWatcher({
   moduleFileName: DEV_CONSOLE_WASM_FILENAME,
   // We require an arrow function here to avoid bundling issue with initConsoleModule being undefined on init.
-  initModule: async (): Promise<Module> => initConsoleModule()
+  initModule: async (): Promise<WatcherDeployInitModuleResult> => {
+    const mod = initConsoleModule();
+    return {mod};
+  }
 });
 
 const consoleSatelliteWatcher = new ConsoleInstallWatcher({
