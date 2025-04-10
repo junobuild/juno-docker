@@ -6,11 +6,9 @@ export interface WatcherDescription {
   debounceDelay?: number;
 }
 
-export interface WatcherModuleDescription {
-  initModule: () => Module;
-}
-
-export type WatcherDeployDescription = WatcherModuleDescription & WatcherDescription;
+export type WatcherDeployDescription = WatcherDescription & {
+  initModule: () => Promise<Module | undefined>;
+};
 
 export type WatcherJobDescription = Pick<ModuleDescription, 'key' | 'name'> & WatcherDescription;
 
@@ -19,4 +17,6 @@ export type WatcherBuildDescription = {
   build: () => Promise<void>;
 } & WatcherConsoleInstallDescription;
 
-export type WatcherConfigDescription = Omit<WatcherDeployDescription, "debounceDelay">;
+export type WatcherConfigDescription = Omit<WatcherDescription, 'debounceDelay'> & {
+  initModule: () => Module;
+};

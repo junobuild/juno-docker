@@ -1,10 +1,11 @@
+import {isNullish} from '@dfinity/utils';
 import type {Module} from '../../services/modules.services';
 import type {CliContext} from '../../types/context';
 import type {WatcherDeployDescription} from '../_types/watcher';
 import {Watcher} from './_watcher';
 
 export class DeployWatcher extends Watcher {
-  readonly #initModule: () => Module;
+  readonly #initModule: () => Promise<Module | undefined>;
 
   constructor({moduleFileName, initModule}: WatcherDeployDescription) {
     super({moduleFileName});
@@ -12,7 +13,12 @@ export class DeployWatcher extends Watcher {
   }
 
   protected async onExec({context}: {context: CliContext}) {
-    const mod = this.#initModule();
+    const mod = await this.#initModule();
+
+    if (isNullish(mod)) {
+      // No stacktrace printed here. It's update to the consumer to print out messages if the module cannot be loaded.
+      return;
+    }
 
     if (mod.isDeployed(context)) {
       this.executing = false;
