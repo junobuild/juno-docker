@@ -7,7 +7,7 @@ JUNO_REPO="$JUNO_MAIN_DIR"
 if [ "$CLI_BUILD" == "skylab" ]; then
   npm --prefix "${JUNO_REPO}" run --silent preview -- --port "$CONSOLE_PORT" --host &
 
-  if ./docker/server/wait-port "$CONSOLE_PORT"; then
+  if ./docker/server/wait-port "$CONSOLE_PORT" --silent; then
     echo "🖥️   Console started on port ${CONSOLE_PORT}"
   fi
 fi
