@@ -10,6 +10,8 @@ set -m
 
 ./docker/server/cli/wait
 
+./docker/server/cli/deploy
+
 ./docker/server/console/start &
 
 ./docker/server/cli/start

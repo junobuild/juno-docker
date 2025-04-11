@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+node ./cli/dist/index.js deploy --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
