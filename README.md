@@ -14,7 +14,7 @@ This repository provides Docker images to support local development with [Juno](
 
 ### 🧪 Juno Skylab Docker Image
 
-The `junobuild/skylab` Docker image is an all-in-one environment for local Juno development. It bundles everything you need to build, test, and explore the Juno ecosystem:
+The `junobuild/skylab` Docker image is an all-in-one emulator for local Juno development. It bundles everything you need to build, test, and explore the Juno ecosystem:
 
 - ✅ Juno Console (smart contract + UI)
 - 🛰️ Satellites (support for multiple application containers)
@@ -24,6 +24,8 @@ The `junobuild/skylab` Docker image is an all-in-one environment for local Juno 
 This container mounts an [Internet Computer](https://internetcomputer.org/) Replica and `icx-proxy` within a sandbox. Once ready, a custom-built CLI takes care of deploying and setting up the modules during the first boot.
 
 It also actively watches a shared folder, allowing you to live reload serverless functions written in Rust or TypeScript.
+
+This container replicates the production experience locally. That's why, when building your project with it, you'll need to create your Satellites for testing through the Console UI, just as you would in production.
 
 ### 🛰️ Juno Satellite Docker Image
 
@@ -45,21 +47,21 @@ This image is mainly intended for contributors working on the Juno infrastructur
 
 ### 🗂️ Infrastructure Availability by Image
 
-| Module                                                                                                | Skylab ✅   | Satellite ✅   | Console ✅     |
-|-------------------------------------------------------------------------------------------------------|------------|---------------|---------------|
-| Satellite (auto-deployed)                                                                             | ✅          | ✅             | ❌             |
-| Juno Console ([backend](https://dashboard.internetcomputer.org/canister/cokmz-oiaaa-aaaal-aby6q-cai)) | ✅          | ❌             | ✅             |
-| Juno Console (UI)                                                                                     | ✅          | ❌             | ❌             |
-| [Observatory](https://dashboard.internetcomputer.org/canister/klbfr-lqaaa-aaaak-qbwsa-cai)            | ✅          | ❌             | ✅             |
-| [Internet Identity](https://identity.internetcomputer.org/)                                           | ✅          | ✅             | ✅             |
-| [ICP Ledger](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai)             | ✅          | ✅             | ✅             |
-| [ICP Index](https://dashboard.internetcomputer.org/canister/qhbym-qaaaa-aaaaa-aaafq-cai)              | ✅          | ✅             | ✅             |
-| [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)         | ✅          | ❌             | ✅             |
-| [CMC (Cycles Minting)](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)   | ✅          | ❌             | ✅             |
+| Module                                                                                                | Skylab ✅ | Satellite ✅ | Console ✅ |
+|-------------------------------------------------------------------------------------------------------| --------- | ------------ | ---------- |
+| Juno Console ([backend](https://dashboard.internetcomputer.org/canister/cokmz-oiaaa-aaaal-aby6q-cai)) | ✅        | ❌           | ✅         |
+| Juno Console (UI)                                                                                     | ✅        | ❌           | ❌         |
+| Create Satellites, Mission Controls, and Orbiters via the Console UI                                  | ✅        | ❌           | ❌         |
+| Default (auto-deployed) Satellite                                                                     | ❌        | ✅           | ❌         |
+| [Observatory](https://dashboard.internetcomputer.org/canister/klbfr-lqaaa-aaaak-qbwsa-cai)            | ✅        | ❌           | ✅         |
+| [Internet Identity](https://identity.internetcomputer.org/)                                           | ✅        | ✅           | ✅         |
+| [ICP Ledger](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai)             | ✅        | ✅           | ✅         |
+| [ICP Index](https://dashboard.internetcomputer.org/canister/qhbym-qaaaa-aaaaa-aaafq-cai)              | ✅        | ✅           | ✅         |
+| [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)         | ✅        | ❌           | ✅         |
+| [CMC (Cycles Minting)](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)   | ✅        | ❌           | ✅         |
 
-> [!NOTE]
-> **Satellite (auto-deployed)** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
-> This avoids the need to manually create it through the Console during development.
+> [!NOTE] > **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
+> This avoids the need to manually create it through the Console UI during development or testing.
 
 ## Documentation
 
@@ -150,7 +152,7 @@ The Docker images expose a small internal server with a set of administration co
 Here are the available commands:
 
 | URL                                                                   | Description                                          | Available In                               |
-|-----------------------------------------------------------------------|------------------------------------------------------|--------------------------------------------|
+| --------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------ |
 | http://localhost:5999/ledger/transfer/?to=bnz7o-iuaaa-aaaaa-qaaaa-cai | Transfers 55 ICP from the Ledger to the `to` address | All images                                 |
 | http://localhost:5999/console/controller/?id=<principal-text>         | Adds a controller to the Console canister            | `junobuild/skylab` and `junobuild/console` |
 
@@ -159,7 +161,7 @@ Here are the available commands:
 The containers expose the following ports:
 
 | Port   | Description                                                                                            |
-|--------|--------------------------------------------------------------------------------------------------------|
+| ------ | ------------------------------------------------------------------------------------------------------ |
 | `5987` | Local Replica. Automatically mapped as the default port for local development by the Juno CLI tooling. |
 | `5866` | Console UI (if available).                                                                             |
 | `5999` | Admin little server (for utility endpoints like transfers or controller updates).                      |
