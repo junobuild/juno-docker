@@ -2,15 +2,23 @@
 
 #source https://stackoverflow.com/a/70181222/5404186
 
+PORT=$1
+SILENT=false
+
+# Check if --silent is provided as second argument
+if [[ "$2" == "--silent" ]]; then
+    SILENT=true
+fi
+
 for _ in `seq 1 20`; do
-    echo -n .
-    if nc -z localhost $1; then
-        echo "✅ Connection to port $1 succeeded."
+    $SILENT || echo -n .
+    if nc -z localhost "$PORT"; then
+        $SILENT || echo "✅ Connection to port $PORT succeeded."
         exit 0
     fi
     sleep 0.5
 done
 
-echo "❌ Connection to port $1 failed!"
+echo "❌ Connection to port $PORT failed!"
 
 exit 1

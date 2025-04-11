@@ -8,6 +8,8 @@ set -m
 
 ./docker/server/replica/serve &
 
+./docker/server/cli/wait
+
 ./docker/server/console/start &
 
 ./docker/server/cli/start
