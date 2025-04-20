@@ -18,3 +18,5 @@ WASM_CANISTER="sputnik.wasm"
 OUTPUT_CANISTER="satellite.wasm"
 
 mv "./${WASM_CANISTER}.gz" "${DEPLOY_DIR}/${OUTPUT_CANISTER}.gz"
+
+echo "📦  Satellite WASM built: ${DEPLOY_DIR}/${OUTPUT_CANISTER}.gz"
