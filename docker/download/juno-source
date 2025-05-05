@@ -14,7 +14,7 @@ fi
 # curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/$COMMIT.tar.gz
 
 # Use a release tag
-TAG=v0.0.47
+TAG=v0.0.48
 SOURCE_FOLDER="juno-${TAG#v}"
 curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/tags/$TAG.tar.gz
 
