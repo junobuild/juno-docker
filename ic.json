@@ -1,26 +1,26 @@
 {
   "replica": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
+    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/replica",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
   },
   "ic-starter": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
+    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-starter.gz"
   },
   "canister_sandbox": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
+    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
   },
   "compiler_sandbox": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
+    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/compiler_sandbox.gz"
   },
   "sandbox_launcher": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
+    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
   },
@@ -30,7 +30,7 @@
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/icx-proxy-dev.gz"
   },
   "ic-https-outcalls-adapter": {
-    "commit": "a62848817cec7ae50618a87a526c85d020283fd9",
+    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
     "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
     "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
   }
