@@ -1,1 +1,1 @@
-export const NEURON_ID = 666;
+export const NEURON_ID = 666n;

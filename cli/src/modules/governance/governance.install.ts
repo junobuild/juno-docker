@@ -1,110 +1,133 @@
 import type {Identity} from '@dfinity/agent';
+import {IDL} from '@dfinity/candid';
+import {neuronSubaccount} from '@dfinity/sns';
+import {fromNullable} from '@dfinity/utils';
+import {MAIN_IDENTITY_KEY} from '../../constants/constants';
+import {NEURON_ID} from '../../constants/modules.constants';
 import {
   Decimal,
   Governance,
   NetworkEconomics,
   Neuron,
-  NeuronId,
   NeuronsFundEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   Percentage,
-  PrincipalId,
   XdrConversionRate
-} from '@dfinity/nns-proto';
-import {neuronSubaccount} from '@dfinity/sns';
-import {MAIN_IDENTITY_KEY} from '../../constants/constants';
-import {NEURON_ID} from '../../constants/modules.constants';
+} from '../../declarations/governance';
+import {init} from '../../declarations/governance.idl';
 import type {ModuleInstallParams} from '../../types/module';
 
 export const prepareGovernanceArgs = ({
   identities
-}: Pick<ModuleInstallParams, 'identities'>): Governance => {
+}: Pick<ModuleInstallParams, 'identities'>): ArrayBuffer => {
   const {[MAIN_IDENTITY_KEY]: identity} = identities;
 
   // Source: https://github.com/dfinity/ic/blob/e90838a1687f8e0869d85343aac2845d883f74ff/rs/nns/governance/src/governance.rs#L231
   const E8S_PER_ICP = 100_000_000n;
   const DEFAULT_TRANSFER_FEE = 10_000n;
 
-  const fund = new NeuronsFundEconomics();
-
   const decimal = (value: string): Decimal => {
-    const dev = new Decimal();
-    dev.setHumanReadable(value);
-    return dev;
+    return {human_readable: [value]};
   };
 
-  fund.setMaxTheoreticalNeuronsFundParticipationAmountXdr(decimal('750_000.0'));
-
-  const efficients = new NeuronsFundMatchedFundingCurveCoefficients();
-  efficients.setContributionThresholdXdr(decimal('75_000.0'));
-  efficients.setOneThirdParticipationMilestoneXdr(decimal('225_000.0'));
-  efficients.setFullParticipationMilestoneXdr(decimal('375_000.0'));
-
-  fund.setNeuronsFundMatchedFundingCurveCoefficients(efficients);
-
-  const percentage = (value: number): Percentage => {
-    const dev = new Percentage();
-    dev.setBasisPoints(value);
-    return dev;
+  const efficients: NeuronsFundMatchedFundingCurveCoefficients = {
+    contribution_threshold_xdr: [decimal('75_000.0')],
+    one_third_participation_milestone_xdr: [decimal('225_000.0')],
+    full_participation_milestone_xdr: [decimal('375_000.0')]
   };
 
-  fund.setMinimumIcpXdrRate(percentage(10_000)); // 1:1
-  fund.setMaximumIcpXdrRate(percentage(1_000_000)); // 1:100
+  const percentage = (value: bigint): Percentage => {
+    return {basis_points: [value]};
+  };
 
-  const eco = new NetworkEconomics();
-  eco.setRejectCostE8s(Number(E8S_PER_ICP)); // 1 ICP
-  eco.setNeuronMinimumStakeE8s(Number(E8S_PER_ICP)); // 1 ICP
-  eco.setNeuronManagementFeePerProposalE8s(1_000_000); // 0.01 ICP
-  eco.setMinimumIcpXdrRate(100); // 1 XDR
-  eco.setNeuronSpawnDissolveDelaySeconds(24 * 60 * 60 * 7); // 7 days
-  eco.setMaximumNodeProviderRewardsE8s(1_000_000 * 100_000_000); // 1M ICP
-  eco.setTransactionFeeE8s(Number(DEFAULT_TRANSFER_FEE));
-  eco.setMaxProposalsToKeepPerTopic(100);
-  eco.setNeuronsFundEconomics(fund);
+  const fund: NeuronsFundEconomics = {
+    maximum_icp_xdr_rate: [percentage(1_000_000n)], // 1:100
+    neurons_fund_matched_funding_curve_coefficients: [efficients],
+    max_theoretical_neurons_fund_participation_amount_xdr: [decimal('750_000.0')],
+    minimum_icp_xdr_rate: [percentage(10_000n)] // 1:1
+  };
 
-  const xdr = new XdrConversionRate();
-  xdr.setTimestampSeconds(1);
-  xdr.setXdrPermyriadPerIcp(10_000);
+  const eco: NetworkEconomics = {
+    neuron_minimum_stake_e8s: E8S_PER_ICP, // 1 ICP
+    max_proposals_to_keep_per_topic: 100,
+    neuron_management_fee_per_proposal_e8s: 1_000_000n, // 0.01 ICP
+    reject_cost_e8s: E8S_PER_ICP, // 1 ICP
+    transaction_fee_e8s: DEFAULT_TRANSFER_FEE,
+    neuron_spawn_dissolve_delay_seconds: BigInt(24 * 60 * 60 * 7), // 7 days
+    minimum_icp_xdr_rate: 100n, // 1 XDR
+    maximum_node_provider_rewards_e8s: BigInt(1_000_000 * 100_000_000), // 1M ICP
+    neurons_fund_economics: [fund]
+  };
+
+  const xdr: XdrConversionRate = {
+    xdr_permyriad_per_icp: [10_000n],
+    timestamp_seconds: [1n]
+  };
 
   const neuron = prepareNeuron({identity});
 
-  const gov = new Governance();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  gov.getNeuronsMap().set(neuron.getId()?.getId() ?? NEURON_ID, neuron);
-  gov.setWaitForQuietThresholdSeconds(60 * 60 * 24 * 4); // 4 days
-  gov.setEconomics(eco);
-  gov.setGenesisTimestampSeconds(0);
-  gov.setShortVotingPeriodSeconds(60 * 60 * 12); // 12 hours
-  gov.setXdrConversionRate(xdr);
+  const gov: Governance = {
+    default_followees: [],
+    making_sns_proposal: [],
+    most_recent_monthly_node_provider_rewards: [],
+    maturity_modulation_last_updated_at_timestamp_seconds: [],
+    wait_for_quiet_threshold_seconds: BigInt(60 * 60 * 24 * 4), // 4 days
+    metrics: [],
+    neuron_management_voting_period_seconds: [],
+    node_providers: [],
+    cached_daily_maturity_modulation_basis_points: [],
+    economics: [eco],
+    restore_aging_summary: [],
+    spawning_neurons: [],
+    latest_reward_event: [],
+    to_claim_transfers: [],
+    short_voting_period_seconds: BigInt(60 * 60 * 12), // 12 hours
+    topic_followee_index: [],
+    migrations: [],
+    proposals: [],
+    xdr_conversion_rate: [xdr],
+    in_flight_commands: [],
+    neurons: [[fromNullable(neuron.id)?.id ?? NEURON_ID, neuron]],
+    genesis_timestamp_seconds: 0n
+  };
 
-  return gov;
+  // Type definitions generated by Candid are not clean enough.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return IDL.encode(init({IDL}), [[gov]]);
 };
 
 const prepareNeuron = ({identity}: {identity: Identity}): Neuron => {
-  const id = new NeuronId();
-  id.setId(NEURON_ID);
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   const subAccount = neuronSubaccount({
     index: 0,
     controller: identity.getPrincipal()
-  }) as Uint8Array;
+  });
 
-  const principalId = new PrincipalId();
-  principalId.setSerializedId(identity.getPrincipal().toUint8Array());
+  const principalId = identity.getPrincipal();
 
-  const neuron = new Neuron();
-  neuron.setId(id);
-  neuron.setAccount(subAccount);
-  neuron.setController(principalId);
-  neuron.setHotKeysList([principalId]);
-  neuron.setCachedNeuronStakeE8s(1_000_000 * 100_000_000); // 1M ICP
-  neuron.setCreatedTimestampSeconds(0);
-  neuron.setAgingSinceTimestampSeconds(0);
-  neuron.setKycVerified(true);
-  neuron.setMaturityE8sEquivalent(0);
-  neuron.setNotForProfit(true);
-  neuron.setDissolveDelaySeconds(24 * 60 * 60 * 365 * 8); // 8 * 365 days
+  const neuron: Neuron = {
+    id: [{id: NEURON_ID}],
+    staked_maturity_e8s_equivalent: [],
+    controller: [principalId],
+    recent_ballots: [],
+    kyc_verified: true,
+    neuron_type: [],
+    not_for_profit: true,
+    maturity_e8s_equivalent: 0n,
+    cached_neuron_stake_e8s: BigInt(1_000_000 * 100_000_000), // 1M ICP
+    created_timestamp_seconds: 0n,
+    auto_stake_maturity: [],
+    aging_since_timestamp_seconds: 0n,
+    hot_keys: [principalId],
+    account: subAccount,
+    joined_community_fund_timestamp_seconds: [],
+    dissolve_state: [{DissolveDelaySeconds: BigInt(24 * 60 * 60 * 365 * 8)}], // 8 * 365 days
+    followees: [],
+    neuron_fees_e8s: 0n,
+    visibility: [],
+    transfer: [],
+    known_neuron_data: [],
+    spawn_at_timestamp_seconds: []
+  };
 
   return neuron;
 };

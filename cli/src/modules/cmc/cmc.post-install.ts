@@ -43,7 +43,7 @@ export const makeAuthorizedSubnetworksProposal = async ({
   );
 
   const request: MakeProposalRequest = {
-    neuronId: BigInt(NEURON_ID),
+    neuronId: NEURON_ID,
     url: 'https://forum.dfinity.org',
     title: 'Authorize CMC to create canisters in subnets',
     summary: 'The lack of documentation makes developing anything with the CMC canister a pain.',
