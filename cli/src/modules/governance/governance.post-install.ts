@@ -46,7 +46,7 @@ export const makeIcpXdrProposal = async ({
   );
 
   const request: MakeProposalRequest = {
-    neuronId: BigInt(NEURON_ID),
+    neuronId: NEURON_ID,
     url: 'https://forum.dfinity.org',
     title: 'ICP/XDR Conversion Rate',
     summary: `Set ICP/XDR conversion rate to 41388`,
