@@ -52,7 +52,8 @@ export const prepareGovernanceArgs = ({
     neuron_spawn_dissolve_delay_seconds: BigInt(24 * 60 * 60 * 7), // 7 days
     minimum_icp_xdr_rate: 100n, // 1 XDR
     maximum_node_provider_rewards_e8s: BigInt(1_000_000 * 100_000_000), // 1M ICP
-    neurons_fund_economics: [fund]
+    neurons_fund_economics: [fund],
+    voting_power_economics: []
   };
 
   const xdr: XdrConversionRate = {
@@ -79,7 +80,6 @@ export const prepareGovernanceArgs = ({
     to_claim_transfers: [],
     short_voting_period_seconds: BigInt(60 * 60 * 12), // 12 hours
     topic_followee_index: [],
-    migrations: [],
     proposals: [],
     xdr_conversion_rate: [xdr],
     in_flight_commands: [],
@@ -122,7 +122,10 @@ const prepareNeuron = ({identity}: {identity: Identity}): Neuron => {
     visibility: [],
     transfer: [],
     known_neuron_data: [],
-    spawn_at_timestamp_seconds: []
+    spawn_at_timestamp_seconds: [],
+    voting_power_refreshed_timestamp_seconds: [],
+    potential_voting_power: [],
+    deciding_voting_power: []
   };
 
   return neuron;
