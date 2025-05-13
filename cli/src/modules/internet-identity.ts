@@ -26,10 +26,10 @@ class InternetIdentityModule extends Module {
           }
         }
       }),
-      fetch_root_key: [],
+      fetch_root_key: [true],
       openid_google: [],
-      is_production: [],
-      enable_dapps_explorer: [],
+      is_production: [false],
+      enable_dapps_explorer: [false],
       analytics_config: [],
       related_origins: []
     };
