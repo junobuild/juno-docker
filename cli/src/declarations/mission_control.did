@@ -1,4 +1,5 @@
-type CanisterStatusType = variant { stopped; stopping; running };
+type Account = record { owner : principal; subaccount : opt blob };
+type Config = record { monitoring : opt MonitoringConfig };
 type Controller = record {
   updated_at : nat64;
   metadata : vec record { text; text };
@@ -7,87 +8,169 @@ type Controller = record {
   expires_at : opt nat64;
 };
 type ControllerScope = variant { Write; Admin };
-type CronJobStatusesConfig = record {
-  enabled : bool;
-  cycles_threshold : opt nat64;
+type CreateCanisterConfig = record {
+  subnet_id : opt principal;
+  name : opt text;
 };
+type CyclesBalance = record { timestamp : nat64; amount : nat };
+type CyclesMonitoring = record {
+  strategy : opt CyclesMonitoringStrategy;
+  enabled : bool;
+};
+type CyclesMonitoringConfig = record {
+  notification : opt DepositedCyclesEmailNotification;
+  default_strategy : opt CyclesMonitoringStrategy;
+};
+type CyclesMonitoringStartConfig = record {
+  orbiters_strategy : opt SegmentsMonitoringStrategy;
+  mission_control_strategy : opt CyclesMonitoringStrategy;
+  satellites_strategy : opt SegmentsMonitoringStrategy;
+};
+type CyclesMonitoringStatus = record {
+  monitored_ids : vec principal;
+  running : bool;
+};
+type CyclesMonitoringStopConfig = record {
+  satellite_ids : opt vec principal;
+  try_mission_control : opt bool;
+  orbiter_ids : opt vec principal;
+};
+type CyclesMonitoringStrategy = variant { BelowThreshold : CyclesThreshold };
+type CyclesThreshold = record { fund_cycles : nat; min_cycles : nat };
 type DepositCyclesArgs = record { cycles : nat; destination_id : principal };
+type DepositedCyclesEmailNotification = record {
+  to : opt text;
+  enabled : bool;
+};
+type GetMonitoringHistory = record {
+  to : opt nat64;
+  from : opt nat64;
+  segment_id : principal;
+};
+type MissionControlSettings = record {
+  updated_at : nat64;
+  created_at : nat64;
+  monitoring : opt Monitoring;
+};
+type Monitoring = record { cycles : opt CyclesMonitoring };
+type MonitoringConfig = record { cycles : opt CyclesMonitoringConfig };
+type MonitoringHistory = record { cycles : opt MonitoringHistoryCycles };
+type MonitoringHistoryCycles = record {
+  deposited_cycles : opt CyclesBalance;
+  cycles : CyclesBalance;
+};
+type MonitoringHistoryKey = record {
+  segment_id : principal;
+  created_at : nat64;
+  nonce : int32;
+};
+type MonitoringStartConfig = record {
+  cycles_config : opt CyclesMonitoringStartConfig;
+};
+type MonitoringStatus = record { cycles : opt CyclesMonitoringStatus };
+type MonitoringStopConfig = record {
+  cycles_config : opt CyclesMonitoringStopConfig;
+};
 type Orbiter = record {
   updated_at : nat64;
   orbiter_id : principal;
   metadata : vec record { text; text };
   created_at : nat64;
+  settings : opt Settings;
 };
-type Result = variant { Ok : SegmentStatus; Err : text };
+type Result = variant { Ok : nat64; Err : TransferError };
+type Result_1 = variant { Ok : nat; Err : TransferError_1 };
 type Satellite = record {
   updated_at : nat64;
   metadata : vec record { text; text };
   created_at : nat64;
   satellite_id : principal;
+  settings : opt Settings;
 };
-type SegmentCanisterSettings = record {
-  freezing_threshold : nat;
-  controllers : vec principal;
-  memory_allocation : nat;
-  compute_allocation : nat;
-};
-type SegmentCanisterStatus = record {
-  status : CanisterStatusType;
-  memory_size : nat;
-  cycles : nat;
-  settings : SegmentCanisterSettings;
-  idle_cycles_burned_per_day : nat;
-  module_hash : opt blob;
-};
-type SegmentStatus = record {
-  id : principal;
-  status : SegmentCanisterStatus;
-  metadata : opt vec record { text; text };
-  status_at : nat64;
-};
-type SegmentsStatuses = record {
-  orbiters : opt vec Result;
-  satellites : opt vec Result;
-  mission_control : Result;
+type SegmentsMonitoringStrategy = record {
+  ids : vec principal;
+  strategy : CyclesMonitoringStrategy;
 };
 type SetController = record {
   metadata : vec record { text; text };
   scope : ControllerScope;
   expires_at : opt nat64;
 };
-type StatusesArgs = record {
-  mission_control_cycles_threshold : opt nat64;
-  orbiters : vec record { principal; CronJobStatusesConfig };
-  satellites : vec record { principal; CronJobStatusesConfig };
-  cycles_threshold : opt nat64;
-};
+type Settings = record { monitoring : opt Monitoring };
+type Timestamp = record { timestamp_nanos : nat64 };
 type Tokens = record { e8s : nat64 };
+type TransferArg = record {
+  to : Account;
+  fee : opt nat;
+  memo : opt blob;
+  from_subaccount : opt blob;
+  created_at_time : opt nat64;
+  amount : nat;
+};
+type TransferArgs = record {
+  to : blob;
+  fee : Tokens;
+  memo : nat64;
+  from_subaccount : opt blob;
+  created_at_time : opt Timestamp;
+  amount : Tokens;
+};
+type TransferError = variant {
+  TxTooOld : record { allowed_window_nanos : nat64 };
+  BadFee : record { expected_fee : Tokens };
+  TxDuplicate : record { duplicate_of : nat64 };
+  TxCreatedInFuture;
+  InsufficientFunds : record { balance : Tokens };
+};
+type TransferError_1 = variant {
+  GenericError : record { message : text; error_code : nat };
+  TemporarilyUnavailable;
+  BadBurn : record { min_burn_amount : nat };
+  Duplicate : record { duplicate_of : nat };
+  BadFee : record { expected_fee : nat };
+  CreatedInFuture : record { ledger_time : nat64 };
+  TooOld;
+  InsufficientFunds : record { balance : nat };
+};
+type User = record {
+  updated_at : nat64;
+  metadata : vec record { text; text };
+  user : opt principal;
+  created_at : nat64;
+  config : opt Config;
+};
 service : () -> {
   add_mission_control_controllers : (vec principal) -> ();
   add_satellites_controllers : (vec principal, vec principal) -> ();
   create_orbiter : (opt text) -> (Orbiter);
+  create_orbiter_with_config : (CreateCanisterConfig) -> (Orbiter);
   create_satellite : (text) -> (Satellite);
+  create_satellite_with_config : (CreateCanisterConfig) -> (Satellite);
   del_mission_control_controllers : (vec principal) -> ();
   del_orbiter : (principal, nat) -> ();
   del_orbiters_controllers : (vec principal, vec principal) -> ();
   del_satellite : (principal, nat) -> ();
   del_satellites_controllers : (vec principal, vec principal) -> ();
   deposit_cycles : (DepositCyclesArgs) -> ();
+  get_config : () -> (opt Config) query;
+  get_metadata : () -> (vec record { text; text }) query;
+  get_monitoring_history : (GetMonitoringHistory) -> (
+      vec record { MonitoringHistoryKey; MonitoringHistory },
+    ) query;
+  get_monitoring_status : () -> (MonitoringStatus) query;
+  get_settings : () -> (opt MissionControlSettings) query;
   get_user : () -> (principal) query;
+  get_user_data : () -> (User) query;
+  icp_transfer : (TransferArgs) -> (Result);
+  icrc_transfer : (principal, TransferArg) -> (Result_1);
   list_mission_control_controllers : () -> (
       vec record { principal; Controller },
     ) query;
-  list_mission_control_statuses : () -> (vec record { nat64; Result }) query;
-  list_orbiter_statuses : (principal) -> (
-      opt vec record { nat64; Result },
-    ) query;
   list_orbiters : () -> (vec record { principal; Orbiter }) query;
-  list_satellite_statuses : (principal) -> (
-      opt vec record { nat64; Result },
-    ) query;
   list_satellites : () -> (vec record { principal; Satellite }) query;
   remove_mission_control_controllers : (vec principal) -> ();
   remove_satellites_controllers : (vec principal, vec principal) -> ();
+  set_config : (opt Config) -> ();
   set_metadata : (vec record { text; text }) -> ();
   set_mission_control_controllers : (vec principal, SetController) -> ();
   set_orbiter : (principal, opt text) -> (Orbiter);
@@ -106,9 +189,12 @@ service : () -> {
       vec principal,
       SetController,
     ) -> ();
-  status : (StatusesArgs) -> (SegmentsStatuses);
+  start_monitoring : () -> ();
+  stop_monitoring : () -> ();
   top_up : (principal, Tokens) -> ();
   unset_orbiter : (principal) -> ();
   unset_satellite : (principal) -> ();
+  update_and_start_monitoring : (MonitoringStartConfig) -> ();
+  update_and_stop_monitoring : (MonitoringStopConfig) -> ();
   version : () -> (text) query;
 }
