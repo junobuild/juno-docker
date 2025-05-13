@@ -12,6 +12,7 @@ import type {
   NeuronsFundEconomics,
   NeuronsFundMatchedFundingCurveCoefficients,
   Percentage,
+  VotingPowerEconomics,
   XdrConversionRate
 } from '../../declarations/governance';
 import {init} from '../../declarations/governance.idl';
@@ -43,6 +44,16 @@ export const prepareGovernanceArgs = ({
     minimum_icp_xdr_rate: [percentage(10_000n)] // 1:1
   };
 
+  const ONE_DAY_SECONDS = 24n * 60n * 60n;
+  const ONE_YEAR_SECONDS = ((4n * 365n + 1n) * ONE_DAY_SECONDS) / 4n;
+  const ONE_MONTH_SECONDS = ONE_YEAR_SECONDS / 12n;
+
+  const votingPowerEconomics: VotingPowerEconomics = {
+    start_reducing_voting_power_after_seconds: [6n * ONE_MONTH_SECONDS],
+    clear_following_after_seconds: [ONE_MONTH_SECONDS],
+    neuron_minimum_dissolve_delay_to_vote_seconds: [6n * ONE_MONTH_SECONDS]
+  };
+
   const eco: NetworkEconomics = {
     neuron_minimum_stake_e8s: E8S_PER_ICP, // 1 ICP
     max_proposals_to_keep_per_topic: 100,
@@ -53,7 +64,7 @@ export const prepareGovernanceArgs = ({
     minimum_icp_xdr_rate: 100n, // 1 XDR
     maximum_node_provider_rewards_e8s: BigInt(1_000_000 * 100_000_000), // 1M ICP
     neurons_fund_economics: [fund],
-    voting_power_economics: []
+    voting_power_economics: [votingPowerEconomics]
   };
 
   const xdr: XdrConversionRate = {
