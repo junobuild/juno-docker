@@ -4,7 +4,7 @@ import {neuronSubaccount} from '@dfinity/sns';
 import {fromNullable} from '@dfinity/utils';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {NEURON_ID} from '../../constants/modules.constants';
-import {
+import type {
   Decimal,
   Governance,
   NetworkEconomics,
@@ -26,9 +26,7 @@ export const prepareGovernanceArgs = ({
   const E8S_PER_ICP = 100_000_000n;
   const DEFAULT_TRANSFER_FEE = 10_000n;
 
-  const decimal = (value: string): Decimal => {
-    return {human_readable: [value]};
-  };
+  const decimal = (value: string): Decimal => ({human_readable: [value]});
 
   const efficients: NeuronsFundMatchedFundingCurveCoefficients = {
     contribution_threshold_xdr: [decimal('75_000.0')],
@@ -36,9 +34,7 @@ export const prepareGovernanceArgs = ({
     full_participation_milestone_xdr: [decimal('375_000.0')]
   };
 
-  const percentage = (value: bigint): Percentage => {
-    return {basis_points: [value]};
-  };
+  const percentage = (value: bigint): Percentage => ({basis_points: [value]});
 
   const fund: NeuronsFundEconomics = {
     maximum_icp_xdr_rate: [percentage(1_000_000n)], // 1:100
