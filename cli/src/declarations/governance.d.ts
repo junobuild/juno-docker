@@ -2,6 +2,10 @@ import type {ActorMethod} from '@dfinity/agent';
 import type {IDL} from '@dfinity/candid';
 import type {Principal} from '@dfinity/principal';
 
+export interface Account {
+  owner: [] | [Principal];
+  subaccount: [] | [Uint8Array | number[]];
+}
 export interface AccountIdentifier {
   hash: Uint8Array | number[];
 }
@@ -51,6 +55,7 @@ export interface Canister {
 }
 export interface CanisterSettings {
   freezing_threshold: [] | [bigint];
+  wasm_memory_threshold: [] | [bigint];
   controllers: [] | [Controllers];
   log_visibility: [] | [number];
   wasm_memory_limit: [] | [bigint];
@@ -91,6 +96,8 @@ export type Command =
   | {Spawn: Spawn}
   | {Split: Split}
   | {Follow: Follow}
+  | {DisburseMaturity: DisburseMaturity}
+  | {RefreshVotingPower: RefreshVotingPower}
   | {ClaimOrRefresh: ClaimOrRefresh}
   | {Configure: Configure}
   | {RegisterVote: RegisterVote}
@@ -105,6 +112,8 @@ export type Command_1 =
   | {Spawn: SpawnResponse}
   | {Split: SpawnResponse}
   | {Follow: {}}
+  | {DisburseMaturity: DisburseMaturityResponse}
+  | {RefreshVotingPower: RefreshVotingPowerResponse}
   | {ClaimOrRefresh: ClaimOrRefreshResponse}
   | {Configure: {}}
   | {RegisterVote: {}}
@@ -172,6 +181,13 @@ export interface Disburse {
   to_account: [] | [AccountIdentifier];
   amount: [] | [Amount];
 }
+export interface DisburseMaturity {
+  to_account: [] | [Account];
+  percentage_to_disburse: number;
+}
+export interface DisburseMaturityResponse {
+  amount_disbursed_e8s: [] | [bigint];
+}
 export interface DisburseResponse {
   transfer_block_height: bigint;
 }
@@ -231,7 +247,6 @@ export interface Governance {
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
   topic_followee_index: Array<[number, FollowersMap]>;
-  migrations: [] | [Migrations];
   proposals: Array<[bigint, ProposalData]>;
   xdr_conversion_rate: [] | [XdrConversionRate];
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
@@ -254,12 +269,14 @@ export interface GovernanceCachedMetrics {
   total_staked_e8s_seed: bigint;
   total_staked_maturity_e8s_equivalent_ect: bigint;
   total_staked_e8s: bigint;
+  fully_lost_voting_power_neuron_subset_metrics: [] | [NeuronSubsetMetrics];
   not_dissolving_neurons_count: bigint;
   total_locked_e8s: bigint;
   neurons_fund_total_active_neurons: bigint;
   total_voting_power_non_self_authenticating_controller: [] | [bigint];
   total_staked_maturity_e8s_equivalent: bigint;
   not_dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
+  declining_voting_power_neuron_subset_metrics: [] | [NeuronSubsetMetrics];
   total_staked_e8s_ect: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;
   dissolved_neurons_e8s: bigint;
@@ -341,14 +358,18 @@ export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
 export interface ListNeurons {
+  page_size: [] | [bigint];
   include_public_neurons_in_full_neurons: [] | [boolean];
   neuron_ids: BigUint64Array | bigint[];
+  page_number: [] | [bigint];
   include_empty_neurons_readable_by_caller: [] | [boolean];
+  neuron_subaccounts: [] | [Array<NeuronSubaccount>];
   include_neurons_readable_by_caller: boolean;
 }
 export interface ListNeuronsResponse {
   neuron_infos: Array<[bigint, NeuronInfo]>;
   full_neurons: Array<Neuron>;
+  total_pages_available: [] | [bigint];
 }
 export interface ListNodeProviderRewardsRequest {
   date_filter: [] | [DateRangeFilter];
@@ -395,6 +416,8 @@ export type ManageNeuronCommandRequest =
   | {Spawn: Spawn}
   | {Split: Split}
   | {Follow: Follow}
+  | {DisburseMaturity: DisburseMaturity}
+  | {RefreshVotingPower: RefreshVotingPower}
   | {ClaimOrRefresh: ClaimOrRefresh}
   | {Configure: Configure}
   | {RegisterVote: RegisterVote}
@@ -428,15 +451,6 @@ export interface MergeResponse {
   target_neuron_info: [] | [NeuronInfo];
   source_neuron_info: [] | [NeuronInfo];
 }
-export interface Migration {
-  status: [] | [number];
-  failure_reason: [] | [string];
-  progress: [] | [Progress];
-}
-export interface Migrations {
-  neuron_indexes_migration: [] | [Migration];
-  copy_inactive_neurons_to_stable_memory_migration: [] | [Migration];
-}
 export interface MonthlyNodeProviderRewards {
   minimum_xdr_permyriad_per_icp: [] | [bigint];
   registry_version: [] | [bigint];
@@ -451,6 +465,7 @@ export interface Motion {
 }
 export interface NetworkEconomics {
   neuron_minimum_stake_e8s: bigint;
+  voting_power_economics: [] | [VotingPowerEconomics];
   max_proposals_to_keep_per_topic: number;
   neuron_management_fee_per_proposal_e8s: bigint;
   reject_cost_e8s: bigint;
@@ -465,10 +480,13 @@ export interface Neuron {
   staked_maturity_e8s_equivalent: [] | [bigint];
   controller: [] | [Principal];
   recent_ballots: Array<BallotInfo>;
+  voting_power_refreshed_timestamp_seconds: [] | [bigint];
   kyc_verified: boolean;
+  potential_voting_power: [] | [bigint];
   neuron_type: [] | [number];
   not_for_profit: boolean;
   maturity_e8s_equivalent: bigint;
+  deciding_voting_power: [] | [bigint];
   cached_neuron_stake_e8s: bigint;
   created_timestamp_seconds: bigint;
   auto_stake_maturity: [] | [boolean];
@@ -510,7 +528,10 @@ export interface NeuronInFlightCommand {
 export interface NeuronInfo {
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
+  voting_power_refreshed_timestamp_seconds: [] | [bigint];
+  potential_voting_power: [] | [bigint];
   neuron_type: [] | [number];
+  deciding_voting_power: [] | [bigint];
   created_timestamp_seconds: bigint;
   state: number;
   stake_e8s: bigint;
@@ -530,16 +551,23 @@ export interface NeuronStakeTransfer {
   transfer_timestamp: bigint;
   block_height: bigint;
 }
+export interface NeuronSubaccount {
+  subaccount: Uint8Array | number[];
+}
 export interface NeuronSubsetMetrics {
   total_maturity_e8s_equivalent: [] | [bigint];
   maturity_e8s_equivalent_buckets: Array<[bigint, bigint]>;
   voting_power_buckets: Array<[bigint, bigint]>;
   total_staked_e8s: [] | [bigint];
   count: [] | [bigint];
+  deciding_voting_power_buckets: Array<[bigint, bigint]>;
   total_staked_maturity_e8s_equivalent: [] | [bigint];
+  total_potential_voting_power: [] | [bigint];
+  total_deciding_voting_power: [] | [bigint];
   staked_maturity_e8s_equivalent_buckets: Array<[bigint, bigint]>;
   staked_e8s_buckets: Array<[bigint, bigint]>;
   total_voting_power: [] | [bigint];
+  potential_voting_power_buckets: Array<[bigint, bigint]>;
   count_buckets: Array<[bigint, bigint]>;
 }
 export interface NeuronsFundAuditInfo {
@@ -638,7 +666,6 @@ export interface Percentage {
 export interface Principals {
   principals: Array<Principal>;
 }
-export type Progress = {LastNeuronId: NeuronId};
 export interface Proposal {
   url: string;
   title: [] | [string];
@@ -670,6 +697,7 @@ export interface ProposalData {
   reject_cost_e8s: bigint;
   derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
+  total_potential_voting_power: [] | [bigint];
   sns_token_swap_lifecycle: [] | [number];
   decided_timestamp_seconds: bigint;
   proposal: [] | [Proposal];
@@ -694,12 +722,15 @@ export interface ProposalInfo {
   reject_cost_e8s: bigint;
   derived_proposal_information: [] | [DerivedProposalInformation];
   latest_tally: [] | [Tally];
+  total_potential_voting_power: [] | [bigint];
   reward_status: number;
   decided_timestamp_seconds: bigint;
   proposal: [] | [Proposal];
   proposer: [] | [NeuronId];
   executed_timestamp_seconds: bigint;
 }
+export type RefreshVotingPower = {};
+export type RefreshVotingPowerResponse = {};
 export interface RegisterVote {
   vote: number;
   proposal: [] | [ProposalId];
@@ -856,6 +887,11 @@ export interface UpdateCanisterSettings {
 }
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
+}
+export interface VotingPowerEconomics {
+  start_reducing_voting_power_after_seconds: [] | [bigint];
+  neuron_minimum_dissolve_delay_to_vote_seconds: [] | [bigint];
+  clear_following_after_seconds: [] | [bigint];
 }
 export interface VotingRewardParameters {
   reward_rate_transition_duration: [] | [Duration];
