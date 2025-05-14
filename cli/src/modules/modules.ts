@@ -11,9 +11,15 @@ import {satellite} from './satellite';
 
 const MODULES = [internetIdentity, icpLedger, icpIndex, satellite, consoleModule, observatory];
 
-// Canisters that require other infrastructure modules (like the ledger) to be installed first
+// Canisters that require other modules (like the ledger) to be installed first
 // before they can be initialized. Still a mystery how they were deployed at genesis...
-const TROUBLEMAKERS = [governance, cmc];
+//
+// Also, the order matters. For example:
+// - The CMC must be available when the Governance canister is installed.
+// - The Governance must be available when the CMC post-install runs.
+//
+// Yolo
+const TROUBLEMAKERS = [cmc, governance];
 
 const filterModules = (modules: Module[]): Module[] =>
   (process.env.MODULES ?? '')

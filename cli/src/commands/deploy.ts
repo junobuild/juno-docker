@@ -10,11 +10,19 @@ const {green, cyan, red} = kleur;
 export const deploy = async (args?: string[]) => {
   const context = await buildContext(args);
 
-  await deployModules({context, mods: modules});
-  await deployModules({context, mods: troublemakers});
+  await deployModules({context, mods: modules, installFn: installModulesParallel});
+  await deployModules({context, mods: troublemakers, installFn: installModulesSerial});
 };
 
-const deployModules = async ({context, mods}: {context: CliContext; mods: Module[]}) => {
+interface DeployModulesParams {
+  context: CliContext;
+  mods: Module[];
+  installFn: InstallModulesFn;
+}
+
+type InstallModulesFn = (params: {context: CliContext; mods: Module[]}) => Promise<void>;
+
+const deployModules = async ({context, mods, installFn}: DeployModulesParams) => {
   // 1. Create canisters that do not exist yet
   await Promise.all(
     mods
@@ -52,11 +60,7 @@ const deployModules = async ({context, mods}: {context: CliContext; mods: Module
   );
 
   // 4. Deploy / install code in the not yet populated canisters
-  await Promise.all(
-    rest.map(async (mod) => {
-      await mod.install(context);
-    })
-  );
+  await installFn({context, mods: rest});
 
   // 5. Some canisters may require post installation configuration that needs to be executed only once like that dev-painful Governance canister
   await Promise.all(
@@ -64,4 +68,19 @@ const deployModules = async ({context, mods}: {context: CliContext; mods: Module
       await mod.postInstall(context);
     })
   );
+};
+
+const installModulesParallel = async ({context, mods}: {context: CliContext; mods: Module[]}) => {
+  await Promise.all(
+    mods.map(async (mod) => {
+      await mod.install(context);
+    })
+  );
+};
+
+// Installing one after the other is slower 😢
+const installModulesSerial = async ({context, mods}: {context: CliContext; mods: Module[]}) => {
+  for (const mod of mods) {
+    await mod.install(context);
+  }
 };
