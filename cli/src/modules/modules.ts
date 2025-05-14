@@ -17,6 +17,7 @@ const MODULES = [internetIdentity, icpLedger, icpIndex, satellite, consoleModule
 // Also, the order matters. For example:
 // - The CMC must be available when the Governance canister is installed.
 // - The Governance must be available when the CMC post-install runs.
+// - The CMC post-install must runs before the Governance one.
 //
 // Yolo
 const TROUBLEMAKERS = [cmc, governance];
