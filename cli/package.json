@@ -1,6 +1,6 @@
 {
   "name": "@junobuild/docker-cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A command-line interface to administrate smart contracts in Juno's Docker environment",
   "author": "David Dal Busco (https://daviddalbusco.com)",
   "license": "MIT",
