@@ -35,7 +35,6 @@
     "@dfinity/identity": "^2.3.0",
     "@dfinity/ledger-icp": "^2.6.13",
     "@dfinity/nns": "^8.4.1",
-    "@dfinity/nns-proto": "^2.0.2",
     "@dfinity/principal": "^2.3.0",
     "@dfinity/sns": "^3.6.0",
     "@dfinity/utils": "^2.13.0",
