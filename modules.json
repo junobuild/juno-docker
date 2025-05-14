@@ -74,7 +74,7 @@
     ]
   },
   "icp_index": {
-    "commit": "6dcfafb491092704d374317d9a72a7ad2475d7c9",
+    "commit": "195808c9119e1fd3685a82480c258596e0374009",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz",
     "candid": [
