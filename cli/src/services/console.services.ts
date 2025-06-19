@@ -1,5 +1,10 @@
 import {assertNonNullish, fromNullable, toNullable, uint8ArrayToHexString} from '@dfinity/utils';
-import {commitProposal, initProposal, submitProposal, uploadAsset} from '@junobuild/console';
+import {
+  commitProposal,
+  initProposal,
+  submitProposal,
+  uploadAssetWithProposal
+} from '@junobuild/cdn';
 import type {ENCODING_TYPE} from '@junobuild/storage';
 import {basename} from 'node:path';
 import {CONSOLE_CANISTER_ID} from '../modules/console';
@@ -34,7 +39,9 @@ export const installRelease = async ({
 
   const [proposalId, _] = await initProposal({
     proposalType,
-    console: CONSOLE
+    cdn: {
+      console: CONSOLE
+    }
   });
 
   const filename = `${basename(wasmPath).replace('.wasm.gz', '').replace('.gz', '')}-v${version}.wasm.gz`;
@@ -47,18 +54,23 @@ export const installRelease = async ({
     filename,
     fullPath,
     headers: [],
-    data: new Blob([wasm])
+    data: new Blob([wasm]),
+    description: `change=${proposalId};version=${version}`
   };
 
-  await uploadAsset({
+  await uploadAssetWithProposal({
     asset,
     proposalId,
-    console: CONSOLE
+    cdn: {
+      console: CONSOLE
+    }
   });
 
   const [__, {sha256, status}] = await submitProposal({
     proposalId,
-    console: CONSOLE
+    cdn: {
+      console: CONSOLE
+    }
   });
 
   const validation = fromNullable(sha256);
@@ -79,11 +91,13 @@ export const installRelease = async ({
   verbose('⏳ ', status);
 
   await commitProposal({
-    commitProposal: {
+    proposal: {
       proposal_id: proposalId,
       sha256: validation
     },
-    console: CONSOLE
+    cdn: {
+      console: CONSOLE
+    }
   });
 
   verbose(`🗳️  Proposal ${proposalId} committed.`);
