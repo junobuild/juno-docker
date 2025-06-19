@@ -25,7 +25,7 @@ curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/hea
 
 tar -xf "$DIR/juno.tar.gz" -C "$DIR"
 
-# Rename the extracted folder to juno-main
-mv "$DIR/$SOURCE_FOLDER" "$JUNO_MAIN_DIR"
+# Rename the extracted folder to juno-main if branch is not main
+# mv "$DIR/$SOURCE_FOLDER" "$JUNO_MAIN_DIR"
 
 echo "juno source downloaded and extracted to $JUNO_MAIN_DIR."
