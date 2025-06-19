@@ -9,8 +9,8 @@ import {
   type SatelliteParameters
 } from '@junobuild/admin';
 import type {Controller} from '@junobuild/admin/dist/declarations/satellite/satellite.did';
+import type {ListRulesResults} from '@junobuild/admin/dist/types/types/list.types';
 import type {
-  Rule,
   RulesType,
   SatelliteDevController,
   SatelliteDevDataStoreCollection,
@@ -21,7 +21,7 @@ import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
-const list = async ({type, satellite}): Promise<Rule[]> =>
+const list = async ({type, satellite}): Promise<ListRulesResults> =>
   await listRules({
     type,
     satellite
@@ -36,7 +36,7 @@ const configRules = async ({
   collections: Array<SatelliteDevDataStoreCollection | SatelliteDevStorageCollection>;
   satellite: SatelliteParameters;
 }) => {
-  const existingRules = await list({type, satellite});
+  const {items: existingRules} = await list({type, satellite});
 
   await Promise.all(
     collections.map(async ({collection, memory, ...rest}) => {
