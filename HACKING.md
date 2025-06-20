@@ -7,19 +7,19 @@ Here are a few useful Docker commands that can be used for local development.
 Satellite:
 
 ```bash
-docker build . --file Dockerfile -t juno-satellite --progress=plain --no-cache --platform=linux/amd64
+docker buildx build . --file Dockerfile -t juno-satellite --progress=plain --no-cache --platform=linux/amd64
 ```
 
 Console:
 
 ```bash
-docker build . --file Dockerfile -t juno-console --build-arg CLI_BUILD=console --progress=plain --no-cache --platform=linux/amd64
+docker buildx build . --file Dockerfile -t juno-console --build-arg CLI_BUILD=console --progress=plain --no-cache --platform=linux/amd64
 ```
 
 Skylab:
 
 ```bash
-docker build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/amd64
+docker buildx build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/amd64
 ```
 
 ### Run
