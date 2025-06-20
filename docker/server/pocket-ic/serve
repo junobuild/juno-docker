@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Pocket-ic dashboard: http://localhost:5987/_/dashboard
+
+# The example script for Pocket-IC uses 10,800 seconds (3 hours) for ttl.
+# When we set this up, it was recommended to use a long duration to instruct Pocket-IC to retain the state for an extended period.
+# This is why it is set to 63,072,000 seconds, equivalent to 2 years.
+./target/pocket-ic --port "$REPLICA_PORT" --ttl 63072000

@@ -11,21 +11,51 @@ if [ ! -d "$DIR" ]; then
   mkdir "$DIR"
 fi
 
+PLATFORM=
+ARCH=$(uname -m)
+
+case "$ARCH" in
+  x86_64) PLATFORM="linux/amd64" ;;
+  aarch64) PLATFORM="linux/arm64" ;;
+  *) echo "Unsupported architecture: $ARCH" && exit 1 ;;
+esac
+
 function download_ic() {
     readarray -t keys < <(jq -r 'keys[]' $METADATA_IC)
     for i in "${keys[@]}"; do
-        download "$i" "$METADATA_IC" true
+        download_artifact "$i" "$METADATA_IC" true
     done
+}
+
+function download_artifact() {
+    local key=$1
+    local metadata=$2
+    local unpkg=$3
+
+    local version=($(jq -r ".\"${key}\".version" ${metadata}))
+    local commit=($(jq -r ".\"${key}\".commit" ${metadata}))
+    local url_template=$(jq -r ".\"${key}\".artifacts.\"${PLATFORM}\"" "$metadata")
+
+    local download_url=${url_template/"{commit}"/$commit}
+    download_url=${download_url/"{version}"/$version}
+
+    echo "Downloading $key from $download_url"
+    curl -L -o "$DIR/$key.gz" "$download_url"
+
+    if "${unpkg}"; then
+        echo "Unpacking $DIR/$key.gz"
+        gunzip -f "$DIR/$key.gz"
+    fi
 }
 
 function download_modules() {
     readarray -t keys < <(jq -r 'keys[]' $METADATA_MODULES)
     for i in "${keys[@]}"; do
-        download "$i" "$METADATA_MODULES" false
+        download_module "$i" "$METADATA_MODULES" false
     done
 }
 
-function download() {
+function download_module() {
     local key=$1
     local metadata=$2
     local unpkg=$3
