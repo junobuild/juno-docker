@@ -6,7 +6,9 @@ source ./.bashrc
 # turn on bash's job control
 set -m
 
-./docker/server/replica/serve &
+./docker/server/pocket-ic/serve &
+
+./docker/server/pocket-ic/config
 
 ./docker/server/cli/wait
 
@@ -19,3 +21,6 @@ set -m
 # now we bring the primary process back into the foreground
 # and leave it there
 fg %1
+
+# TODO: this is probably not called yet
+./docker/server/pocket-ic/clean-up

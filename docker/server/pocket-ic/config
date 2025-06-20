@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+./docker/wait-port "$REPLICA_PORT"
+
+SUBNET_CONFIG="{\"state_config\": \"New\", \"instruction_config\": \"Production\", \"dts_flag\": \"Enabled\"}"
+
+curl -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances" -d "{\"subnet_config_set\": {\"nns\": ${SUBNET_CONFIG}, \"sns\": ${SUBNET_CONFIG}, \"ii\": ${SUBNET_CONFIG}, \"fiduciary\": null, \"bitcoin\": null, \"system\": [], \"application\": [${SUBNET_CONFIG}], \"verified_application\": []}, \"state_dir\": \"${STATE_REPLICA_DIR}\", \"nonmainnet_features\": false}"
+
+curl -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances/0/update/set_time" -d "{\"nanos_since_epoch\": $(date +%s%N)}"
+
+curl -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances/0/auto_progress" -d '{"artificial_delay_ms": null}'
+
+curl -X POST -H 'Content-Type: application/json' "http://localhost:$REPLICA_PORT/http_gateway" -d "{\"forward_to\": {\"Replica\": \"http://localhost:$REPLICA_PORT/instances/0/\"}, \"port\": $PORT, \"ip_addr\": \"0.0.0.0\"}"

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Delete the Pocket-ic instance to preserve the instance state in the state directory for later.
+# Otherwise, the instance state might not be properly flushed and unusable.
+curl -X DELETE http://localhost:8000/instances/0
