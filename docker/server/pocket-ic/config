@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./docker/wait-port "$REPLICA_PORT"
+./docker/server/wait-port "$REPLICA_PORT"
 
 SUBNET_CONFIG="{\"state_config\": \"New\", \"instruction_config\": \"Production\", \"dts_flag\": \"Enabled\"}"
 
