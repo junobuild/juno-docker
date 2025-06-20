@@ -1,7 +1,10 @@
 {
   "pocket-ic": {
     "commit": "e780686713925d231d9bba75b29149b29482c743",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/pocket_ic_server",
-    "url": "https://github.com/dfinity/pocketic/releases/download/9.0.3/pocket-ic-x86_64-linux.gz"
+    "version": "9.0.3",
+    "artifacts": {
+      "linux/amd64": "https://github.com/dfinity/pocketic/releases/download/{version}/pocket-ic-x86_64-linux.gz",
+      "linux/arm64": "https://github.com/dfinity/pocketic/releases/download/{version}/pocket-ic-arm64-linux.gz"
+    }
   }
 }
