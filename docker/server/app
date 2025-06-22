@@ -1,12 +1,30 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 source ./.bashrc
 
-# https://docs.docker.com/config/containers/multi-service_container/
-# turn on bash's job control
-set -m
+cleanup() {
+  echo "Shutting down gracefully. Saving state, please wait..."
 
-./docker/server/pocket-ic/serve &
+  if ! ./docker/server/pocket-ic/clean-up; then
+    echo "⚠️ Warning: clean-up failed. Your state wasn't saved." >&2
+  fi
+
+  if kill -0 "$serve_pid" 2>/dev/null; then
+    kill "$serve_pid" 2>/dev/null || true
+    wait "$serve_pid" 2>/dev/null || true
+  fi
+
+  exit 0
+}
+
+trap cleanup SIGINT SIGTERM
+
+# We start Pocket-IC in a separate session. This was we can run a script before killing it.
+setsid ./docker/server/pocket-ic/serve &
+
+serve_pid=$!
 
 ./docker/server/pocket-ic/config
 
@@ -16,11 +34,8 @@ set -m
 
 ./docker/server/console/start &
 
+console_pid=$!
+
 ./docker/server/cli/start
 
-# now we bring the primary process back into the foreground
-# and leave it there
-fg %1
-
-# TODO: this is probably not called yet
-./docker/server/pocket-ic/clean-up
+wait $serve_pid $console_pid
