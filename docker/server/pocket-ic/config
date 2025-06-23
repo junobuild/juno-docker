@@ -6,7 +6,6 @@ SUBNET_CONFIG="{\"state_config\": \"New\", \"instruction_config\": \"Production\
 
 curl -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances" -d "{\"subnet_config_set\": {\"nns\": ${SUBNET_CONFIG}, \"sns\": ${SUBNET_CONFIG}, \"ii\": ${SUBNET_CONFIG}, \"fiduciary\": null, \"bitcoin\": null, \"system\": [], \"application\": [${SUBNET_CONFIG}], \"verified_application\": []}, \"state_dir\": \"${STATE_REPLICA_DIR}\", \"nonmainnet_features\": false}"
 
-curl -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances/0/update/set_time" -d "{\"nanos_since_epoch\": $(date +%s%N)}"
 
 curl -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances/0/auto_progress" -d '{"artificial_delay_ms": null}'
 
