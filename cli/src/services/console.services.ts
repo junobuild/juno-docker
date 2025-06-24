@@ -5,7 +5,7 @@ import {
   submitProposal,
   uploadAssetWithProposal
 } from '@junobuild/cdn';
-import type {ENCODING_TYPE} from '@junobuild/storage';
+import type {EncodingType} from '@junobuild/storage';
 import {basename} from 'node:path';
 import {CONSOLE_CANISTER_ID} from '../modules/console';
 import {buildConsoleParams} from '../modules/satellite/console.config';
@@ -50,7 +50,7 @@ export const installRelease = async ({
 
   const asset = {
     collection: '#releases',
-    encoding: 'identity' as ENCODING_TYPE,
+    encoding: 'identity' as EncodingType,
     filename,
     fullPath,
     headers: [],

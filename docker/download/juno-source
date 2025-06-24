@@ -18,10 +18,15 @@ fi
 # SOURCE_FOLDER="juno-${TAG#v}"
 # curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/tags/$TAG.tar.gz
 
-# Use main (v0.0.51 plus few fix)
+# Use main
 BRANCH=main
 SOURCE_FOLDER="juno-$BRANCH"
 curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/heads/$BRANCH.tar.gz
+
+# Use a custom branch
+# BRANCH="feat/rquickjs-patch-linx-arm"
+# SOURCE_FOLDER="juno-${BRANCH//\//-}"
+# curl -L -o "$DIR/juno.tar.gz" "https://github.com/junobuild/juno/archive/refs/heads/$BRANCH.tar.gz"
 
 tar -xf "$DIR/juno.tar.gz" -C "$DIR"
 

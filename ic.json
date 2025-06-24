@@ -1,37 +1,10 @@
 {
-  "replica": {
-    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/replica",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/replica.gz"
-  },
-  "ic-starter": {
-    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/starter",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-starter.gz"
-  },
-  "canister_sandbox": {
-    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/canister_sandbox.gz"
-  },
-  "compiler_sandbox": {
-    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/compiler_sandbox.gz"
-  },
-  "sandbox_launcher": {
-    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/canister_sandbox",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/sandbox_launcher.gz"
-  },
-  "icx-proxy": {
-    "commit": "044cfd5147fc97d7e5a214966941b6580c325d72",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/boundary_node/icx_proxy",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/icx-proxy-dev.gz"
-  },
-  "ic-https-outcalls-adapter": {
-    "commit": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
-    "repo": "https://github.com/dfinity/ic/tree/master/rs/https_outcalls/adapter",
-    "url": "https://download.dfinity.systems/ic/{commit}/binaries/x86_64-linux/ic-https-outcalls-adapter.gz"
+  "pocket-ic": {
+    "commit": "e780686713925d231d9bba75b29149b29482c743",
+    "version": "9.0.3",
+    "artifacts": {
+      "linux/amd64": "https://github.com/dfinity/pocketic/releases/download/{version}/pocket-ic-x86_64-linux.gz",
+      "linux/arm64": "https://github.com/dfinity/pocketic/releases/download/{version}/pocket-ic-arm64-linux.gz"
+    }
   }
 }
