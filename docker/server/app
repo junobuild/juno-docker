@@ -4,6 +4,15 @@ set -euo pipefail
 
 source ./.bashrc
 
+safe_kill_wait() {
+  local pid=$1
+
+  if [[ -n "${pid:-}" ]] && kill -0 "$pid" 2>/dev/null; then
+    kill "$pid" 2>/dev/null || true
+    wait "$pid" 2>/dev/null || true
+  fi
+}
+
 cleanup() {
   echo "Shutting down gracefully. Saving state, please wait..."
 
@@ -11,20 +20,9 @@ cleanup() {
     echo "⚠️  Warning: clean-up failed. Your state wasn't saved." >&2
   fi
 
-  if kill -0 "$serve_pid" 2>/dev/null; then
-    kill "$serve_pid" 2>/dev/null || true
-    wait "$serve_pid" 2>/dev/null || true
-  fi
-
-  if kill -0 "$cli_pid" 2>/dev/null; then
-    kill "$cli_pid" 2>/dev/null || true
-    wait "$cli_pid" 2>/dev/null || true
-  fi
-
-  if kill -0 "$console_pid" 2>/dev/null; then
-    kill "$console_pid" 2>/dev/null || true
-    wait "$console_pid" 2>/dev/null || true
-  fi
+  safe_kill_wait "$serve_pid"
+  safe_kill_wait "$cli_pid"
+  safe_kill_wait "$console_pid"
 
   exit 0
 }
