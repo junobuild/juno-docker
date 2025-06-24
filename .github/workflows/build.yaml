@@ -39,4 +39,6 @@ jobs:
           docker buildx build \
             --platform ${{ steps.platform.outputs.PLATFORM }} \
             --file Dockerfile \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
             .
