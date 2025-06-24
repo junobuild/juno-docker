@@ -16,6 +16,16 @@ cleanup() {
     wait "$serve_pid" 2>/dev/null || true
   fi
 
+  if kill -0 "$cli_pid" 2>/dev/null; then
+    kill "$cli_pid" 2>/dev/null || true
+    wait "$cli_pid" 2>/dev/null || true
+  fi
+
+  if kill -0 "$console_pid" 2>/dev/null; then
+    kill "$console_pid" 2>/dev/null || true
+    wait "$console_pid" 2>/dev/null || true
+  fi
+
   exit 0
 }
 
@@ -36,6 +46,8 @@ serve_pid=$!
 
 console_pid=$!
 
-./docker/server/cli/start
+./docker/server/cli/start &
 
-wait $serve_pid $console_pid
+cli_pid=$!
+
+wait $serve_pid $console_pid $cli_pid
