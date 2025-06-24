@@ -99,7 +99,8 @@ Alternatively, you can manually start the container using Docker commands.
 For example, to run the Skylab container:
 
 ```bash
-docker run -it --rm \
+docker run -it \
+  --name juno-skylab-test \
   -p 5987:5987 \
   -p 5999:5999 \
   -p 5866:5866 \

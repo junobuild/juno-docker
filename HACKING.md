@@ -31,14 +31,15 @@ docker run -p 127.0.0.1:5987:5987 juno-satellite
 ### Run with reusing a state
 
 ```bash
-docker run -it --rm \
+docker run -it \
+  --name juno-skylab-test \
   -p 5987:5987 \
   -p 5999:5999 \
   -p 5866:5866 \
   -v juno_skylab_test:/juno/.juno \
   -v "$(pwd)/juno.config.mjs:/juno/juno.config.mjs" \
   -v "$(pwd)/target/deploy:/juno/target/deploy" \
-  juno-skylab
+  junobuild/skylab:latest
 ```
 
 ### Stop
