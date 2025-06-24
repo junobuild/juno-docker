@@ -24,7 +24,7 @@ The `junobuild/skylab` Docker image is an all-in-one emulator for local Juno dev
 - 📊 Orbiter (analytics and tracking module)
 - ⚙️ Supporting infrastructure (see table below)
 
-This container mounts an [Internet Computer](https://internetcomputer.org/) Replica and `icx-proxy` within a sandbox. Once ready, a custom-built CLI takes care of deploying and setting up the modules during the first boot.
+This container mounts a sandboxed [Internet Computer](https://internetcomputer.org/) using the amazing [PocketIC](https://github.com/dfinity/pocketic). Once ready, a custom-built CLI takes care of deploying and setting up the modules during the first boot.
 
 It also actively watches a shared folder, allowing you to live reload serverless functions written in Rust or TypeScript.
 
