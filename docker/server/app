@@ -8,7 +8,7 @@ cleanup() {
   echo "Shutting down gracefully. Saving state, please wait..."
 
   if ! ./docker/server/pocket-ic/clean-up; then
-    echo "⚠️ Warning: clean-up failed. Your state wasn't saved." >&2
+    echo "⚠️  Warning: clean-up failed. Your state wasn't saved." >&2
   fi
 
   if kill -0 "$serve_pid" 2>/dev/null; then
@@ -21,7 +21,7 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM
 
-# We start Pocket-IC in a separate session. This was we can run a script before killing it.
+# We start Pocket-IC in a separate session. This way we can run a script before killing it.
 setsid ./docker/server/pocket-ic/serve &
 
 serve_pid=$!
