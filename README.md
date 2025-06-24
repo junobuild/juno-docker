@@ -63,8 +63,7 @@ This image is mainly intended for contributors working on the Juno infrastructur
 | [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)         | ✅        | ❌           | ✅         |
 | [CMC (Cycles Minting)](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)   | ✅        | ❌           | ✅         |
 
-> [!NOTE]
-> **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
+> [!NOTE] > **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
 > This avoids the need to manually create it through the Console UI during development or testing.
 
 ## 🧬 Architecture Compatibility
@@ -95,14 +94,19 @@ juno dev start
 
 If it's the first time you're starting it, the CLI will assist you in populating the required configuration files.
 
-If you prefer, you can also manually start the image using Docker command line commands or a Docker Compose file.
+Alternatively, you can manually start the container using Docker commands.
 
-You can find a sample, including a configuration file for the Juno Satellite, in the [compose](./compose) folder.
-
-Once you have both files copied to your machine - `docker-componse.yml` and `juno.dev.config.json` -, you can start the container using the following command:
+For example, to run the Skylab container:
 
 ```bash
-docker compose up
+docker run -it --rm \
+  -p 5987:5987 \
+  -p 5999:5999 \
+  -p 5866:5866 \
+  -v juno_skylab_test:/juno/.juno \
+  -v "$(pwd)/juno.config.mjs:/juno/juno.config.mjs" \
+  -v "$(pwd)/target/deploy:/juno/target/deploy" \
+  junobuild/skylab:latest
 ```
 
 ### For Juno Console
