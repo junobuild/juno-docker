@@ -3,6 +3,7 @@
 [Juno] Docker images for local dApp development and E2E tests.
 
 ![Multi-Arch](https://img.shields.io/badge/architecture-amd64%20%7C%20arm64-blue?style=flat-square)
+![GitHub release](https://img.shields.io/github/v/release/junobuild/juno-docker?label=version&color=brightgreen&style=flat-square)
 
 ## Introduction
 
@@ -62,7 +63,7 @@ This image is mainly intended for contributors working on the Juno infrastructur
 | [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)         | ✅        | ❌           | ✅         |
 | [CMC (Cycles Minting)](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)   | ✅        | ❌           | ✅         |
 
-> [!NOTE] 
+> [!NOTE]
 > **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
 > This avoids the need to manually create it through the Console UI during development or testing.
 
