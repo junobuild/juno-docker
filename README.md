@@ -67,7 +67,7 @@ This image is mainly intended for contributors working on the Juno infrastructur
 > **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
 > This avoids the need to manually create it through the Console UI during development or testing.
 
-### 🧬 Architecture Compatibility
+## 🧬 Architecture Compatibility
 
 Juno Docker images are published as **multi-platform images**, supporting both `linux/amd64` and `linux/arm64` architectures.
 
