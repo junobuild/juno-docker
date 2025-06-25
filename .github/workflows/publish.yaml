@@ -49,7 +49,7 @@ jobs:
   merge:
     name: Merge multi-arch image
     runs-on: ubuntu-latest
-    needs: [ build_amd64, build_arm64 ]
+    needs: [build_amd64, build_arm64]
     strategy:
       matrix:
         include: ${{ fromJson(env.IMAGES_MATRIX) }}
