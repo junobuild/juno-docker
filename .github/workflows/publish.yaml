@@ -31,6 +31,8 @@ jobs:
           cli_build: ${{ matrix.cli_build }}
           platform: linux/amd64
           tag_suffix: amd64
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_token: ${{ secrets.DOCKER_TOKEN }}
 
   build_arm64:
     name: Build ARM64 image
@@ -55,6 +57,8 @@ jobs:
           cli_build: ${{ matrix.cli_build }}
           platform: linux/arm64
           tag_suffix: arm64
+          docker_username: ${{ secrets.DOCKER_USERNAME }}
+          docker_token: ${{ secrets.DOCKER_TOKEN }}
 
   merge:
     name: Merge multi-arch image
