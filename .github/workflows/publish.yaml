@@ -91,6 +91,7 @@ jobs:
           tags: |
             type=semver,pattern={{major}}
             type=semver,pattern={{version}}
+            type=raw,value=latest
 
       - name: Pull images before merge
         run: |
