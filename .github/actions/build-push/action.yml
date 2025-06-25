@@ -42,9 +42,9 @@ runs:
       with:
         images: ${{ inputs.image_name }}
         tags: |
-          type=semver,pattern={{major}}
-          type=semver,pattern={{version}}
-          type=raw,value=latest
+          type=semver,pattern={{major}},suffix=-${{ inputs.tag_suffix }}
+          type=semver,pattern={{version}},suffix=-${{ inputs.tag_suffix }}
+          type=raw,value=latest,suffix=-${{ inputs.tag_suffix }}
 
     - name: Build and push image
       uses: docker/build-push-action@v5
@@ -53,6 +53,6 @@ runs:
         file: ./Dockerfile
         push: true
         platforms: ${{ inputs.platform }}
-        tags: ${{ steps.meta.outputs.tags }}-${{ inputs.tag_suffix }}
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         build-args: CLI_BUILD=${{ inputs.cli_build }}
