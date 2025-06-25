@@ -96,8 +96,8 @@ jobs:
       - name: Pull images before merge
         run: |
           for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' ' '); do
-            docker pull "${tag}-amd64"
-            docker pull "${tag}-arm64"
+            docker pull --platform=linux/amd64 "${tag}-amd64"
+            docker pull --platform=linux/arm64 "${tag}-arm64"
           done
 
       - name: Merge AMD64 and ARM64 images
