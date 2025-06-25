@@ -3,12 +3,16 @@ description: Build and push image for a single platform
 
 inputs:
   image_name:
+    description: Name of the Docker image
     required: true
   cli_build:
+    description: CLI build argument for Docker
     required: true
   platform:
+    description: Target platform for the Docker build (e.g., linux/amd64)
     required: true
   tag_suffix:
+    description: Suffix to append to image tags
     required: true
 
 runs:
