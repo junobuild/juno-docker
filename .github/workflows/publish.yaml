@@ -95,8 +95,11 @@ jobs:
       - name: Merge AMD64 and ARM64 images
         run: |
           for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' ' '); do
+            arch_tag_amd64="${tag}-amd64"
+            arch_tag_arm64="${tag}-arm64"
+
             docker buildx imagetools create \
-            --tag $tag \
-            ${{ matrix.image_name }}:$tag-amd64 \
-            ${{ matrix.image_name }}:$tag-arm64
+              --tag "$tag" \
+              "$arch_tag_amd64" \
+              "$arch_tag_arm64"
           done
