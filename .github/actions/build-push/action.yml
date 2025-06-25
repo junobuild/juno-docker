@@ -34,7 +34,6 @@ runs:
         tags: |
           type=semver,pattern={{major}}
           type=semver,pattern={{version}}
-          type=raw,value=latest
 
     - name: Build and push image
       uses: docker/build-push-action@v5
