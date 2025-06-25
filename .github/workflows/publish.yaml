@@ -92,6 +92,13 @@ jobs:
             type=semver,pattern={{major}}
             type=semver,pattern={{version}}
 
+      - name: Pull images before merge
+        run: |
+          for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' ' '); do
+            docker pull "${tag}-amd64"
+            docker pull "${tag}-arm64"
+          done
+
       - name: Merge AMD64 and ARM64 images
         run: |
           for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' ' '); do
