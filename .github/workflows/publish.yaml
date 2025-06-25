@@ -4,21 +4,19 @@ on:
   release:
     types: [published]
 
-env:
-  IMAGES_MATRIX: >
-    [
-      { "image_name": "junobuild/satellite", "cli_build": "satellite" },
-      { "image_name": "junobuild/console", "cli_build": "console" },
-      { "image_name": "junobuild/skylab", "cli_build": "skylab" }
-    ]
-
 jobs:
   build_amd64:
     name: Build AMD64 image
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include: ${{ fromJson(env.IMAGES_MATRIX) }}
+        include:
+          - image_name: junobuild/satellite
+            cli_build: satellite
+          - image_name: junobuild/console
+            cli_build: console
+          - image_name: junobuild/skylab
+            cli_build: skylab
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -39,7 +37,13 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        include: ${{ fromJson(env.IMAGES_MATRIX) }}
+        include:
+          - image_name: junobuild/satellite
+            cli_build: satellite
+          - image_name: junobuild/console
+            cli_build: console
+          - image_name: junobuild/skylab
+            cli_build: skylab
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -58,7 +62,10 @@ jobs:
     needs: [build_amd64, build_arm64]
     strategy:
       matrix:
-        include: ${{ fromJson(env.IMAGES_MATRIX) }}
+        include:
+          - image_name: junobuild/satellite
+          - image_name: junobuild/console
+          - image_name: junobuild/skylab
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -85,7 +92,7 @@ jobs:
         run: |
           for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr ',' ' '); do
             docker buildx imagetools create \
-              --tag $tag \
-              ${{ matrix.image_name }}:$tag-amd64 \
-              ${{ matrix.image_name }}:$tag-arm64
+            --tag $tag \
+            ${{ matrix.image_name }}:$tag-amd64 \
+            ${{ matrix.image_name }}:$tag-arm64
           done
