@@ -1,9 +1,11 @@
 import {isEmptyString} from '@dfinity/utils';
-import {yellow} from 'kleur';
+import kleur from 'kleur';
 import {existsSync} from 'node:fs';
 import {utimes} from 'node:fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER} from '../constants/dev.constants';
+
+const {yellow} = kleur;
 
 /**
  * Workaround Podman and Apple container issues on macOS:
