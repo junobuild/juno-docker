@@ -95,6 +95,8 @@ const buildServer = ({context}: {context: CliContext}): Server =>
         }
         case 'touch': {
           await touchWatchedFile({searchParams});
+          done();
+          return;
         }
       }
 

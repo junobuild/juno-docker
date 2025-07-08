@@ -5,7 +5,7 @@ import {utimes} from 'node:fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER} from '../constants/dev.constants';
 
-const {yellow} = kleur;
+const {yellow, red} = kleur;
 
 /**
  * Workaround Podman and Apple container issues on macOS:
@@ -28,7 +28,11 @@ export const touchWatchedFile = async ({searchParams}: {searchParams: URLSearchP
     return;
   }
 
-  await touch(filepath);
+  try {
+    await touch(filepath);
+  } catch (err: unknown) {
+    console.log(red(`️‼️  Unexpected error while touching ${filepath}`), err);
+  }
 };
 
 const touch = async (filePath: string) => {
