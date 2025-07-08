@@ -1,5 +1,4 @@
 import {debounce} from '@dfinity/utils';
-import {basename} from 'node:path';
 import type {CliContext} from '../../types/context';
 import type {WatcherDescription} from '../_types/watcher';
 
@@ -15,13 +14,7 @@ export abstract class Watcher {
     this.#debounceExec = debounce(this.exec, debounceDelay);
   }
 
-  onWatch = async ({filePath, context}: {filePath: string; context: CliContext}) => {
-    const filename = basename(filePath);
-
-    if (filename !== this.moduleFileName) {
-      return;
-    }
-
+  onWatch = async ({context}: {context: CliContext}) => {
     if (this.executing) {
       this.#requestExecution = true;
       return;
@@ -39,6 +32,12 @@ export abstract class Watcher {
   };
 
   protected abstract onExec({context}: {context: CliContext}): Promise<void>;
+
+  abstract matchRequest(params: {
+    command: string;
+    subCommand: string;
+    searchParams: URLSearchParams;
+  }): boolean;
 
   protected async processPendingRequest({context}: {context: CliContext}) {
     if (!this.#requestExecution) {

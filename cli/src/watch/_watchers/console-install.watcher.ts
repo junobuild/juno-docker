@@ -35,4 +35,17 @@ export class ConsoleInstallWatcher extends Watcher {
       this.executing = false;
     }
   }
+
+  matchRequest({
+    command,
+    subCommand,
+    searchParams
+  }: {
+    command: string;
+    subCommand: string;
+    searchParams: URLSearchParams;
+  }): boolean {
+    const mod = searchParams.get('mod');
+    return command === 'console' && subCommand === 'deploy' && mod === this.#key;
+  }
 }

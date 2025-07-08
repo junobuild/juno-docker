@@ -6,10 +6,12 @@ import {Watcher} from './_watcher';
 const ON_WATCH_DEBOUNCE_DELAY = 5000;
 
 export class ConfigWatcher extends Watcher {
+  readonly #key: string;
   readonly #initModule: () => Module;
 
-  constructor({moduleFileName, initModule}: WatcherConfigDescription) {
+  constructor({moduleFileName, initModule, key}: WatcherConfigDescription) {
     super({moduleFileName, debounceDelay: ON_WATCH_DEBOUNCE_DELAY});
+    this.#key = key;
     this.#initModule = initModule;
   }
 
@@ -27,5 +29,16 @@ export class ConfigWatcher extends Watcher {
     } finally {
       this.executing = false;
     }
+  }
+
+  matchRequest({
+    command,
+    subCommand
+  }: {
+    command: string;
+    subCommand: string;
+    searchParams: URLSearchParams;
+  }): boolean {
+    return command === this.#key && subCommand === 'config';
   }
 }

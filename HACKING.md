@@ -1,26 +1,29 @@
 ## Commands
 
-Here are a few useful Docker commands that can be used for local development. 
+Here are a few useful Docker commands that can be used for local development.
 
 ### Build
 
+Skylab:
+
+| Runner | Command                                                                                                                                  |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Docker | `docker buildx build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/arm64` |
+| Podman | `podman build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --log-level=debug --no-cache --arch arm64`                 |
+
 Satellite:
 
-```bash
-docker buildx build . --file Dockerfile -t juno-satellite --progress=plain --no-cache --platform=linux/amd64
-```
+| Runner | Command                                                                                                        |
+| ------ | -------------------------------------------------------------------------------------------------------------- |
+| Docker | `docker buildx build . --file Dockerfile -t juno-satellite --progress=plain --no-cache --platform=linux/arm64` |
+| Podman | `podman build . --file Dockerfile -t juno-satellite --log-level=debug --no-cache --arch arm64`                 |
 
 Console:
 
-```bash
-docker buildx build . --file Dockerfile -t juno-console --build-arg CLI_BUILD=console --progress=plain --no-cache --platform=linux/amd64
-```
-
-Skylab:
-
-```bash
-docker buildx build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/amd64
-```
+| Runner | Command                                                                                                                                    |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Docker | `docker buildx build . --file Dockerfile -t juno-console --build-arg CLI_BUILD=console --progress=plain --no-cache --platform=linux/arm64` |
+| Podman | `podman build . --file Dockerfile -t juno-console --build-arg CLI_BUILD=console --log-level=debug --no-cache --arch arm64`                 |
 
 ### Run
 

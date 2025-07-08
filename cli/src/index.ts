@@ -4,7 +4,6 @@ import {deploy} from './commands/deploy';
 import {adminServer} from './commands/server';
 import {start} from './commands/start';
 import {wait} from './commands/wait';
-import {watch} from './commands/watch';
 import {checkNodeVersion} from './utils/env.utils';
 
 const {red, yellow} = kleur;
@@ -27,9 +26,6 @@ export const run = async () => {
       break;
     case 'wait':
       await wait(args);
-      break;
-    case 'watch':
-      await watch(args);
       break;
     case 'admin':
       await adminServer(args);

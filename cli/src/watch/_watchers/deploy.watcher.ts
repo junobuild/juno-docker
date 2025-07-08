@@ -7,10 +7,12 @@ import {Watcher} from './_watcher';
 const {red} = kleur;
 
 export class DeployWatcher extends Watcher {
+  readonly #key: string;
   readonly #initModule: WatcherDeployInitModule;
 
-  constructor({moduleFileName, initModule}: WatcherDeployDescription) {
+  constructor({moduleFileName, key, initModule}: WatcherDeployDescription) {
     super({moduleFileName});
+    this.#key = key;
     this.#initModule = initModule;
   }
 
@@ -51,5 +53,16 @@ export class DeployWatcher extends Watcher {
     } finally {
       this.executing = false;
     }
+  }
+
+  matchRequest({
+    command,
+    subCommand
+  }: {
+    command: string;
+    subCommand: string;
+    searchParams: URLSearchParams;
+  }): boolean {
+    return command === this.#key && subCommand === 'upgrade';
   }
 }

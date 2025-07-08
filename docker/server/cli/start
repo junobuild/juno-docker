@@ -2,6 +2,4 @@
 
 node ./cli/dist/index.js start --port "$PORT" --state "$STATE_CLI_DIR/modules.json"
 
-node ./cli/dist/index.js watch --port "$PORT" --state "$STATE_CLI_DIR/modules.json" &
-
 node ./cli/dist/index.js admin --port "$PORT" --state "$STATE_CLI_DIR/modules.json" --admin-port "$ADMIN_PORT"

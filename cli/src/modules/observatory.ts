@@ -5,7 +5,7 @@ import type {ModuleDescription} from '../types/module';
 
 export const OBSERVATORY_CANISTER_ID = 'klbfr-lqaaa-aaaak-qbwsa-cai';
 
-const OBSERVATORY: ModuleDescription = {
+export const OBSERVATORY: ModuleDescription = {
   key: 'observatory',
   name: 'Observatory',
   canisterId: OBSERVATORY_CANISTER_ID

@@ -6,7 +6,7 @@ import {installReleases} from './console.post-install';
 
 export const CONSOLE_CANISTER_ID = 'cokmz-oiaaa-aaaal-aby6q-cai';
 
-const CONSOLE: ModuleDescription = {
+export const CONSOLE: ModuleDescription = {
   key: 'console',
   name: 'Console',
   canisterId: CONSOLE_CANISTER_ID

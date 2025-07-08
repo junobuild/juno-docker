@@ -9,8 +9,10 @@ import {collectIdentities} from '../services/identity.services';
 import {transfer} from '../services/ledger.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
+import {serveWatchers} from '../watch/serve.watchers';
 
 const buildServer = ({context}: {context: CliContext}): Server =>
+  // eslint-disable-next-line complexity
   createServer(async ({url, headers: {host}}: IncomingMessage, res: ServerResponse) => {
     // https://stackoverflow.com/a/54309023/5404186
     const corsHeaders: OutgoingHttpHeaders = {
@@ -56,6 +58,13 @@ const buildServer = ({context}: {context: CliContext}): Server =>
       }
 
       error404();
+      return;
+    }
+
+    const {processed} = await serveWatchers({command, subCommand, searchParams, context});
+
+    if (processed) {
+      done();
       return;
     }
 
