@@ -7,6 +7,7 @@ import {buildContext} from '../services/context.services';
 import {setController} from '../services/controller.services';
 import {collectIdentities} from '../services/identity.services';
 import {transfer} from '../services/ledger.services';
+import {touchWatchedFile} from '../services/touch.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
 
@@ -91,6 +92,9 @@ const buildServer = ({context}: {context: CliContext}): Server =>
           res.writeHead(200, headers);
           res.end(JSON.stringify(identities));
           return;
+        }
+        case 'touch': {
+          await touchWatchedFile({searchParams});
         }
       }
 
