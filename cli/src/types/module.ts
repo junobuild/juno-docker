@@ -1,3 +1,4 @@
+import type {Module} from '../services/modules/module.services';
 import type {CliContext} from './context';
 
 export type ModuleStatus = 'initialized' | 'deployed';
@@ -20,3 +21,5 @@ export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status' | '
 export type ModuleInstallParams = CliContext & {
   arg?: ArrayBuffer;
 };
+
+export type InitDynamicModuleResult<T extends Module = Module> = {mod: T} | {err: unknown};
