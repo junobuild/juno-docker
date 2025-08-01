@@ -18,7 +18,7 @@ import type {
 } from '@junobuild/config';
 import {readJunoDevConfig} from '../../configs/juno.dev.config';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
-import {ControllerScope} from '../../declarations/satellite';
+import type {ControllerScope} from '../../declarations/satellite';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
