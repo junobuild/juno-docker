@@ -88,7 +88,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
         return;
       }
 
-      if (command === "satellite") {
+      if (command === 'satellite') {
         switch (subCommand) {
           case 'controller':
             await setController({
