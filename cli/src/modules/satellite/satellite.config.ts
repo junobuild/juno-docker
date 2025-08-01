@@ -18,6 +18,7 @@ import type {
 } from '@junobuild/config';
 import {readJunoDevConfig} from '../../configs/juno.dev.config';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
+import {ControllerScope} from '../../declarations/satellite';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
@@ -91,12 +92,18 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
     return;
   }
 
-  await setControllers({context, controllers});
+  await setControllers({
+    context,
+    controllers: controllers.map(({scope, ...rest}) => ({
+      ...rest,
+      scope: scope === 'submit' ? {Submit: null} : scope === 'write' ? {Write: null} : {Admin: null}
+    }))
+  });
 };
 
 export interface SatelliteDevController {
   id: PrincipalText;
-  scope: 'write' | 'admin' | 'submit';
+  scope: ControllerScope;
 }
 
 export const setControllers = async ({
@@ -132,9 +139,9 @@ export const setControllers = async ({
     [SatelliteDevController[], SatelliteDevController[], SatelliteDevController[]]
   >(
     ([write, admin, submit], controller) => [
-      [...write, ...(controller.scope === 'write' ? [controller] : [])],
-      [...admin, ...(controller.scope === 'admin' ? [controller] : [])],
-      [...submit, ...(controller.scope === 'submit' ? [controller] : [])]
+      [...write, ...('Write' in controller.scope ? [controller] : [])],
+      [...admin, ...('Admin' in controller.scope ? [controller] : [])],
+      [...submit, ...('Submit' in controller.scope ? [controller] : [])]
     ],
     [[], [], []]
   );
