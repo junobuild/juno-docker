@@ -6,7 +6,7 @@ import {
   listRules,
   listSatelliteControllers,
   setRule,
-  setSatelliteControllers,
+  setSatelliteControllers as setSatelliteControllersAdmin,
   type SatelliteParameters
 } from '@junobuild/admin';
 import type {Controller} from '@junobuild/admin/dist/declarations/satellite/satellite.did';
@@ -92,7 +92,7 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
     return;
   }
 
-  await setControllers({
+  await setSatelliteControllers({
     context,
     controllers: controllers.map(({scope, ...rest}) => ({
       ...rest,
@@ -106,7 +106,7 @@ export interface SatelliteDevController {
   scope: ControllerScope;
 }
 
-export const setControllers = async ({
+export const setSatelliteControllers = async ({
   context,
   controllers
 }: {
@@ -169,7 +169,7 @@ export const setControllers = async ({
     controllerScope: 'Write' | 'Admin' | 'Submit';
     controllers: SatelliteDevController[];
   }) => {
-    await setSatelliteControllers({
+    await setSatelliteControllersAdmin({
       args: {
         controller: {
           metadata: [],

@@ -96,7 +96,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
             await setController({
               context,
               searchParams,
-              key: satelliteBuild ? satellite.key : `${satellite.key}-dynamic`
+              key: satellite.key
             });
             done();
             return;

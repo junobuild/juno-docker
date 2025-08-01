@@ -1,8 +1,9 @@
+import {assertNonNullish} from '@dfinity/utils';
 import type {ControllerScope} from '../../declarations/console';
 import {consoleModule} from '../../modules/console';
 import {observatory} from '../../modules/observatory';
-import {initSatelliteModule, satellite} from '../../modules/satellite';
-import {initSatelliteDynamicModule} from '../../modules/satellite/dynamic';
+import {satellite} from '../../modules/satellite';
+import {setSatelliteControllers} from '../../modules/satellite/satellite.config';
 import type {CliContext} from '../../types/context';
 import type {ModuleKey} from '../../types/module';
 
@@ -13,8 +14,7 @@ export const setController = async ({
 }: {
   context: CliContext;
   searchParams: URLSearchParams;
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  key: ModuleKey | `${ModuleKey}-dynamic`;
+  key: ModuleKey;
 }) => {
   const controllerId = searchParams.get('id') ?? '';
   const scope: ControllerScope =
@@ -27,19 +27,20 @@ export const setController = async ({
     case observatory.key:
       await observatory.setController({context, controllerId, scope});
       break;
-    case `${satellite.key}-dynamic`: {
-      const result = await initSatelliteDynamicModule({context});
-
-      if ('err' in result) {
-        throw result.err;
-      }
-
-      await result.mod.setController({context, controllerId, scope});
-      break;
-    }
     case satellite.key: {
-      const mod = initSatelliteModule();
-      await mod.setController({context, controllerId, scope});
+      const satelliteId = searchParams.get('satelliteId');
+
+      assertNonNullish(satelliteId, 'The request must provide a satellite ID.');
+
+      await setSatelliteControllers({
+        context: {...context, canisterId: satelliteId},
+        controllers: [
+          {
+            id: controllerId,
+            scope
+          }
+        ]
+      });
     }
   }
 };
