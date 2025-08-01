@@ -1,7 +1,8 @@
 import {existsSync} from 'node:fs';
 import {DEV_CONSOLE} from '../../constants/dev.constants';
-import {Module} from '../../services/modules.services';
+import {getConsoleActor} from '../../services/actor.services';
 import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
+import {JunoModule} from '../juno.module';
 import {installReleases} from './console.post-install';
 
 export const CONSOLE_CANISTER_ID = 'cokmz-oiaaa-aaaal-aby6q-cai';
@@ -12,7 +13,7 @@ const CONSOLE: ModuleDescription = {
   canisterId: CONSOLE_CANISTER_ID
 };
 
-class ConsoleModule extends Module {
+class ConsoleModule extends JunoModule {
   override async postInstall(context: ModuleInstallParams): Promise<void> {
     await installReleases(context);
   }
@@ -21,7 +22,8 @@ class ConsoleModule extends Module {
 export const initConsoleModule = (): ConsoleModule =>
   new ConsoleModule({
     ...CONSOLE,
-    ...(existsSync(DEV_CONSOLE) && {wasmPath: DEV_CONSOLE})
+    ...(existsSync(DEV_CONSOLE) && {wasmPath: DEV_CONSOLE}),
+    getActorFn: getConsoleActor
   });
 
 export const consoleModule = initConsoleModule();
