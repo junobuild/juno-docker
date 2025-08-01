@@ -1,6 +1,6 @@
 import type {ControllerScope} from '../../declarations/console';
-import {CONSOLE_CANISTER_ID, consoleModule} from '../../modules/console';
-import {observatory, OBSERVATORY_CANISTER_ID} from '../../modules/observatory';
+import {consoleModule} from '../../modules/console';
+import {observatory} from '../../modules/observatory';
 import type {CliContext} from '../../types/context';
 import type {ModuleKey} from '../../types/module';
 
@@ -18,10 +18,10 @@ export const setController = async ({
     searchParams.get('scope') === 'write' ? {Write: null} : {Admin: null};
 
   switch (key) {
-    case CONSOLE_CANISTER_ID:
+    case consoleModule.key:
       await consoleModule.setController({context, controllerId, scope});
       break;
-    case OBSERVATORY_CANISTER_ID:
+    case observatory.key:
       await observatory.setController({context, controllerId, scope});
       break;
   }
