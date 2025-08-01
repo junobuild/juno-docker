@@ -1,6 +1,9 @@
+import {assertNonNullish, notEmptyString} from '@dfinity/utils';
 import type {ControllerScope} from '../../declarations/console';
 import {consoleModule} from '../../modules/console';
 import {observatory} from '../../modules/observatory';
+import {satellite} from '../../modules/satellite';
+import {setSatelliteControllers} from '../../modules/satellite/satellite.config';
 import type {CliContext} from '../../types/context';
 import type {ModuleKey} from '../../types/module';
 
@@ -24,5 +27,22 @@ export const setController = async ({
     case observatory.key:
       await observatory.setController({context, controllerId, scope});
       break;
+    case satellite.key: {
+      const satelliteId = searchParams.get('satelliteId');
+      const profile = searchParams.get('profile');
+
+      assertNonNullish(satelliteId, 'The request must provide a satellite ID.');
+
+      await setSatelliteControllers({
+        context: {...context, canisterId: satelliteId},
+        controllers: [
+          {
+            id: controllerId,
+            scope
+          }
+        ],
+        ...(profile !== null && notEmptyString(profile) && {profile: decodeURIComponent(profile)})
+      });
+    }
   }
 };
