@@ -60,9 +60,21 @@ export const idlFactory = ({IDL}) => {
     timestamp: IDL.Nat64,
     amount: IDL.Nat
   });
+  const FundingErrorCode = IDL.Variant({
+    BalanceCheckFailed: IDL.Null,
+    ObtainCyclesFailed: IDL.Null,
+    DepositFailed: IDL.Null,
+    InsufficientCycles: IDL.Null,
+    Other: IDL.Text
+  });
+  const FundingFailure = IDL.Record({
+    timestamp: IDL.Nat64,
+    error_code: FundingErrorCode
+  });
   const MonitoringHistoryCycles = IDL.Record({
     deposited_cycles: IDL.Opt(CyclesBalance),
-    cycles: CyclesBalance
+    cycles: CyclesBalance,
+    funding_failure: IDL.Opt(FundingFailure)
   });
   const MonitoringHistory = IDL.Record({
     cycles: IDL.Opt(MonitoringHistoryCycles)
@@ -132,7 +144,8 @@ export const idlFactory = ({IDL}) => {
   const Result_1 = IDL.Variant({Ok: IDL.Nat, Err: TransferError_1});
   const ControllerScope = IDL.Variant({
     Write: IDL.Null,
-    Admin: IDL.Null
+    Admin: IDL.Null,
+    Submit: IDL.Null
   });
   const Controller = IDL.Record({
     updated_at: IDL.Nat64,
@@ -236,8 +249,7 @@ export const idlFactory = ({IDL}) => {
     unset_orbiter: IDL.Func([IDL.Principal], [], []),
     unset_satellite: IDL.Func([IDL.Principal], [], []),
     update_and_start_monitoring: IDL.Func([MonitoringStartConfig], [], []),
-    update_and_stop_monitoring: IDL.Func([MonitoringStopConfig], [], []),
-    version: IDL.Func([], [IDL.Text], ['query'])
+    update_and_stop_monitoring: IDL.Func([MonitoringStopConfig], [], [])
   });
 };
 export const init = ({IDL}) => {

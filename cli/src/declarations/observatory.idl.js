@@ -14,7 +14,8 @@ export const idlFactory = ({IDL}) => {
   });
   const ControllerScope = IDL.Variant({
     Write: IDL.Null,
-    Admin: IDL.Null
+    Admin: IDL.Null,
+    Submit: IDL.Null
   });
   const Controller = IDL.Record({
     updated_at: IDL.Nat64,
@@ -31,8 +32,24 @@ export const idlFactory = ({IDL}) => {
     to: IDL.Text,
     deposited_cycles: CyclesBalance
   });
+  const FundingErrorCode = IDL.Variant({
+    BalanceCheckFailed: IDL.Null,
+    ObtainCyclesFailed: IDL.Null,
+    DepositFailed: IDL.Null,
+    InsufficientCycles: IDL.Null,
+    Other: IDL.Text
+  });
+  const FundingFailure = IDL.Record({
+    timestamp: IDL.Nat64,
+    error_code: FundingErrorCode
+  });
+  const FailedCyclesDepositEmailNotification = IDL.Record({
+    to: IDL.Text,
+    funding_failure: FundingFailure
+  });
   const NotificationKind = IDL.Variant({
-    DepositedCyclesEmail: DepositedCyclesEmailNotification
+    DepositedCyclesEmail: DepositedCyclesEmailNotification,
+    FailedCyclesDepositEmail: FailedCyclesDepositEmailNotification
   });
   const SegmentKind = IDL.Variant({
     Orbiter: IDL.Null,
@@ -66,8 +83,7 @@ export const idlFactory = ({IDL}) => {
     notify: IDL.Func([NotifyArgs], [], []),
     ping: IDL.Func([NotifyArgs], [], []),
     set_controllers: IDL.Func([SetControllersArgs], [], []),
-    set_env: IDL.Func([Env], [], []),
-    version: IDL.Func([], [IDL.Text], ['query'])
+    set_env: IDL.Func([Env], [], [])
   });
 };
 export const init = ({IDL}) => {
