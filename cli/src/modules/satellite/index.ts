@@ -4,10 +4,11 @@ import {existsSync} from 'node:fs';
 import {junoDevConfigExist} from '../../configs/juno.dev.config';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {DEV_SATELLITE} from '../../constants/dev.constants';
+import type {ControllerScope} from '../../declarations/satellite';
 import {Module} from '../../services/modules/module.services';
 import type {CliContext} from '../../types/context';
 import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
-import {configureCollections, configureControllers} from './satellite.config';
+import {configureCollections, configureControllers, setControllers} from './satellite.config';
 
 export const SATELLITE: ModuleDescription = {
   key: 'satellite',
@@ -63,6 +64,32 @@ export class SatelliteModule extends Module {
         `❓  ${this.name} not configured. If you were still editing your configuration file, please ignore this error.`
       );
     }
+  }
+
+  async setController({
+    context,
+    controllerId,
+    scope
+  }: {
+    context: CliContext;
+    scope: ControllerScope;
+    controllerId: string;
+  }) {
+    const canisterId = this.canisterId(context);
+
+    if (isNullish(canisterId)) {
+      throw new Error('Cannot configure satellite for unknown module id.');
+    }
+
+    await setControllers({
+      context: {...context, canisterId},
+      controllers: [
+        {
+          id: controllerId,
+          scope
+        }
+      ]
+    });
   }
 }
 

@@ -1,6 +1,7 @@
 import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {isNullish} from '@dfinity/utils';
+import type {PrincipalText} from '@dfinity/zod-schemas';
 import {
   listRules,
   listSatelliteControllers,
@@ -12,7 +13,6 @@ import type {Controller} from '@junobuild/admin/dist/declarations/satellite/sate
 import type {ListRulesResults} from '@junobuild/admin/dist/types/types/list.types';
 import type {
   RulesType,
-  SatelliteDevController,
   SatelliteDevDataStoreCollection,
   SatelliteDevStorageCollection
 } from '@junobuild/config';
@@ -87,17 +87,32 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
     satellite: {controllers}
   } = await readJunoDevConfig();
 
-  if ((controllers ?? []).length === 0) {
+  if (isNullish(controllers) || controllers.length === 0) {
     return;
   }
 
+  await setControllers({context, controllers});
+};
+
+export interface SatelliteDevController {
+  id: PrincipalText;
+  scope: 'write' | 'admin' | 'submit';
+}
+
+export const setControllers = async ({
+  context,
+  controllers
+}: {
+  context: SatelliteConfigContext;
+  controllers: SatelliteDevController[];
+}) => {
   const satellite = buildSatelliteParams(context);
 
   type ControllerId = string;
 
-  const existingControllers: Record<ControllerId, Controller> = (
-    await listSatelliteControllers({satellite})
-  ).reduce(
+  const existingControllers = (await listSatelliteControllers({satellite})).reduce<
+    Record<ControllerId, Controller>
+  >(
     (acc, [controller, details]) => ({
       ...acc,
       [controller.toText()]: details
@@ -109,15 +124,19 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
 
   // If no new controllers need to be applied, we can return.
   if (newControllers.length === 0) {
+    console.log(`ℹ️  The access key are already configured.`);
     return;
   }
 
-  const [write, admin] = newControllers.reduce(
-    ([write, admin]: [SatelliteDevController[], SatelliteDevController[]], controller) => [
+  const [write, admin, submit] = newControllers.reduce<
+    [SatelliteDevController[], SatelliteDevController[], SatelliteDevController[]]
+  >(
+    ([write, admin, submit], controller) => [
       [...write, ...(controller.scope === 'write' ? [controller] : [])],
-      [...admin, ...(controller.scope === 'admin' ? [controller] : [])]
+      [...admin, ...(controller.scope === 'admin' ? [controller] : [])],
+      [...submit, ...(controller.scope === 'submit' ? [controller] : [])]
     ],
-    [[], []]
+    [[], [], []]
   );
 
   const {agent, canisterId} = context;
@@ -140,14 +159,19 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
     controllerScope,
     controllers
   }: {
-    controllerScope: 'Write' | 'Admin';
+    controllerScope: 'Write' | 'Admin' | 'Submit';
     controllers: SatelliteDevController[];
   }) => {
     await setSatelliteControllers({
       args: {
         controller: {
           metadata: [],
-          scope: controllerScope === 'Write' ? {Write: null} : {Admin: null},
+          scope:
+            controllerScope === 'Submit'
+              ? {Submit: null}
+              : controllerScope === 'Write'
+                ? {Write: null}
+                : {Admin: null},
           expires_at: []
         },
         controllers: controllers.map(({id}) => Principal.from(id))
@@ -159,6 +183,7 @@ export const configureControllers = async (context: SatelliteConfigContext) => {
   // Finally we can set the controllers within the satellite heap memory
   await Promise.all([
     ...[write.length > 0 ? [setControllers({controllerScope: 'Write', controllers: write})] : []],
-    ...[admin.length > 0 ? [setControllers({controllerScope: 'Admin', controllers: admin})] : []]
+    ...[admin.length > 0 ? [setControllers({controllerScope: 'Admin', controllers: admin})] : []],
+    ...[submit.length > 0 ? [setControllers({controllerScope: 'Submit', controllers: submit})] : []]
   ]);
 };
