@@ -148,7 +148,7 @@ export const setControllers = async ({
 
   const {agent, canisterId} = context;
 
-  // We do not have mission control in this context, therefore we need to set the admin controllers ourselves.
+  // We do not have mission control in the satellite image, therefore we set the admin controllers ourselves.
   if (admin.length > 0) {
     const {updateSettings} = ICManagementCanister.create({
       agent
