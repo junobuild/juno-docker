@@ -1,8 +1,8 @@
 import {Principal} from '@dfinity/principal';
 import {nonNullish} from '@dfinity/utils';
-import {ICP_LEDGER_CANISTER_ID} from '../modules/icp-ledger';
-import type {CliContext} from '../types/context';
-import {getLedgerActor} from './actor.services';
+import {ICP_LEDGER_CANISTER_ID} from '../../modules/icp-ledger';
+import type {CliContext} from '../../types/context';
+import {getLedgerActor} from '../actor.services';
 
 export const transfer = async ({
   context,

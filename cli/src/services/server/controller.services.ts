@@ -1,8 +1,8 @@
-import type {ControllerScope} from '../declarations/console';
-import {CONSOLE_CANISTER_ID, consoleModule} from '../modules/console';
-import {observatory, OBSERVATORY_CANISTER_ID} from '../modules/observatory';
-import type {CliContext} from '../types/context';
-import type {ModuleKey} from '../types/module';
+import type {ControllerScope} from '../../declarations/console';
+import {CONSOLE_CANISTER_ID, consoleModule} from '../../modules/console';
+import {observatory, OBSERVATORY_CANISTER_ID} from '../../modules/observatory';
+import type {CliContext} from '../../types/context';
+import type {ModuleKey} from '../../types/module';
 
 export const setController = async ({
   context,

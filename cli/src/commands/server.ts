@@ -4,10 +4,10 @@ import {createServer, type IncomingMessage, type Server, type ServerResponse} fr
 import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
 import {buildContext} from '../services/context.services';
-import {setController} from '../services/controller.services';
 import {collectIdentities} from '../services/identity.services';
-import {transfer} from '../services/ledger.services';
-import {touchWatchedFile} from '../services/touch.services';
+import {setController} from '../services/server/controller.services';
+import {transfer} from '../services/server/ledger.services';
+import {touchWatchedFile} from '../services/server/touch.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
 
