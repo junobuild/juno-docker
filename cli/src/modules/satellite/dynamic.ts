@@ -11,8 +11,7 @@ import {basename} from 'node:path';
 import {readJunoConfig} from '../../configs/juno.config';
 import {DEV_SATELLITE, JUNO_CONFIG_FILENAME} from '../../constants/dev.constants';
 import type {CliContext} from '../../types/context';
-import type {ModuleCanisterId} from '../../types/module';
-import type {WatcherDeployInitModuleResult} from '../../watch/_types/watcher';
+import type {InitDynamicModuleResult, ModuleCanisterId} from '../../types/module';
 import {SATELLITE, SatelliteModule} from './index';
 
 const {red, cyan} = kleur;
@@ -90,7 +89,7 @@ export const initSatelliteDynamicModule = async ({
   context
 }: {
   context: CliContext;
-}): Promise<WatcherDeployInitModuleResult> => {
+}): Promise<InitDynamicModuleResult<SatelliteDynamicModule>> => {
   if (!(await junoConfigExistTools({filename: JUNO_CONFIG_FILENAME}))) {
     const err = new Error(
       `ℹ️  No configuration file provided. Skipping upgrade of ${SATELLITE.name}.`

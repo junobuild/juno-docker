@@ -1,17 +1,15 @@
 import type {Module} from '../../services/modules/module.services';
 import type {CliContext} from '../../types/context';
-import type {ModuleDescription} from '../../types/module';
+import type {InitDynamicModuleResult, ModuleDescription} from '../../types/module';
 
 export interface WatcherDescription {
   moduleFileName: string;
   debounceDelay?: number;
 }
 
-export type WatcherDeployInitModuleResult = {mod: Module} | {err: unknown};
-
 export type WatcherDeployInitModule = (params: {
   context: CliContext;
-}) => Promise<WatcherDeployInitModuleResult>;
+}) => Promise<InitDynamicModuleResult>;
 
 export type WatcherDeployDescription = WatcherDescription & {
   initModule: WatcherDeployInitModule;
