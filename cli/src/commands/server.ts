@@ -121,7 +121,6 @@ const buildServer = ({context}: {context: CliContext}): Server =>
     } catch (err: unknown) {
       console.log(red('️‼️  Unexpected error while processing the request:'), err);
       error500();
-      
     }
   });
 
