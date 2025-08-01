@@ -57,6 +57,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
       res.end('Unexpected error');
     };
 
+    // eslint-disable-next-line complexity
     const handleRequest = async () => {
       if (command === 'ledger') {
         switch (subCommand) {

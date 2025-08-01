@@ -127,7 +127,7 @@ export const setControllers = async ({
     {}
   );
 
-  const newControllers = (controllers ?? []).filter(({id}) => isNullish(existingControllers[id]));
+  const newControllers = controllers.filter(({id}) => isNullish(existingControllers[id]));
 
   // If no new controllers need to be applied, we can return.
   if (newControllers.length === 0) {

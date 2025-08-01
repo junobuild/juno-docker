@@ -13,6 +13,7 @@ export const setController = async ({
 }: {
   context: CliContext;
   searchParams: URLSearchParams;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   key: ModuleKey | `${ModuleKey}-dynamic`;
 }) => {
   const controllerId = searchParams.get('id') ?? '';
