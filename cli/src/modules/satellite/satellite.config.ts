@@ -172,7 +172,7 @@ export const setSatelliteControllers = async ({
     await setSatelliteControllersAdmin({
       args: {
         controller: {
-          metadata: [],
+          metadata: [['profile', '👾 Emulator']],
           scope:
             controllerScope === 'Submit'
               ? {Submit: null}
