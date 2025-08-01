@@ -1,5 +1,6 @@
 import {assertNonNullish, isNullish} from '@dfinity/utils';
 import type {OutgoingHttpHeaders} from 'http';
+import kleur from 'kleur';
 import {createServer, type IncomingMessage, type Server, type ServerResponse} from 'node:http';
 import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
@@ -10,6 +11,8 @@ import {transfer} from '../services/server/ledger.services';
 import {touchWatchedFile} from '../services/server/touch.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
+
+const {red} = kleur;
 
 const buildServer = ({context}: {context: CliContext}): Server =>
   createServer(async ({url, headers: {host}}: IncomingMessage, res: ServerResponse) => {
@@ -48,63 +51,77 @@ const buildServer = ({context}: {context: CliContext}): Server =>
       res.end('Unknown command');
     };
 
-    if (command === 'ledger') {
-      switch (subCommand) {
-        case 'transfer':
-          await transfer({context, searchParams});
-          done();
-          return;
-      }
+    const error500 = () => {
+      res.writeHead(500, headers);
+      res.end('Unexpected error');
+    };
 
-      error404();
-      return;
-    }
-
-    // If the CLI was build for the satellite but the /console/ is queried, then the feature is not supported.
-    const satelliteBuild = process.env.CLI_BUILD === 'satellite';
-
-    if (!satelliteBuild && ['console', 'observatory'].includes(command)) {
-      switch (subCommand) {
-        case 'controller':
-          await setController({
-            context,
-            searchParams,
-            key: command === 'observatory' ? observatory.key : consoleModule.key
-          });
-          done();
-          return;
-      }
-
-      error404();
-      return;
-    }
-
-    if (command === 'admin') {
-      switch (subCommand) {
-        case 'identities': {
-          const identities = collectIdentities({context});
-
-          const headers: OutgoingHttpHeaders = {
-            ...corsHeaders,
-            'Content-Type': 'application/json'
-          };
-
-          res.writeHead(200, headers);
-          res.end(JSON.stringify(identities));
-          return;
+    const handleRequest = async () => {
+      if (command === 'ledger') {
+        switch (subCommand) {
+          case 'transfer':
+            await transfer({context, searchParams});
+            done();
+            return;
         }
-        case 'touch': {
-          await touchWatchedFile({searchParams});
-          done();
-          return;
+
+        error404();
+        return;
+      }
+
+      // If the CLI was build for the satellite but the /console/ is queried, then the feature is not supported.
+      const satelliteBuild = process.env.CLI_BUILD === 'satellite';
+
+      if (!satelliteBuild && ['console', 'observatory'].includes(command)) {
+        switch (subCommand) {
+          case 'controller':
+            await setController({
+              context,
+              searchParams,
+              key: command === 'observatory' ? observatory.key : consoleModule.key
+            });
+            done();
+            return;
         }
+
+        error404();
+        return;
+      }
+
+      if (command === 'admin') {
+        switch (subCommand) {
+          case 'identities': {
+            const identities = collectIdentities({context});
+
+            const headers: OutgoingHttpHeaders = {
+              ...corsHeaders,
+              'Content-Type': 'application/json'
+            };
+
+            res.writeHead(200, headers);
+            res.end(JSON.stringify(identities));
+            return;
+          }
+          case 'touch': {
+            await touchWatchedFile({searchParams});
+            done();
+            return;
+          }
+        }
+
+        error404();
+        return;
       }
 
       error404();
-      return;
-    }
+    };
 
-    error404();
+    try {
+      await handleRequest();
+    } catch (err: unknown) {
+      console.log(red('️‼️  Unexpected error while processing the request:'), err);
+      error500();
+    }
   });
 
 export const adminServer = async (args?: string[]) => {
