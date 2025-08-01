@@ -4,6 +4,7 @@ import kleur from 'kleur';
 import {createServer, type IncomingMessage, type Server, type ServerResponse} from 'node:http';
 import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
+import {satellite} from '../modules/satellite';
 import {buildContext} from '../services/context.services';
 import {collectIdentities} from '../services/identity.services';
 import {setController} from '../services/server/controller.services';
@@ -94,7 +95,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
             await setController({
               context,
               searchParams,
-              key: command === 'observatory' ? observatory.key : consoleModule.key
+              key: satelliteBuild ? satellite.key : `${satellite.key}-dynamic`
             });
             done();
             return;
