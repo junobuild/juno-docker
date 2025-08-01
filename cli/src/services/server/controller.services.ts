@@ -1,6 +1,8 @@
 import type {ControllerScope} from '../../declarations/console';
 import {consoleModule} from '../../modules/console';
 import {observatory} from '../../modules/observatory';
+import {initSatelliteModule, satellite} from '../../modules/satellite';
+import {initSatelliteDynamicModule} from '../../modules/satellite/dynamic';
 import type {CliContext} from '../../types/context';
 import type {ModuleKey} from '../../types/module';
 
@@ -11,7 +13,7 @@ export const setController = async ({
 }: {
   context: CliContext;
   searchParams: URLSearchParams;
-  key: ModuleKey;
+  key: ModuleKey | `${ModuleKey}-dynamic`;
 }) => {
   const controllerId = searchParams.get('id') ?? '';
   const scope: ControllerScope =
@@ -24,5 +26,19 @@ export const setController = async ({
     case observatory.key:
       await observatory.setController({context, controllerId, scope});
       break;
+    case `${satellite.key}-dynamic`: {
+      const result = await initSatelliteDynamicModule({context});
+
+      if ('err' in result) {
+        throw result.err;
+      }
+
+      await result.mod.setController({context, controllerId, scope});
+      break;
+    }
+    case satellite.key: {
+      const mod = initSatelliteModule();
+      await mod.setController({context, controllerId, scope});
+    }
   }
 };

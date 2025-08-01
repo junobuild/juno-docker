@@ -88,6 +88,22 @@ const buildServer = ({context}: {context: CliContext}): Server =>
         return;
       }
 
+      if (command === "satellite") {
+        switch (subCommand) {
+          case 'controller':
+            await setController({
+              context,
+              searchParams,
+              key: command === 'observatory' ? observatory.key : consoleModule.key
+            });
+            done();
+            return;
+        }
+
+        error404();
+        return;
+      }
+
       if (command === 'admin') {
         switch (subCommand) {
           case 'identities': {
