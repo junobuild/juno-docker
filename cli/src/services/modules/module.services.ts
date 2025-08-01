@@ -4,17 +4,17 @@ import {Principal} from '@dfinity/principal';
 import {isNullish, nonNullish} from '@dfinity/utils';
 import {upgradeModule} from '@junobuild/admin';
 import kleur from 'kleur';
-import {MAIN_IDENTITY_KEY} from '../constants/constants';
-import {INSTALL_MODE_INSTALL, INSTALL_MODE_UPGRADE} from '../constants/upgrade.constants';
-import type {CliContext} from '../types/context';
+import {MAIN_IDENTITY_KEY} from '../../constants/constants';
+import {INSTALL_MODE_INSTALL, INSTALL_MODE_UPGRADE} from '../../constants/upgrade.constants';
+import type {CliContext} from '../../types/context';
 import type {
   ModuleCanisterId,
   ModuleDescription,
   ModuleInstallParams,
   ModuleMetadata,
   ModuleStatus
-} from '../types/module';
-import {loadWasm, type Wasm} from '../utils/wasm.utils';
+} from '../../types/module';
+import {loadWasm, type Wasm} from '../../utils/wasm.utils';
 
 const {green, cyan} = kleur;
 

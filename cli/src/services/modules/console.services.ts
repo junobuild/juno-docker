@@ -7,10 +7,10 @@ import {
 } from '@junobuild/cdn';
 import type {EncodingType} from '@junobuild/storage';
 import {basename} from 'node:path';
-import {CONSOLE_CANISTER_ID} from '../modules/console';
-import {buildConsoleParams} from '../modules/satellite/console.config';
-import type {CliContext} from '../types/context';
-import {loadWasm} from '../utils/wasm.utils';
+import {CONSOLE_CANISTER_ID} from '../../modules/console';
+import {buildConsoleParams} from '../../modules/satellite/console.config';
+import type {CliContext} from '../../types/context';
+import {loadWasm} from '../../utils/wasm.utils';
 
 export const installRelease = async ({
   context,

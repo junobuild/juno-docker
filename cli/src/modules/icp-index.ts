@@ -2,7 +2,7 @@ import {IDL} from '@dfinity/candid';
 import {Principal} from '@dfinity/principal';
 import {assertNonNullish} from '@dfinity/utils';
 import {init} from '../declarations/icp_index.idl';
-import {Module} from '../services/modules.services';
+import {Module} from '../services/modules/module.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
 const ICP_INDEX: ModuleDescription = {

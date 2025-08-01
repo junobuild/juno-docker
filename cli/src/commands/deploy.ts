@@ -2,7 +2,7 @@ import {isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
 import {modules, troublemakers} from '../modules/modules';
 import {buildContext} from '../services/context.services';
-import type {Module} from '../services/modules.services';
+import type {Module} from '../services/modules/module.services';
 import type {CliContext} from '../types/context';
 
 const {green, cyan, red} = kleur;

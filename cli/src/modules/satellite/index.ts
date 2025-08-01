@@ -4,7 +4,7 @@ import {existsSync} from 'node:fs';
 import {junoDevConfigExist} from '../../configs/juno.dev.config';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {DEV_SATELLITE} from '../../constants/dev.constants';
-import {Module} from '../../services/modules.services';
+import {Module} from '../../services/modules/module.services';
 import type {CliContext} from '../../types/context';
 import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
 import {configureCollections, configureControllers} from './satellite.config';

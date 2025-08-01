@@ -1,4 +1,4 @@
-import {installRelease} from '../../services/console.services';
+import {installRelease} from '../../services/modules/console.services';
 import type {ModuleInstallParams} from '../../types/module';
 import {satellite} from '../satellite';
 import {

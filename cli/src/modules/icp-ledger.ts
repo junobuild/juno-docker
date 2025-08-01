@@ -2,7 +2,7 @@ import {IDL} from '@dfinity/candid';
 import {AccountIdentifier} from '@dfinity/ledger-icp';
 import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
 import {init} from '../declarations/icp_ledger.idl';
-import {Module} from '../services/modules.services';
+import {Module} from '../services/modules/module.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
 export const ICP_LEDGER_CANISTER_ID = 'ryjl3-tyaaa-aaaaa-aaaba-cai';

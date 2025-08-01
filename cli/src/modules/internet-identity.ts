@@ -2,7 +2,7 @@ import {IDL} from '@dfinity/candid';
 import {toNullable} from '@dfinity/utils';
 import type {InternetIdentityInit} from '../declarations/internet_identity';
 import {init} from '../declarations/internet_identity.idl';
-import {Module} from '../services/modules.services';
+import {Module} from '../services/modules/module.services';
 import type {ModuleDescription, ModuleInstallParams} from '../types/module';
 
 const INTERNET_IDENTITY: ModuleDescription = {

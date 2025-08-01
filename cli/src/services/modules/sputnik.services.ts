@@ -6,7 +6,7 @@ import {
   DEV_BUILD_SPUTNIK,
   DEV_PREPARE_PKG_SPUTNIK,
   DEV_SPUTNIK_MJS_FILE_PATH
-} from '../constants/dev.constants';
+} from '../../constants/dev.constants';
 
 const {red} = kleur;
 

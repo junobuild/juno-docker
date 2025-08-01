@@ -1,5 +1,5 @@
 import kleur from 'kleur';
-import type {Module} from '../../services/modules.services';
+import type {Module} from '../../services/modules/module.services';
 import type {CliContext} from '../../types/context';
 import type {WatcherDeployDescription, WatcherDeployInitModule} from '../_types/watcher';
 import {Watcher} from './_watcher';

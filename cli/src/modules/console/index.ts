@@ -1,8 +1,8 @@
 import {existsSync} from 'node:fs';
 import {DEV_CONSOLE} from '../../constants/dev.constants';
 import {getConsoleActor} from '../../services/actor.services';
+import {JunoModule} from '../../services/modules/juno.module.services';
 import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
-import {JunoModule} from '../juno.module';
 import {installReleases} from './console.post-install';
 
 export const CONSOLE_CANISTER_ID = 'cokmz-oiaaa-aaaal-aby6q-cai';

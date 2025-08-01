@@ -1,6 +1,6 @@
 import {assertNonNullish} from '@dfinity/utils';
 import kleur from 'kleur';
-import {Module} from '../../services/modules.services';
+import {Module} from '../../services/modules/module.services';
 import type {ModuleDescription, ModuleInstallParams} from '../../types/module';
 import {prepareGovernanceArgs} from './governance.install';
 import {makeIcpXdrProposal} from './governance.post-install';

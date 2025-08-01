@@ -1,4 +1,4 @@
-import type {Module} from '../../services/modules.services';
+import type {Module} from '../../services/modules/module.services';
 import type {CliContext} from '../../types/context';
 import type {ModuleDescription} from '../../types/module';
 

@@ -1,11 +1,11 @@
 import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {isNullish} from '@dfinity/utils';
-import type {ControllerScope} from '../declarations/console';
-import type {getConsoleActor, getObservatoryActor} from '../services/actor.services';
-import {Module} from '../services/modules.services';
-import type {CliContext} from '../types/context';
-import type {ModuleDescription} from '../types/module';
+import type {ControllerScope} from '../../declarations/console';
+import type {CliContext} from '../../types/context';
+import type {ModuleDescription} from '../../types/module';
+import type {getConsoleActor, getObservatoryActor} from '../actor.services';
+import {Module} from './module.services';
 
 export type GetActorFn = typeof getObservatoryActor | typeof getConsoleActor;
 
