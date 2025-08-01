@@ -1,4 +1,4 @@
-import {assertNonNullish} from '@dfinity/utils';
+import {assertNonNullish, notEmptyString} from '@dfinity/utils';
 import type {ControllerScope} from '../../declarations/console';
 import {consoleModule} from '../../modules/console';
 import {observatory} from '../../modules/observatory';
@@ -29,6 +29,7 @@ export const setController = async ({
       break;
     case satellite.key: {
       const satelliteId = searchParams.get('satelliteId');
+      const profile = searchParams.get('profile');
 
       assertNonNullish(satelliteId, 'The request must provide a satellite ID.');
 
@@ -39,7 +40,8 @@ export const setController = async ({
             id: controllerId,
             scope
           }
-        ]
+        ],
+        ...(profile !== null && notEmptyString(profile) && {profile: decodeURIComponent(profile)})
       });
     }
   }

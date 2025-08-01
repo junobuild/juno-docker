@@ -108,10 +108,12 @@ export interface SatelliteDevController {
 
 export const setSatelliteControllers = async ({
   context,
-  controllers
+  controllers,
+  profile
 }: {
   context: SatelliteConfigContext;
   controllers: SatelliteDevController[];
+  profile?: string;
 }) => {
   const satellite = buildSatelliteParams(context);
 
@@ -172,7 +174,7 @@ export const setSatelliteControllers = async ({
     await setSatelliteControllersAdmin({
       args: {
         controller: {
-          metadata: [['profile', '👾 Emulator']],
+          metadata: [['profile', profile ?? '👾 Emulator']],
           scope:
             controllerScope === 'Submit'
               ? {Submit: null}
