@@ -46,5 +46,3 @@ const watchersKeys = (process.env.WATCHERS ?? '')
 export const watchers = WATCHERS.filter(({key}) => watchersKeys.includes(key)).map(
   ({watcher}) => watcher
 );
-
-export const watchSatellite = watchersKeys.find((key) => key === satellite.key) !== undefined;
