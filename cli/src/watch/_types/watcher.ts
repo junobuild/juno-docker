@@ -1,4 +1,3 @@
-import type {Module} from '../../services/modules/module.services';
 import type {CliContext} from '../../types/context';
 import type {InitDynamicModuleResult, ModuleDescription} from '../../types/module';
 
@@ -21,7 +20,3 @@ export type WatcherConsoleInstallDescription = WatcherJobDescription;
 export type WatcherBuildDescription = {
   build: () => Promise<void>;
 } & WatcherConsoleInstallDescription;
-
-export type WatcherConfigDescription = Omit<WatcherDescription, 'debounceDelay'> & {
-  initModule: () => Module;
-};
