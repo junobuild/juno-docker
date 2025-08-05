@@ -44,7 +44,7 @@ const buildServer = ({context}: {context: CliContext}): Server =>
 
     const done = () => {
       res.writeHead(200, headers);
-      res.end('Done.');
+      res.end('Done');
     };
 
     const error404 = () => {
