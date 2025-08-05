@@ -131,6 +131,12 @@ const buildServer = ({context}: {context: CliContext}): Server =>
         return;
       }
 
+      if (command === 'health') {
+        res.writeHead(200, headers);
+        res.end('Ok');
+        return;
+      }
+
       error404();
     };
 
