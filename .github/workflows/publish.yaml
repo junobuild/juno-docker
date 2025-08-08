@@ -108,6 +108,7 @@ jobs:
 
             docker buildx imagetools create \
               --tag "$tag" \
+              --force \
               "$arch_tag_amd64" \
               "$arch_tag_arm64"
           done
