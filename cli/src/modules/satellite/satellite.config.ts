@@ -4,10 +4,9 @@ import {isNullish} from '@dfinity/utils';
 import type {PrincipalText} from '@dfinity/zod-schemas';
 import {
   listSatelliteControllers,
-  setSatelliteControllers as setSatelliteControllersAdmin,
-  type SatelliteParameters
+  setSatelliteControllers as setSatelliteControllersAdmin
 } from '@junobuild/admin';
-import type {Controller} from '@junobuild/admin/dist/declarations/satellite/satellite.did';
+import type {SatelliteDid, SatelliteParameters} from '@junobuild/ic-client';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {ControllerScope} from '../../declarations/satellite';
 import type {CliContext} from '../../types/context';
@@ -43,7 +42,7 @@ export const setSatelliteControllers = async ({
   type ControllerId = string;
 
   const existingControllers = (await listSatelliteControllers({satellite})).reduce<
-    Record<ControllerId, Controller>
+    Record<ControllerId, SatelliteDid.Controller>
   >(
     (acc, [controller, details]) => ({
       ...acc,
