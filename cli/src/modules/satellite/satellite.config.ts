@@ -6,7 +6,7 @@ import {
   listSatelliteControllers,
   setSatelliteControllers as setSatelliteControllersAdmin
 } from '@junobuild/admin';
-import type {SatelliteDid, SatelliteParameters} from '@junobuild/ic-client';
+import type {SatelliteDid, SatelliteParameters} from '@junobuild/ic-client/actor';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {ControllerScope} from '../../declarations/satellite';
 import type {CliContext} from '../../types/context';
