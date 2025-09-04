@@ -1,9 +1,9 @@
 import {assertNonNullish, isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
-import type {
-  OutgoingHttpHeaders,
+import {
   createServer,
   type IncomingMessage,
+  type OutgoingHttpHeaders,
   type Server,
   type ServerResponse
 } from 'node:http';
