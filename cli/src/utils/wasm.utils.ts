@@ -1,5 +1,5 @@
 import {readFileSync} from 'atomically';
-import {createHash} from 'crypto';
+import {createHash} from 'node:crypto';
 import type {ModuleDescription} from '../types/module';
 
 export interface Wasm {

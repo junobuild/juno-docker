@@ -151,6 +151,7 @@ export class Module {
 
     console.log(
       `🚀  ${green(name)} ${'upgrade' in mode ? 'upgraded' : 'deployed'}. ID: ${cyan(
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
         canisterId.toString()
       )}`
     );
