@@ -1,7 +1,12 @@
 import {assertNonNullish, isNullish} from '@dfinity/utils';
-import type {OutgoingHttpHeaders} from 'http';
 import kleur from 'kleur';
-import {createServer, type IncomingMessage, type Server, type ServerResponse} from 'node:http';
+import type {
+  OutgoingHttpHeaders,
+  createServer,
+  type IncomingMessage,
+  type Server,
+  type ServerResponse
+} from 'node:http';
 import {consoleModule} from '../modules/console';
 import {observatory} from '../modules/observatory';
 import {satellite} from '../modules/satellite';

@@ -39,6 +39,7 @@ class CmcModule extends Module {
 
     const {name, canisterId} = metadata;
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
     console.log(`🫠  ${green(name)} post-install. ID: ${cyan(canisterId.toString())}`);
   }
 }

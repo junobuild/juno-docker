@@ -47,6 +47,7 @@ class SatelliteDynamicModule extends SatelliteModule {
 
     if (isNullish(hash)) {
       const err = new Error(
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
         `‼️  The module hash for ${SATELLITE.name}, ID: ${cyan(canisterId.toString())} is undefined.`
       );
       console.log(red(err.message));
