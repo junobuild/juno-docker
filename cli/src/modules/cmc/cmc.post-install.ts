@@ -50,7 +50,7 @@ export const makeAuthorizedSubnetworksProposal = async ({
     action: {
       ExecuteNnsFunction: {
         nnsFunctionId: NnsFunction.SetAuthorizedSubnetworks,
-        payloadBytes: arg.buffer as ArrayBuffer,
+        payloadBytes: arg.buffer as ArrayBuffer
       }
     }
   };

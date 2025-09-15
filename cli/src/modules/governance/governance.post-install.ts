@@ -53,7 +53,7 @@ export const makeIcpXdrProposal = async ({
     action: {
       ExecuteNnsFunction: {
         nnsFunctionId: NnsFunction.IcpXdrConversionRate,
-        payloadBytes: arg.buffer as ArrayBuffer,
+        payloadBytes: arg.buffer as ArrayBuffer
       }
     }
   };
