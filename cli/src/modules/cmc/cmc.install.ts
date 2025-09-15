@@ -10,7 +10,7 @@ import type {ModuleInstallParams} from '../../types/module';
 export const prepareCmcArgs = ({
   state,
   identities
-}: Pick<ModuleInstallParams, 'state' | 'identities'>): ArrayBuffer => {
+}: Pick<ModuleInstallParams, 'state' | 'identities'>): Uint8Array => {
   const icpLedgerCanisterId = state.getModule('icp_ledger')?.canisterId;
 
   assertNonNullish(

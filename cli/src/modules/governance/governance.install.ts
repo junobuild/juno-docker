@@ -20,7 +20,7 @@ import type {ModuleInstallParams} from '../../types/module';
 
 export const prepareGovernanceArgs = ({
   identities
-}: Pick<ModuleInstallParams, 'identities'>): ArrayBuffer => {
+}: Pick<ModuleInstallParams, 'identities'>): Uint8Array => {
   const {[MAIN_IDENTITY_KEY]: identity} = identities;
 
   // Source: https://github.com/dfinity/ic/blob/e90838a1687f8e0869d85343aac2845d883f74ff/rs/nns/governance/src/governance.rs#L231
