@@ -50,6 +50,7 @@ export const makeAuthorizedSubnetworksProposal = async ({
     action: {
       ExecuteNnsFunction: {
         nnsFunctionId: NnsFunction.SetAuthorizedSubnetworks,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         payloadBytes: arg.buffer as ArrayBuffer
       }
     }

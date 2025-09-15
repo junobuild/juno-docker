@@ -53,6 +53,7 @@ export const makeIcpXdrProposal = async ({
     action: {
       ExecuteNnsFunction: {
         nnsFunctionId: NnsFunction.IcpXdrConversionRate,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         payloadBytes: arg.buffer as ArrayBuffer
       }
     }
