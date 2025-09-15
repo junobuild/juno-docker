@@ -58,7 +58,7 @@ const installCode = async ({
   identities: {[MAIN_IDENTITY_KEY]: mainIdentity}
 }: CliContext &
   Omit<ModuleMetadata, 'status'> & {
-    arg?: ArrayBuffer;
+    arg?: Uint8Array;
     wasm: Buffer;
     mode: canister_install_mode;
   }) => {
@@ -70,7 +70,7 @@ const installCode = async ({
     mode,
     canisterId: Principal.from(canisterId),
     wasmModule,
-    arg: new Uint8Array(arg ?? EMPTY_ARG),
+    arg: arg ?? EMPTY_ARG,
     takeSnapshot: false
   });
 };

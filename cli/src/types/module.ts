@@ -19,7 +19,7 @@ export type ModuleDescription = Omit<ModuleMetadata, 'canisterId' | 'status' | '
   Partial<Pick<ModuleMetadata, 'canisterId'>> & {wasmPath?: string};
 
 export type ModuleInstallParams = CliContext & {
-  arg?: ArrayBuffer;
+  arg?: Uint8Array;
 };
 
 export type InitDynamicModuleResult<T extends Module = Module> = {mod: T} | {err: unknown};
