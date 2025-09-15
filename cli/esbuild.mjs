@@ -9,7 +9,8 @@ config({
       ? `.env.console`
       : process.env.CLI_BUILD === 'skylab'
         ? `.env.skylab`
-        : `.env.satellite`
+        : `.env.satellite`,
+  quiet: true
 });
 
 const define = Object.entries(process.env).reduce(
