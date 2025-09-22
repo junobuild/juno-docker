@@ -10,25 +10,25 @@
     ]
   },
   "satellite": {
-    "commit": "c94aad1ddf36b1185ab5a708d16722f6af1c1d31",
+    "commit": "40d9e62aa5ab181a73e7621cc54358e53f80bd5f",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/satellite-v0.1.3.wasm.gz",
+    "url": "https://cdn.juno.build/releases/satellite-v0.1.4.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.55/satellite.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/satellite.did"
       },
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.55/satellite_extension.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/satellite_extension.did"
       }
     ]
   },
   "mission_control": {
-    "commit": "5a6915037df41874035efb2d25828104719f1229",
+    "commit": "40d9e62aa5ab181a73e7621cc54358e53f80bd5f",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/mission_control-v0.1.0.wasm.gz",
+    "url": "https://cdn.juno.build/releases/mission_control-v0.1.1.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.51/mission_control.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/mission_control.did"
       }
     ]
   },
@@ -43,12 +43,12 @@
     ]
   },
   "console": {
-    "commit": "c8e1ee6efa1448e0257f84d37897b894f0bca869",
+    "commit": "40d9e62aa5ab181a73e7621cc54358e53f80bd5f",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.54/console-v0.1.2.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/console-v0.1.3.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.54/console.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/console.did"
       }
     ]
   },
