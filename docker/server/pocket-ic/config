@@ -19,8 +19,15 @@ ICP_FEATURES="{
   \"nns_ui\":\"DefaultConfig\"
 }"
 
-curl -s -S -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances" -d "{\"subnet_config_set\": {\"nns\": ${SUBNET_CONFIG}, \"sns\": ${SUBNET_CONFIG}, \"ii\": ${SUBNET_CONFIG}, \"fiduciary\": null, \"bitcoin\": null, \"system\": [], \"application\": [${SUBNET_CONFIG}], \"verified_application\": []}, \"state_dir\": \"${STATE_REPLICA_DIR}\", \"icp_config\": ${ICP_CONFIG}, \"icp_features\": ${ICP_FEATURES}}" > /dev/null
+# We need the set up the HTTP gateway in the same call so that the NNS dapp can be configured with the right gateway URL
+# https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L603
+INSTANCE_HTTP_GATEWAY="{
+  \"ip_addr\": \"0.0.0.0\",
+  \"port\": ${PORT},
+  \"domains\": null,
+  \"https_config\": null
+}"
+
+curl -s -S -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances" -d "{\"subnet_config_set\": {\"nns\": ${SUBNET_CONFIG}, \"sns\": ${SUBNET_CONFIG}, \"ii\": ${SUBNET_CONFIG}, \"fiduciary\": null, \"bitcoin\": null, \"system\": [], \"application\": [${SUBNET_CONFIG}], \"verified_application\": []}, \"state_dir\": \"${STATE_REPLICA_DIR}\", \"icp_config\": ${ICP_CONFIG}, \"icp_features\": ${ICP_FEATURES}, \"http_gateway_config\": ${INSTANCE_HTTP_GATEWAY}}" > /dev/null
 
 curl -s -S -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances/0/auto_progress" -d '{"artificial_delay_ms": null}' > /dev/null
-
-curl -s -S -X POST -H 'Content-Type: application/json' "http://localhost:$REPLICA_PORT/http_gateway" -d "{\"forward_to\": {\"Replica\": \"http://localhost:$REPLICA_PORT/instances/0/\"}, \"port\": $PORT, \"ip_addr\": \"0.0.0.0\"}" > /dev/null
