@@ -6,10 +6,11 @@ Here are a few useful Docker commands that can be used for local development.
 
 Skylab:
 
-| Runner | Command                                                                                                                                  |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Docker | `docker buildx build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/arm64` |
-| Podman | `podman build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --log-level=debug --no-cache --arch arm64`                 |
+| Runner          | Command                                                                                                                                  |
+|-----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| Docker          | `docker buildx build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --progress=plain --no-cache --platform=linux/arm64` |
+| Podman          | `podman build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab --log-level=debug --no-cache --arch arm64`                 |
+| Apple Container | `container build . --file Dockerfile -t juno-skylab --build-arg CLI_BUILD=skylab`                                                        |
 
 Satellite:
 
