@@ -39,16 +39,7 @@ ENV ADMIN_PORT=5999
 ENV CONSOLE_PORT=5866
 
 # Exposed network features - which well-known services of the Internet Computer are bootstraped
-ENV NETWORK_SERVICES='{\
-  "registry": false, \
-  "cmc": true, \
-  "icp": true, \
-  "cycles": true, \
-  "nns": true, \
-  "sns": false, \
-  "ii": true, \
-  "nnsDapp": false \
-}'
+ENV NETWORK_SERVICES=""
 
 # Environment variables where files are downloaded and executed
 ENV TARGET_DIR=/juno/target
