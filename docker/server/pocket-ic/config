@@ -9,14 +9,14 @@ ICP_CONFIG="{\"beta_features\": \"Disabled\", \"canister_backtrace\": \"Enabled\
 
 # https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L583
 ICP_FEATURES="{
-  \"registry\":\"DefaultConfig\",
+  \"registry\":null,
   \"cycles_minting\":\"DefaultConfig\",
   \"icp_token\":\"DefaultConfig\",
-  \"cycles_token\":\"DefaultConfig\",
+  \"cycles_token\":null,
   \"nns_governance\":\"DefaultConfig\",
-  \"sns\":\"DefaultConfig\",
+  \"sns\":null,
   \"ii\":\"DefaultConfig\",
-  \"nns_ui\":\"DefaultConfig\"
+  \"nns_ui\":null
 }"
 
 # We need the set up the HTTP gateway in the same call so that the NNS dapp can be configured with the right gateway URL
