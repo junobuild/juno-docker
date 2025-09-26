@@ -38,6 +38,19 @@ ENV PORT=5987
 ENV ADMIN_PORT=5999
 ENV CONSOLE_PORT=5866
 
+# Exposed ICP features
+# https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L583
+ENV NETWORK_SERVICES="{
+  \"registry\":null,
+  \"cycles_minting\":\"DefaultConfig\",
+  \"icp_token\":\"DefaultConfig\",
+  \"cycles_token\":null,
+  \"nns_governance\":\"DefaultConfig\",
+  \"sns\":null,
+  \"ii\":\"DefaultConfig\",
+  \"nns_ui\":null
+}"
+
 # Environment variables where files are downloaded and executed
 ENV TARGET_DIR=/juno/target
 RUN echo "export TARGET_DIR=${TARGET_DIR}" >> ./.bashrc
