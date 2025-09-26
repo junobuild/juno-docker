@@ -15,6 +15,7 @@ export const transfer = async ({
 }) => {
   const {port} = context;
 
+  // With PocketIC we can use the anonymous identity to get ICP from the ledger.
   const agent = await createAgent({
     identity: new AnonymousIdentity(),
     port
