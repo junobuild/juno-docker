@@ -38,7 +38,7 @@ ENV PORT=5987
 ENV ADMIN_PORT=5999
 ENV CONSOLE_PORT=5866
 
-# Exposed ICP features
+# Exposed PocketIC icp_features
 # https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L583
 ENV NETWORK_SERVICES="{
   \"registry\":null,
