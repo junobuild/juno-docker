@@ -1,5 +1,7 @@
+import {AnonymousIdentity} from '@dfinity/agent';
 import {Principal} from '@dfinity/principal';
 import {nonNullish} from '@dfinity/utils';
+import {createAgent} from '../../api/agent.api';
 import {ICP_LEDGER_CANISTER_ID} from '../../modules/icp-ledger';
 import type {CliContext} from '../../types/context';
 import {getLedgerActor} from '../actor.services';
@@ -11,7 +13,14 @@ export const transfer = async ({
   context: CliContext;
   searchParams: URLSearchParams;
 }) => {
-  const {agent} = context;
+  const {port} = context;
+
+  // With PocketIC we can use the anonymous identity to get ICP from the ledger.
+  const agent = await createAgent({
+    identity: new AnonymousIdentity(),
+    port
+  });
+
   const {icrc1_transfer} = await getLedgerActor({
     agent,
     canisterId: ICP_LEDGER_CANISTER_ID
