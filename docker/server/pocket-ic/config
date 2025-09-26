@@ -28,6 +28,8 @@ INSTANCE_HTTP_GATEWAY="{
   \"https_config\": null
 }"
 
-curl -s -S -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances" -d "{\"subnet_config_set\": {\"nns\": ${SUBNET_CONFIG}, \"sns\": ${SUBNET_CONFIG}, \"ii\": ${SUBNET_CONFIG}, \"fiduciary\": null, \"bitcoin\": null, \"system\": [], \"application\": [${SUBNET_CONFIG}], \"verified_application\": []}, \"state_dir\": \"${STATE_REPLICA_DIR}\", \"icp_config\": ${ICP_CONFIG}, \"icp_features\": ${ICP_FEATURES}, \"http_gateway_config\": ${INSTANCE_HTTP_GATEWAY}}" > /dev/null
+# Configures the instance to make progress automatically
+# https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L637
+INITIAL_TIME="{\"AutoProgress\": {\"artificial_delay_ms\": null}}"
 
-curl -s -S -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances/0/auto_progress" -d '{"artificial_delay_ms": null}' > /dev/null
+curl -s -S -X POST -H "Content-Type: application/json" "http://localhost:$REPLICA_PORT/instances" -d "{\"subnet_config_set\": {\"nns\": ${SUBNET_CONFIG}, \"sns\": ${SUBNET_CONFIG}, \"ii\": ${SUBNET_CONFIG}, \"fiduciary\": null, \"bitcoin\": null, \"system\": [], \"application\": [${SUBNET_CONFIG}], \"verified_application\": []}, \"state_dir\": \"${STATE_REPLICA_DIR}\", \"icp_config\": ${ICP_CONFIG}, \"initial_time\": ${INITIAL_TIME}, \"icp_features\": ${ICP_FEATURES}, \"http_gateway_config\": ${INSTANCE_HTTP_GATEWAY}}" > /dev/null
