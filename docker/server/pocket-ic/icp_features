@@ -9,7 +9,7 @@ if [ "${CLI_BUILD:-skylab}" = "satellite" ]; then
     "nns": false,
     "sns": false,
     "ii": true,
-    "nnsDapp": false
+    "nns_dapp": false
   }'
 else
   DEFAULT_NETWORK_SERVICES='{
@@ -20,7 +20,7 @@ else
     "nns": true,
     "sns": false,
     "ii": true,
-    "nnsDapp": false
+    "nns_dapp": false
   }'
 fi
 
@@ -40,7 +40,7 @@ ICP_FEATURES="$(jq -c \
     nns_governance: (if truthy($s.nns)      then "DefaultConfig" else null end),
     sns:            (if truthy($s.sns)      then "DefaultConfig" else null end),
     ii:             (if truthy($s.ii)       then "DefaultConfig" else null end),
-    nns_ui:         (if truthy($s.nnsDapp)  then "DefaultConfig" else null end)
+    nns_ui:         (if truthy($s.nns_dapp)  then "DefaultConfig" else null end)
   }')"
 
 export ICP_FEATURES
