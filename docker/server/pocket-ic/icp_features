@@ -8,7 +8,7 @@ if [ "${CLI_BUILD:-skylab}" = "satellite" ]; then
     "cycles": false,
     "nns": false,
     "sns": false,
-    "ii": true,
+    "internet_identity": true,
     "nns_dapp": false
   }'
 else
@@ -19,7 +19,7 @@ else
     "cycles": true,
     "nns": true,
     "sns": false,
-    "ii": true,
+    "internet_identity": true,
     "nns_dapp": false
   }'
 fi
@@ -36,14 +36,14 @@ ICP_FEATURES="$(jq -c \
   def truthy(x): (x == true) or (x == "true") or (x == 1);
   ($default_network_service * ($env_network.services // {})) as $s |
   {
-    registry:       (if truthy($s.registry) then "DefaultConfig" else null end),
-    cycles_minting: (if truthy($s.cmc)      then "DefaultConfig" else null end),
-    icp_token:      (if truthy($s.icp)      then "DefaultConfig" else null end),
-    cycles_token:   (if truthy($s.cycles)   then "DefaultConfig" else null end),
-    nns_governance: (if truthy($s.nns)      then "DefaultConfig" else null end),
-    sns:            (if truthy($s.sns)      then "DefaultConfig" else null end),
-    ii:             (if truthy($s.ii)       then "DefaultConfig" else null end),
-    nns_ui:         (if truthy($s.nns_dapp) then "DefaultConfig" else null end)
+    registry:       (if truthy($s.registry)          then "DefaultConfig" else null end),
+    cycles_minting: (if truthy($s.cmc)               then "DefaultConfig" else null end),
+    icp_token:      (if truthy($s.icp)               then "DefaultConfig" else null end),
+    cycles_token:   (if truthy($s.cycles)            then "DefaultConfig" else null end),
+    nns_governance: (if truthy($s.nns)               then "DefaultConfig" else null end),
+    sns:            (if truthy($s.sns)               then "DefaultConfig" else null end),
+    ii:             (if truthy($s.internet_identity) then "DefaultConfig" else null end),
+    nns_ui:         (if truthy($s.nns_dapp)          then "DefaultConfig" else null end)
   }'
 )"
 
