@@ -26,19 +26,21 @@ fi
 
 ENV_NETWORK_SERVICES="${NETWORK_SERVICES:-{}}"
 
-# https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L583
-ICP_FEATURES="$(jq -c --argjson default_network_service "$DEFAULT_NETWORK_SERVICES" --argjson env_network_service "$ENV_NETWORK_SERVICES" -n '
-  def on($x): ($x == true) or ($x == "true") or ($x == 1);
+ICP_FEATURES="$(jq -c \
+  --argjson default_network_service "$DEFAULT_NETWORK_SERVICES" \
+  --argjson env_network_service     "$ENV_NETWORK_SERVICES" \
+  -n '
+  def truthy(x): (x == true) or (x == "true") or (x == 1);
   ($default_network_service * $env_network_service) as $s |
   {
-    registry:       (if on($s.registry) then "DefaultConfig" else null end),
-    cycles_minting: (if on($s.cmc)      then "DefaultConfig" else null end),
-    icp_token:      (if on($s.icp)      then "DefaultConfig" else null end),
-    cycles_token:   (if on($s.cycles)   then "DefaultConfig" else null end),
-    nns_governance: (if on($s.nns)      then "DefaultConfig" else null end),
-    sns:            (if on($s.sns)      then "DefaultConfig" else null end),
-    ii:             (if on($s.ii)       then "DefaultConfig" else null end),
-    nns_ui:         (if on($s.nnsDapp)  then "DefaultConfig" else null end)
+    registry:       (if truthy($s.registry) then "DefaultConfig" else null end),
+    cycles_minting: (if truthy($s.cmc)      then "DefaultConfig" else null end),
+    icp_token:      (if truthy($s.icp)      then "DefaultConfig" else null end),
+    cycles_token:   (if truthy($s.cycles)   then "DefaultConfig" else null end),
+    nns_governance: (if truthy($s.nns)      then "DefaultConfig" else null end),
+    sns:            (if truthy($s.sns)      then "DefaultConfig" else null end),
+    ii:             (if truthy($s.ii)       then "DefaultConfig" else null end),
+    nns_ui:         (if truthy($s.nnsDapp)  then "DefaultConfig" else null end)
   }')"
 
 export ICP_FEATURES
