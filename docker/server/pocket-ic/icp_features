@@ -24,14 +24,14 @@ else
   }'
 fi
 
-ENV_NETWORK_SERVICES="${NETWORK_SERVICES:-{}}"
+ENV_NETWORK="${NETWORK:-{}}"
 
 ICP_FEATURES="$(jq -c \
   --argjson default_network_service "$DEFAULT_NETWORK_SERVICES" \
-  --argjson env_network_service     "$ENV_NETWORK_SERVICES" \
+  --argjson env_network "$ENV_NETWORK" \
   -n '
   def truthy(x): (x == true) or (x == "true") or (x == 1);
-  ($default_network_service * $env_network_service) as $s |
+  ($default_network_service * ($env_network.services // {})) as $s |
   {
     registry:       (if truthy($s.registry) then "DefaultConfig" else null end),
     cycles_minting: (if truthy($s.cmc)      then "DefaultConfig" else null end),
