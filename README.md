@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This repository provides Docker images to support local development with [Juno](https://juno.build), whether you're building a dApp using a Satellite or working directly on Juno’s core modules.
+This repository provides Docker images to support local development with [Juno](https://juno.build), whether you're building a application using a Satellite or working directly on Juno’s core modules.
 
 > [!NOTE]
 > This README mentions two CLIs.
@@ -19,7 +19,7 @@ This repository provides Docker images to support local development with [Juno](
 
 The `junobuild/skylab` Docker image is an all-in-one emulator for local Juno development. It bundles everything you need to build, test, and explore the Juno ecosystem:
 
-- ✅ Juno Console (smart contract + UI)
+- ✅ Juno Console (including UI)
 - 🛰️ Satellites (support for multiple application containers)
 - 📊 Orbiter (analytics and tracking module)
 - ⚙️ Supporting infrastructure (see table below)
@@ -50,21 +50,38 @@ This image is mainly intended for contributors working on the Juno infrastructur
 
 ### 🗂️ Infrastructure Availability by Image
 
+This section describes what components are available in each emulator image.
+
+There are two categories:
+
+- Juno Modules → Core parts of Juno
+- Services → Well-known canisters and/or applications that can be enabled or disabled on the emulated Internet Computer network.
+
 | Module                                                                                                | Skylab ✅ | Satellite ✅ | Console ✅ |
-| ----------------------------------------------------------------------------------------------------- | --------- | ------------ | ---------- |
+|-------------------------------------------------------------------------------------------------------| --------- | ------------ | ---------- |
 | Juno Console ([backend](https://dashboard.internetcomputer.org/canister/cokmz-oiaaa-aaaal-aby6q-cai)) | ✅        | ❌           | ✅         |
 | Juno Console (UI)                                                                                     | ✅        | ❌           | ❌         |
 | Create Satellites, Mission Controls, and Orbiters via the Console UI                                  | ✅        | ❌           | ❌         |
 | Default (auto-deployed) Satellite                                                                     | ❌        | ✅           | ❌         |
 | [Observatory](https://dashboard.internetcomputer.org/canister/klbfr-lqaaa-aaaak-qbwsa-cai)            | ✅        | ❌           | ✅         |
-| [Internet Identity](https://identity.internetcomputer.org/)                                           | ✅        | ✅           | ✅         |
-| [ICP Ledger](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai)             | ✅        | ✅           | ✅         |
-| [ICP Index](https://dashboard.internetcomputer.org/canister/qhbym-qaaaa-aaaaa-aaafq-cai)              | ✅        | ✅           | ✅         |
-| [NNS Governance](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai)         | ✅        | ❌           | ✅         |
-| [CMC (Cycles Minting)](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai)   | ✅        | ❌           | ✅         |
 
-> [!NOTE] > **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
+> [!NOTE] 
+> **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
 > This avoids the need to manually create it through the Console UI during development or testing.
+
+| Service                     | Skylab ✅ | Satellite ✅ | Console ✅ |
+|-----------------------------| --------- | ------------ | ---------- |
+| Internet Identity           | ✅        | ✅           | ✅         |
+| ICP token                   | ✅        | ✅           | ✅         |
+| CMC (Cycles Minting)        | ✅        | ❌           | ✅         |
+| NNS Governance              | ✅        | ❌           | ✅         |
+| Registry                    | ❌        | ❌           | ❌ (opt-in) |
+| Cycles token                | ❌        | ❌           | ❌ (opt-in) |
+| SNS                         | ❌        | ❌           | ❌ (opt-in) |
+| NNS-dapp                    | ❌        | ❌           | ❌ (opt-in) |
+
+> [!NOTE]
+> Tokens include both their **Ledger** and **Index** canisters when deployed.
 
 ## 🧬 Architecture Compatibility
 
@@ -89,7 +106,7 @@ The container is available on [Docker Hub](https://hub.docker.com/r/junobuild/sa
 > Juno's CLI can be installed through npm by running the command `npm i -g @junibuild/cli` in your terminal.
 
 ```bash
-juno dev start
+juno emulator start
 ```
 
 If it's the first time you're starting it, the CLI will assist you in populating the required configuration files.
