@@ -1,42 +1,44 @@
 #!/usr/bin/env bash
 
-if [ -z "${NETWORK_SERVICES:-}" ]; then
-  if [ "$CLI_BUILD" = "satellite" ]; then
-    NETWORK_SERVICES='{
-      "registry": false,
-      "cmc": false,
-      "icp": true,
-      "cycles": false,
-      "nns": false,
-      "sns": false,
-      "ii": true,
-      "nnsDapp": false
-    }'
-  else
-    NETWORK_SERVICES='{
-      "registry": false,
-      "cmc": true,
-      "icp": true,
-      "cycles": true,
-      "nns": true,
-      "sns": false,
-      "ii": true,
-      "nnsDapp": false
-    }'
-  fi
+if [ "${CLI_BUILD:-skylab}" = "satellite" ]; then
+  DEFAULT_NETWORK_SERVICES='{
+    "registry": false,
+    "cmc": false,
+    "icp": true,
+    "cycles": false,
+    "nns": false,
+    "sns": false,
+    "ii": true,
+    "nnsDapp": false
+  }'
+else
+  DEFAULT_NETWORK_SERVICES='{
+    "registry": false,
+    "cmc": true,
+    "icp": true,
+    "cycles": true,
+    "nns": true,
+    "sns": false,
+    "ii": true,
+    "nnsDapp": false
+  }'
 fi
 
+ENV_NETWORK_SERVICES="${NETWORK_SERVICES:-{}}"
+
 # https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L583
-ICP_FEATURES=$(echo "$NETWORK_SERVICES" | jq '{
-  registry:       (if .registry == true then "DefaultConfig" else null end),
-  cycles_minting: (if .cmc == true then "DefaultConfig" else null end),
-  icp_token:      (if .icp == true then "DefaultConfig" else null end),
-  cycles_token:   (if .cycles == true then "DefaultConfig" else null end),
-  nns_governance: (if .nns == true then "DefaultConfig" else null end),
-  sns:            (if .sns == true then "DefaultConfig" else null end),
-  ii:             (if .ii == true then "DefaultConfig" else null end),
-  nns_ui:         (if .nnsDapp == true then "DefaultConfig" else null end)
-}')
+ICP_FEATURES="$(jq -c --argjson default_network_service "$DEFAULT_NETWORK_SERVICES" --argjson env_network_service "$ENV_NETWORK_SERVICES" -n '
+  def on($x): ($x == true) or ($x == "true") or ($x == 1);
+  ($default_network_service * $env_network_service) as $s |
+  {
+    registry:       (if on($s.registry) then "DefaultConfig" else null end),
+    cycles_minting: (if on($s.cmc)      then "DefaultConfig" else null end),
+    icp_token:      (if on($s.icp)      then "DefaultConfig" else null end),
+    cycles_token:   (if on($s.cycles)   then "DefaultConfig" else null end),
+    nns_governance: (if on($s.nns)      then "DefaultConfig" else null end),
+    sns:            (if on($s.sns)      then "DefaultConfig" else null end),
+    ii:             (if on($s.ii)       then "DefaultConfig" else null end),
+    nns_ui:         (if on($s.nnsDapp)  then "DefaultConfig" else null end)
+  }')"
 
 export ICP_FEATURES
-
