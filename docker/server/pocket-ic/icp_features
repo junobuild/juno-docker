@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+if [ "${CLI_BUILD:-skylab}" = "satellite" ]; then
+  DEFAULT_NETWORK_SERVICES='{
+    "registry": false,
+    "cmc": false,
+    "icp": true,
+    "cycles": false,
+    "nns": false,
+    "sns": false,
+    "internet_identity": true,
+    "nns_dapp": false
+  }'
+else
+  DEFAULT_NETWORK_SERVICES='{
+    "registry": false,
+    "cmc": true,
+    "icp": true,
+    "cycles": true,
+    "nns": true,
+    "sns": false,
+    "internet_identity": true,
+    "nns_dapp": false
+  }'
+fi
+
+ENV_NETWORK="${NETWORK:-}"
+if [ -z "$ENV_NETWORK" ]; then
+  ENV_NETWORK='{}'
+fi
+
+ICP_FEATURES="$(jq -c \
+  --argjson default_network_service "$DEFAULT_NETWORK_SERVICES" \
+  --argjson env_network "$ENV_NETWORK" \
+  -n '
+  def truthy(x): (x == true) or (x == "true") or (x == 1);
+  ($default_network_service * ($env_network.services // {})) as $s |
+  {
+    registry:       (if truthy($s.registry)          then "DefaultConfig" else null end),
+    cycles_minting: (if truthy($s.cmc)               then "DefaultConfig" else null end),
+    icp_token:      (if truthy($s.icp)               then "DefaultConfig" else null end),
+    cycles_token:   (if truthy($s.cycles)            then "DefaultConfig" else null end),
+    nns_governance: (if truthy($s.nns)               then "DefaultConfig" else null end),
+    sns:            (if truthy($s.sns)               then "DefaultConfig" else null end),
+    ii:             (if truthy($s.internet_identity) then "DefaultConfig" else null end),
+    nns_ui:         (if truthy($s.nns_dapp)          then "DefaultConfig" else null end)
+  }'
+)"
+
+export ICP_FEATURES

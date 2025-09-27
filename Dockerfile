@@ -38,6 +38,9 @@ ENV PORT=5987
 ENV ADMIN_PORT=5999
 ENV CONSOLE_PORT=5866
 
+# Network features with the well-known services of the Internet Computer that are bootstraped
+ENV NETWORK=""
+
 # Environment variables where files are downloaded and executed
 ENV TARGET_DIR=/juno/target
 RUN echo "export TARGET_DIR=${TARGET_DIR}" >> ./.bashrc
