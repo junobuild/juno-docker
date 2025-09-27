@@ -55,7 +55,7 @@ This section describes what components are available in each emulator image.
 There are two categories:
 
 - Juno Modules → Core parts of Juno
-- Services → Well-known canisters and/or applications that can be enabled or disabled on the emulated Internet Computer network.
+- Services → Well-known canisters and/or applications on the emulated Internet Computer network.
 
 | Module                                                                                                | Skylab ✅ | Satellite ✅ | Console ✅ |
 |-------------------------------------------------------------------------------------------------------| --------- | ------------ | ---------- |
@@ -75,13 +75,14 @@ There are two categories:
 | ICP token                   | ✅        | ✅           | ✅         |
 | CMC (Cycles Minting)        | ✅        | ❌           | ✅         |
 | NNS Governance              | ✅        | ❌           | ✅         |
-| Registry                    | ❌        | ❌           | ❌ (opt-in) |
-| Cycles token                | ❌        | ❌           | ❌ (opt-in) |
-| SNS                         | ❌        | ❌           | ❌ (opt-in) |
-| NNS-dapp                    | ❌        | ❌           | ❌ (opt-in) |
+| Registry                    | ❌        | ❌           | ❌  |
+| Cycles token                | ❌        | ❌           | ❌  |
+| SNS                         | ❌        | ❌           | ❌  |
+| NNS-dapp                    | ❌        | ❌           | ❌  |
 
 > [!NOTE]
-> Tokens include both their **Ledger** and **Index** canisters when deployed.
+> - Tokens include both their **Ledger** and **Index** canisters when deployed.
+> - All services can be toggled on or off in the emulator configuration.
 
 ## 🧬 Architecture Compatibility
 
