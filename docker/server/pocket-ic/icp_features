@@ -24,7 +24,10 @@ else
   }'
 fi
 
-ENV_NETWORK="${NETWORK:-{}}"
+ENV_NETWORK="${NETWORK:-}"
+if [ -z "$ENV_NETWORK" ]; then
+  ENV_NETWORK='{}'
+fi
 
 ICP_FEATURES="$(jq -c \
   --argjson default_network_service "$DEFAULT_NETWORK_SERVICES" \
@@ -40,7 +43,8 @@ ICP_FEATURES="$(jq -c \
     nns_governance: (if truthy($s.nns)      then "DefaultConfig" else null end),
     sns:            (if truthy($s.sns)      then "DefaultConfig" else null end),
     ii:             (if truthy($s.ii)       then "DefaultConfig" else null end),
-    nns_ui:         (if truthy($s.nns_dapp)  then "DefaultConfig" else null end)
-  }')"
+    nns_ui:         (if truthy($s.nns_dapp) then "DefaultConfig" else null end)
+  }'
+)"
 
 export ICP_FEATURES
