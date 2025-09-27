@@ -21,12 +21,6 @@ export const DEV_MISSION_CONTROL_WASM_FILENAME = 'mission_control.wasm.gz';
 export const DEV_METADATA = join(DEV_DEPLOY_FOLDER, 'metadata.json');
 
 /**
- * Configuration
- */
-
-export const JUNO_CONFIG_FILENAME = 'juno.config'; // .json | .js | .cjs | .mjs | .ts
-
-/**
  * JS/TS
  */
 

@@ -1,15 +1,9 @@
 import {ICManagementCanister} from '@dfinity/ic-management';
 import {Principal} from '@dfinity/principal';
 import {fromNullable, isNullish, nonNullish, uint8ArrayToHexString} from '@dfinity/utils';
-import {
-  junoConfigExist as junoConfigExistTools,
-  junoConfigFile as junoConfigFileTools
-} from '@junobuild/config-loader';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
-import {basename} from 'node:path';
-import {readJunoConfig} from '../../configs/juno.config';
-import {DEV_SATELLITE, JUNO_CONFIG_FILENAME} from '../../constants/dev.constants';
+import {DEV_SATELLITE} from '../../constants/dev.constants';
 import type {CliContext} from '../../types/context';
 import type {InitDynamicModuleResult, ModuleCanisterId} from '../../types/module';
 import {SATELLITE, SatelliteModule} from './index';
@@ -87,37 +81,12 @@ class SatelliteDynamicModule extends SatelliteModule {
 }
 
 export const initSatelliteDynamicModule = async ({
-  context
+  context,
+  satelliteId
 }: {
   context: CliContext;
+  satelliteId: ModuleCanisterId;
 }): Promise<InitDynamicModuleResult<SatelliteDynamicModule>> => {
-  if (!(await junoConfigExistTools({filename: JUNO_CONFIG_FILENAME}))) {
-    const err = new Error(
-      `ℹ️  No configuration file provided. Skipping upgrade of ${SATELLITE.name}.`
-    );
-    console.log(err.message);
-    return {
-      err
-    };
-  }
-
-  const config = await readJunoConfig();
-
-  const satelliteId = config.satellite.ids?.development;
-
-  if (isNullish(satelliteId)) {
-    const {configPath} = junoConfigFileTools({filename: JUNO_CONFIG_FILENAME});
-
-    const err = new Error(
-      `ℹ️  No ${SATELLITE.name} provided in ${basename(configPath)}. Skipping upgrade.`
-    );
-    console.log(err.message);
-
-    return {
-      err
-    };
-  }
-
   const mod = new SatelliteDynamicModule({
     ...SATELLITE,
     canisterId: satelliteId,

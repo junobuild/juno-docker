@@ -123,7 +123,6 @@ docker run -it \
   -p 5999:5999 \
   -p 5866:5866 \
   -v juno_skylab_test:/juno/.juno \
-  -v "$(pwd)/juno.config.mjs:/juno/juno.config.mjs" \
   -v "$(pwd)/target/deploy:/juno/target/deploy" \
   junobuild/skylab:latest
 ```
