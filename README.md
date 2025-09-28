@@ -57,28 +57,28 @@ There are two categories:
 - Juno Modules → Core parts of Juno
 - Services → Well-known canisters and/or applications on the emulated Internet Computer network.
 
-| Module                                                                                                | Skylab ✅ | Satellite ✅ | Console ✅ |
-|-------------------------------------------------------------------------------------------------------| --------- | ------------ | ---------- |
-| Juno Console ([backend](https://dashboard.internetcomputer.org/canister/cokmz-oiaaa-aaaal-aby6q-cai)) | ✅        | ❌           | ✅         |
-| Juno Console (UI)                                                                                     | ✅        | ❌           | ❌         |
-| Create Satellites, Mission Controls, and Orbiters via the Console UI                                  | ✅        | ❌           | ❌         |
-| Default (auto-deployed) Satellite                                                                     | ❌        | ✅           | ❌         |
-| [Observatory](https://dashboard.internetcomputer.org/canister/klbfr-lqaaa-aaaak-qbwsa-cai)            | ✅        | ❌           | ✅         |
+| Module                                                                                                | Skylab | Satellite | Console |
+|-------------------------------------------------------------------------------------------------------| ------- | ---------- | -------- |
+| Juno Console ([backend](https://dashboard.internetcomputer.org/canister/cokmz-oiaaa-aaaal-aby6q-cai)) | ✅      | ❌         | ✅       |
+| Juno Console (UI)                                                                                     | ✅      | ❌         | ❌       |
+| Create Satellites, Mission Controls, and Orbiters via the Console UI                                  | ✅      | ❌         | ❌       |
+| Default (auto-deployed) Satellite                                                                     | ❌      | ✅         | ❌       |
+| [Observatory](https://dashboard.internetcomputer.org/canister/klbfr-lqaaa-aaaak-qbwsa-cai)            | ✅      | ❌         | ✅       |
 
 > [!NOTE] 
 > **Default (auto-deployed) Satellite** refers to a Juno Satellite that is automatically created and available with a predefined canister ID.  
 > This avoids the need to manually create it through the Console UI during development or testing.
 
-| Service                     | Skylab ✅ | Satellite ✅ | Console ✅ |
-|-----------------------------| --------- | ------------ | ---------- |
-| Internet Identity           | ✅        | ✅           | ✅         |
-| ICP token                   | ✅        | ✅           | ✅         |
-| CMC (Cycles Minting)        | ✅        | ❌           | ✅         |
-| NNS Governance              | ✅        | ❌           | ✅         |
-| Registry                    | ❌        | ❌           | ❌  |
-| Cycles token                | ❌        | ❌           | ❌  |
-| SNS                         | ❌        | ❌           | ❌  |
-| NNS-dapp                    | ❌        | ❌           | ❌  |
+| Service              | Skylab | Satellite | Console |
+|----------------------| ------- | ---------- | -------- |
+| Internet Identity    | ✅      | ✅         | ✅       |
+| ICP token            | ✅      | ✅         | ✅       |
+| CMC (Cycles Minting) | ✅      | ❌         | ✅       |
+| NNS Governance       | ✅      | ❌         | ✅       |
+| Registry             | ❌      | ❌         | ❌  |
+| Cycles token         | ❌      | ❌         | ❌  |
+| SNS                  | ❌      | ❌         | ❌  |
+| NNS-dapp             | ❌      | ❌         | ❌  |
 
 > [!NOTE]
 > - Tokens include both their **Ledger** and **Index** canisters when deployed.
