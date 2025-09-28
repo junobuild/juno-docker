@@ -1,4 +1,5 @@
 import {assertNonNullish, isNullish} from '@dfinity/utils';
+import {nextArg} from '@junobuild/cli-tools';
 import kleur from 'kleur';
 import {
   createServer,
@@ -16,7 +17,6 @@ import {setController} from '../services/server/controller.services';
 import {transfer} from '../services/server/ledger.services';
 import {touchWatchedFile} from '../services/server/touch.services';
 import type {CliContext} from '../types/context';
-import {nextArg} from '../utils/args.utils';
 
 const {red} = kleur;
 
