@@ -1,6 +1,12 @@
 import {assertNonNullish} from '@dfinity/utils';
 import {nextArg} from '@junobuild/cli-tools';
-import {type EmulatorConfig, EmulatorConfigSchema, type Network, type NetworkServices} from '@junobuild/config';
+import {
+  DEFAULT_NETWORK_SERVICES,
+  DEFAULT_SATELLITE_NETWORK_SERVICES,
+  type EmulatorConfig,
+  EmulatorConfigSchema,
+  type Network
+} from '@junobuild/config';
 import {readJunoConfig} from '../../configs/juno.config';
 import {
   ICP_CONFIG,
@@ -27,8 +33,6 @@ export const configPocketIC = async (args?: string[]) => {
   assertNonNullish(stateDir);
 
   const config = await buildInstanceConfig({port, stateDir});
-
-  console.log(config);
 
   const result = await dispatchRequest({
     replicaPort,
@@ -109,30 +113,14 @@ type EmulatorConfigWithNetwork = Omit<EmulatorConfig, 'network'> &
   Required<Pick<EmulatorConfig, 'network'>>;
 
 const loadEmulatorConfig = async (): Promise<EmulatorConfigWithNetwork> => {
-  const DEFAULT_NETWORK_SERVICES: NetworkServices = {
-    registry: false,
-    cmc: true,
-    icp: true,
-    cycles: true,
-    nns: true,
-    sns: false,
-    internet_identity: true,
-    nns_dapp: false
-  } as const;
-
-  const SATELLITE_NETWORK_SERVICES: NetworkServices = {
-    ...DEFAULT_NETWORK_SERVICES,
-    cmc: false,
-    cycles: false,
-    nns: false
-  } as const;
-
   const config = await readJunoConfig();
 
-  console.log(config);
+  const emulatorConfig = config.emulator ?? {
+    skylab: {}
+  };
 
   const defaultServices =
-    'satellite' in config ? SATELLITE_NETWORK_SERVICES : DEFAULT_NETWORK_SERVICES;
+    'satellite' in emulatorConfig ? DEFAULT_SATELLITE_NETWORK_SERVICES : DEFAULT_NETWORK_SERVICES;
 
   const network: Network = {
     ...(config.emulator?.network ?? {}),
@@ -140,9 +128,7 @@ const loadEmulatorConfig = async (): Promise<EmulatorConfigWithNetwork> => {
   };
 
   const emulator: EmulatorConfigWithNetwork = {
-    ...(config.emulator ?? {
-      skylab: {}
-    }),
+    ...emulatorConfig,
     network
   };
 
