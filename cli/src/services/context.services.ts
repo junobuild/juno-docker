@@ -20,7 +20,9 @@ export const buildContext = async (args?: string[]): Promise<CliContext> => {
   const port = nextArg({args, option: '-p'}) ?? nextArg({args, option: '--port'});
 
   if (isNullish(port)) {
-    throw new Error('An icx-proxy port must be provided as argument of the deploy command.');
+    throw new Error(
+      'A port for the PocketIC instance must be provided as argument of the deploy command.'
+    );
   }
 
   const mainIdentity = getIdentity({key: MAIN_IDENTITY_KEY, state});

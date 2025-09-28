@@ -1,6 +1,7 @@
 import kleur from 'kleur';
 import {version as cliCurrentVersion} from '../package.json';
 import {deploy} from './commands/deploy';
+import {pocketIC} from './commands/pocket-ic';
 import {adminServer} from './commands/server';
 import {wait} from './commands/wait';
 import {watch} from './commands/watch';
@@ -29,6 +30,9 @@ export const run = async () => {
       break;
     case 'admin':
       await adminServer(args);
+      break;
+    case 'pocket-ic':
+      await pocketIC(args);
       break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
