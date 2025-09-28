@@ -1,4 +1,4 @@
-import {configPocketIC} from '../services/pocket-ic.services';
+import {configPocketIC} from '../services/pocket-ic/pocket-ic.services';
 
 export const pocketIC = async (args?: string[]) => {
   const [subCommand] = args ?? [];

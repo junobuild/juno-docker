@@ -1,31 +1,49 @@
 import {assertNonNullish} from '@dfinity/utils';
 import {nextArg} from '@junobuild/cli-tools';
 import {EmulatorConfig, EmulatorConfigSchema, Network, NetworkServices} from '@junobuild/config';
-import {readJunoConfig} from '../configs/juno.config';
+import {readJunoConfig} from '../../configs/juno.config';
 import {
   ICP_CONFIG,
   INITIAL_TIME,
   INSTANCE_HTTP_GATEWAY,
   SUBNET_CONFIG
-} from '../constants/pocket-ic.constants';
+} from '../../constants/pocket-ic.constants';
 import {
   IcpFeature,
   IcpFeatures,
   IcpFeaturesSchema,
   InstanceConfig,
   InstanceConfigSchema
-} from '../types/pocket-ic';
+} from '../../types/pocket-ic';
+import {dispatchRequest} from './_request.services';
 
 export const configPocketIC = async (args?: string[]) => {
   const port = nextArg({args, option: '-p'}) ?? nextArg({args, option: '--port'});
+  const replicaPort = nextArg({args, option: '--replica-port'});
   const stateDir = nextArg({args, option: '--state-dir'});
 
   assertNonNullish(port);
+  assertNonNullish(replicaPort);
   assertNonNullish(stateDir);
 
   const config = await buildInstanceConfig({port, stateDir});
 
-  // TODO curl
+  const result = await dispatchRequest({
+    replicaPort,
+    request: 'instances',
+    body: config
+  });
+
+  if (result.result === 'ok') {
+    return;
+  }
+
+  if (result.result === 'not_ok') {
+    const text = await result.response.text().catch(() => 'Unknown error');
+    throw new Error(text);
+  }
+
+  throw result.err;
 };
 
 const buildInstanceConfig = async ({
