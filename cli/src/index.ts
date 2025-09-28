@@ -5,6 +5,7 @@ import {adminServer} from './commands/server';
 import {wait} from './commands/wait';
 import {watch} from './commands/watch';
 import {checkNodeVersion} from './utils/env.utils';
+import {pocketIC} from './commands/pocket-ic';
 
 const {red, yellow} = kleur;
 
@@ -29,6 +30,9 @@ export const run = async () => {
       break;
     case 'admin':
       await adminServer(args);
+      break;
+    case 'pocket-ic':
+      await pocketIC(args);
       break;
     case 'version':
       console.log(`CLI v${yellow(cliCurrentVersion)}`);
