@@ -30,6 +30,15 @@ export abstract class Watcher {
     this.#debounceExec({context});
   };
 
+  onRequest = async ({context}: {context: CliContext}) => {
+    if (this.executing) {
+      this.#requestExecution = true;
+      return;
+    }
+
+    this.#debounceExec({context});
+  };
+
   private readonly exec = async ({context}: {context: CliContext}) => {
     this.executing = true;
 

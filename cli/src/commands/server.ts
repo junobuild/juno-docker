@@ -14,7 +14,8 @@ import {buildContext} from '../services/context.services';
 import {collectIdentities} from '../services/identity.services';
 import {setController} from '../services/server/controller.services';
 import {transfer} from '../services/server/ledger.services';
-import {touchWatchedFile} from '../services/server/touch.services';
+import {upgradeSatellite} from '../services/server/satellite.services';
+import {buildSputnik} from '../services/server/sputnik.services';
 import type {CliContext} from '../types/context';
 import {nextArg} from '../utils/args.utils';
 
@@ -95,6 +96,8 @@ const buildServer = ({context}: {context: CliContext}): Server =>
         return;
       }
 
+      const consoleBuild = process.env.CLI_BUILD === 'console';
+
       if (command === 'satellite') {
         switch (subCommand) {
           case 'controller':
@@ -103,6 +106,34 @@ const buildServer = ({context}: {context: CliContext}): Server =>
               searchParams,
               key: satellite.key
             });
+            done();
+            return;
+        }
+
+        if (!consoleBuild) {
+          switch (subCommand) {
+            case 'upgrade':
+              // We don't await the promise on purpose given the process takes some time.
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
+              upgradeSatellite({
+                context,
+                searchParams
+              });
+              done();
+              return;
+          }
+        }
+
+        error404();
+        return;
+      }
+
+      if (!consoleBuild && command === 'sputnik') {
+        switch (subCommand) {
+          case 'build':
+            // We don't await the promise on purpose given the process takes some time.
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            buildSputnik();
             done();
             return;
         }
@@ -123,11 +154,6 @@ const buildServer = ({context}: {context: CliContext}): Server =>
 
             res.writeHead(200, headers);
             res.end(JSON.stringify(identities));
-            return;
-          }
-          case 'touch': {
-            await touchWatchedFile({searchParams});
-            done();
             return;
           }
         }
