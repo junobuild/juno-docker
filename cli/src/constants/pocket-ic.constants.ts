@@ -1,4 +1,9 @@
-import type {IcpConfig, InitialTime, InstanceHttpGatewayConfig, SubnetSpec} from '../types/pocket-ic';
+import type {
+  IcpConfig,
+  InitialTime,
+  InstanceHttpGatewayConfig,
+  SubnetSpec
+} from '../types/pocket-ic';
 
 export const SUBNET_CONFIG: SubnetSpec = {
   state_config: 'New',

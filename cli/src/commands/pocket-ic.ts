@@ -7,4 +7,4 @@ export const pocketIC = async (args?: string[]) => {
     case 'config':
       await configPocketIC(args);
   }
-}
+};

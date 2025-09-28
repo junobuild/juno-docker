@@ -1,6 +1,6 @@
 import {assertNonNullish} from '@dfinity/utils';
 import {nextArg} from '@junobuild/cli-tools';
-import {EmulatorConfig, EmulatorConfigSchema, Network, NetworkServices} from '@junobuild/config';
+import {type EmulatorConfig, EmulatorConfigSchema, type Network, type NetworkServices} from '@junobuild/config';
 import {readJunoConfig} from '../../configs/juno.config';
 import {
   ICP_CONFIG,
@@ -9,10 +9,10 @@ import {
   SUBNET_CONFIG
 } from '../../constants/pocket-ic.constants';
 import {
-  IcpFeature,
-  IcpFeatures,
+  type IcpFeature,
+  type IcpFeatures,
   IcpFeaturesSchema,
-  InstanceConfig,
+  type InstanceConfig,
   InstanceConfigSchema
 } from '../../types/pocket-ic';
 import {dispatchRequest} from './_request.services';
@@ -27,6 +27,8 @@ export const configPocketIC = async (args?: string[]) => {
   assertNonNullish(stateDir);
 
   const config = await buildInstanceConfig({port, stateDir});
+
+  console.log(config);
 
   const result = await dispatchRequest({
     replicaPort,
@@ -126,6 +128,8 @@ const loadEmulatorConfig = async (): Promise<EmulatorConfigWithNetwork> => {
   } as const;
 
   const config = await readJunoConfig();
+
+  console.log(config);
 
   const defaultServices =
     'satellite' in config ? SATELLITE_NETWORK_SERVICES : DEFAULT_NETWORK_SERVICES;

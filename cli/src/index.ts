@@ -1,11 +1,11 @@
 import kleur from 'kleur';
 import {version as cliCurrentVersion} from '../package.json';
 import {deploy} from './commands/deploy';
+import {pocketIC} from './commands/pocket-ic';
 import {adminServer} from './commands/server';
 import {wait} from './commands/wait';
 import {watch} from './commands/watch';
 import {checkNodeVersion} from './utils/env.utils';
-import {pocketIC} from './commands/pocket-ic';
 
 const {red, yellow} = kleur;
 
