@@ -52,6 +52,7 @@ const deployModules = async ({context, mods, installFn, postInstallFn}: DeployMo
 
       return [
         [...deployed, ...(ready ? [mod] : [])],
+        // eslint-disable-next-line no-negated-condition
         [...rest, ...(!ready ? [mod] : [])]
       ];
     },
