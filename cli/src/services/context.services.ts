@@ -1,9 +1,9 @@
 import {isNullish} from '@dfinity/utils';
+import {nextArg} from '@junobuild/cli-tools';
 import {createAgent} from '../api/agent.api';
 import {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
 import {CliState} from '../states/cli.state';
 import type {CliContext} from '../types/context';
-import {nextArg} from '../utils/args.utils';
 import {getIdentity} from './identity.services';
 
 export const buildContext = async (args?: string[]): Promise<CliContext> => {
