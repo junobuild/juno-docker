@@ -23,7 +23,7 @@ const HttpsConfigSchema = z.strictObject({
 
 const IcpConfigFlagSchema = z.enum(['Disabled', 'Enabled']);
 
-const IcpFeaturesConfigSchema = z.literal('DefaultConfig');
+const IcpFeatureSchema = z.literal('DefaultConfig');
 
 const SubnetInstructionConfigSchema = z.enum(['Production', 'Benchmarking']);
 
@@ -69,18 +69,18 @@ const IcpConfigSchema = z.strictObject({
   canister_execution_rate_limiting: zNullable(IcpConfigFlagSchema)
 });
 
-const IcpFeaturesSchema = z.strictObject({
-  registry: zNullable(IcpFeaturesConfigSchema),
-  cycles_minting: zNullable(IcpFeaturesConfigSchema),
-  icp_token: zNullable(IcpFeaturesConfigSchema),
-  cycles_token: zNullable(IcpFeaturesConfigSchema),
-  nns_governance: zNullable(IcpFeaturesConfigSchema),
-  sns: zNullable(IcpFeaturesConfigSchema),
-  ii: zNullable(IcpFeaturesConfigSchema),
-  nns_ui: zNullable(IcpFeaturesConfigSchema)
+export const IcpFeaturesSchema = z.strictObject({
+  registry: zNullable(IcpFeatureSchema),
+  cycles_minting: zNullable(IcpFeatureSchema),
+  icp_token: zNullable(IcpFeatureSchema),
+  cycles_token: zNullable(IcpFeatureSchema),
+  nns_governance: zNullable(IcpFeatureSchema),
+  sns: zNullable(IcpFeatureSchema),
+  ii: zNullable(IcpFeatureSchema),
+  nns_ui: zNullable(IcpFeatureSchema)
 });
 
-const InstanceConfigSchema = z.strictObject({
+export const InstanceConfigSchema = z.strictObject({
   subnet_config_set: ExtendedSubnetConfigSetSchema,
   http_gateway_config: zNullable(InstanceHttpGatewayConfigSchema),
   state_dir: zNullable(z.string()),
@@ -94,10 +94,8 @@ const InstanceConfigSchema = z.strictObject({
 
 export type InstanceHttpGatewayConfig = z.infer<typeof InstanceHttpGatewayConfigSchema>;
 export type InstanceConfig = z.infer<typeof InstanceConfigSchema>;
-type ExtendedSubnetConfigSet = z.infer<typeof ExtendedSubnetConfigSetSchema>;
 export type SubnetSpec = z.infer<typeof SubnetSpecSchema>;
-type SubnetInstructionConfig = z.infer<typeof SubnetInstructionConfigSchema>;
-type SubnetStateConfig = z.infer<typeof SubnetStateConfigSchema>;
 export type IcpConfig = z.infer<typeof IcpConfigSchema>;
-type IcpFeatures = z.infer<typeof IcpFeaturesSchema>;
+export type IcpFeature = z.infer<typeof IcpFeatureSchema>;
+export type IcpFeatures = z.infer<typeof IcpFeaturesSchema>;
 export type InitialTime = z.infer<typeof InitialTimeSchema>;

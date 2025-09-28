@@ -5,6 +5,6 @@ export const pocketIC = async (args?: string[]) => {
 
   switch (subCommand) {
     case 'config':
-      await configPocketIC();
+      await configPocketIC(args);
   }
 }
