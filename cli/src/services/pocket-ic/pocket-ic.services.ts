@@ -5,7 +5,7 @@ import {
   DEFAULT_SATELLITE_NETWORK_SERVICES,
   type EmulatorConfig,
   EmulatorConfigSchema,
-  JunoConfig,
+  type JunoConfig,
   type Network
 } from '@junobuild/config';
 import {readJunoConfig} from '../../configs/juno.config';
