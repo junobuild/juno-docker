@@ -5,6 +5,7 @@ import {
   DEFAULT_SATELLITE_NETWORK_SERVICES,
   type EmulatorConfig,
   EmulatorConfigSchema,
+  type JunoConfig,
   type Network
 } from '@junobuild/config';
 import {readJunoConfig} from '../../configs/juno.config';
@@ -112,8 +113,32 @@ const buildIcpFeatures = async (): Promise<IcpFeatures> => {
 type EmulatorConfigWithNetwork = Omit<EmulatorConfig, 'network'> &
   Required<Pick<EmulatorConfig, 'network'>>;
 
+const readConfig = async (): Promise<{ok: JunoConfig} | {err: unknown}> => {
+  try {
+    const config = await readJunoConfig();
+    return {ok: config};
+  } catch (err: unknown) {
+    return {err};
+  }
+};
+
 const loadEmulatorConfig = async (): Promise<EmulatorConfigWithNetwork> => {
-  const config = await readJunoConfig();
+  const result = await readConfig();
+
+  // Historically, before we used PocketIC to spin up canisters and dapps, it was possible
+  // to run the container without providing a juno.config file. For that reason, we want
+  // to preserve this capability.
+  if ('err' in result) {
+    console.log(`⚠️  No juno.config found. Falling back to default network services!`);
+
+    return {
+      network: {
+        services: DEFAULT_NETWORK_SERVICES
+      }
+    };
+  }
+
+  const {ok: config} = result;
 
   const emulatorConfig = config.emulator ?? {
     skylab: {}
