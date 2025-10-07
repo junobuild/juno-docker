@@ -33,10 +33,11 @@ RUN mkdir -p /juno/.juno/replica
 RUN mkdir /juno/.juno/cli
 VOLUME /juno/.juno
 
-# Exposed ports
+# Exposed ports and timeout
 ENV PORT=5987
 ENV ADMIN_PORT=5999
 ENV CONSOLE_PORT=5866
+ENV PORT_TIMEOUT_SECONDS=30
 
 # Environment variables where files are downloaded and executed
 ENV TARGET_DIR=/juno/target
