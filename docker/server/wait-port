@@ -10,7 +10,10 @@ if [[ "$2" == "--silent" ]]; then
     SILENT=true
 fi
 
-for _ in `seq 1 20`; do
+WAIT_SECONDS="${PORT_TIMEOUT_SECONDS:-30}"
+ATTEMPTS=$(( WAIT_SECONDS * 2 ))
+
+for _ in $(seq 1 $ATTEMPTS); do
     $SILENT || echo -n .
     if nc -z localhost "$PORT"; then
         $SILENT || echo "✅ Connection to port $PORT succeeded."
