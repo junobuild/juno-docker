@@ -199,6 +199,10 @@ The containers expose the following ports:
 | `5866` | Console UI (if available).                                                                             |
 | `5999` | Admin little server (for utility endpoints like transfers or controller updates).                      |
 
+> [!NOTE]
+> The container also supports the environment variable `PORT_TIMEOUT_SECONDS` (default: 30 seconds), 
+> which defines how long to wait for emulator ports to become ready during startup.
+
 ## License
 
 MIT © [David Dal Busco](mailto:david.dalbusco@outlook.com)
