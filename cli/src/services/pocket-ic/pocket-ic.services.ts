@@ -11,6 +11,7 @@ import {
 import {readJunoConfig} from '../../configs/juno.config';
 import {
   ICP_CONFIG,
+  INCOMPLETE_STATE,
   INITIAL_TIME,
   INSTANCE_HTTP_GATEWAY,
   SUBNET_CONFIG
@@ -78,7 +79,8 @@ const buildInstanceConfig = async ({
     http_gateway_config: {
       ...INSTANCE_HTTP_GATEWAY,
       port: parseInt(port)
-    }
+    },
+    incomplete_state: INCOMPLETE_STATE
   };
 
   InstanceConfigSchema.parse(config);
