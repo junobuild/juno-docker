@@ -80,6 +80,8 @@ export const IcpFeaturesSchema = z.strictObject({
   nns_ui: zNullable(IcpFeatureSchema)
 });
 
+const IncompleteStateSchema = z.enum(['Disabled', 'Enabled']);
+
 export const InstanceConfigSchema = z.strictObject({
   subnet_config_set: ExtendedSubnetConfigSetSchema,
   http_gateway_config: zNullable(InstanceHttpGatewayConfigSchema),
@@ -88,7 +90,7 @@ export const InstanceConfigSchema = z.strictObject({
   log_level: zNullable(z.string()),
   bitcoind_addr: zNullable(z.array(SocketAddrSchema)),
   icp_features: zNullable(IcpFeaturesSchema),
-  incomplete_state: zNullable(z.enum(['Disabled', 'Enabled'])),
+  incomplete_state: zNullable(IncompleteStateSchema),
   initial_time: zNullable(InitialTimeSchema)
 });
 
@@ -99,3 +101,4 @@ export type IcpConfig = z.infer<typeof IcpConfigSchema>;
 export type IcpFeature = z.infer<typeof IcpFeatureSchema>;
 export type IcpFeatures = z.infer<typeof IcpFeaturesSchema>;
 export type InitialTime = z.infer<typeof InitialTimeSchema>;
+export type IncompleteState = z.infer<typeof IncompleteStateSchema>;
