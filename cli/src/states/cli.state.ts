@@ -1,4 +1,4 @@
-import type {JsonnableEd25519KeyIdentity} from '@dfinity/identity/lib/cjs/identity/ed25519';
+import type {JsonnableEd25519KeyIdentity} from '@dfinity/identity';
 import {nonNullish} from '@dfinity/utils';
 import {readFileSync, writeFileSync} from 'atomically';
 import {existsSync} from 'node:fs';
