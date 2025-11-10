@@ -1,4 +1,4 @@
-import type {HttpAgent} from '@dfinity/agent';
+import type {HttpAgent} from '@icp-sdk/core/agent';
 import {buildContext} from '../services/context.services';
 
 export const wait = async (args?: string[]) => {

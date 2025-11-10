@@ -1,5 +1,5 @@
-import type {JsonnableEd25519KeyIdentity} from '@dfinity/identity';
 import {nonNullish} from '@dfinity/utils';
+import type {JsonnableEd25519KeyIdentity} from '@icp-sdk/canisters/identity';
 import {readFileSync, writeFileSync} from 'atomically';
 import {existsSync} from 'node:fs';
 import type {ModuleMetadata} from '../types/module';

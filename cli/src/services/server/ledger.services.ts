@@ -1,6 +1,6 @@
-import {AnonymousIdentity} from '@dfinity/agent';
-import {Principal} from '@dfinity/principal';
 import {nonNullish} from '@dfinity/utils';
+import {AnonymousIdentity} from '@icp-sdk/core/agent';
+import {Principal} from '@icp-sdk/core/principal';
 import {createAgent} from '../../api/agent.api';
 import {ICP_LEDGER_CANISTER_ID} from '../../modules/icp-ledger';
 import type {CliContext} from '../../types/context';

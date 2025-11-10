@@ -1,4 +1,4 @@
-import {IDL} from '@dfinity/candid';
+import {IDL} from '@icp-sdk/core/candid';
 import {existsSync} from 'node:fs';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {DEV_SATELLITE} from '../../constants/dev.constants';

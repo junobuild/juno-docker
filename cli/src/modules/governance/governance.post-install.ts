@@ -1,5 +1,5 @@
-import {IDL} from '@dfinity/candid';
-import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@dfinity/nns';
+import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@icp-sdk/canisters/nns';
+import {IDL} from '@icp-sdk/core/candid';
 import {createAgent} from '../../api/agent.api';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {NEURON_ID} from '../../constants/modules.constants';

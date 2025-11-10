@@ -1,4 +1,4 @@
-import type {HttpAgent, Identity} from '@dfinity/agent';
+import type {HttpAgent, Identity} from '@icp-sdk/core/agent';
 import type {MAIN_IDENTITY_KEY, MINTER_IDENTITY_KEY} from '../constants/constants';
 import type {CliState} from '../states/cli.state';
 

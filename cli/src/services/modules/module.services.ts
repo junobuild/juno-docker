@@ -1,7 +1,7 @@
-import {IDL} from '@dfinity/candid';
-import {ICManagementCanister, type canister_install_mode} from '@dfinity/ic-management';
-import {Principal} from '@dfinity/principal';
 import {isNullish, nonNullish} from '@dfinity/utils';
+import {ICManagementCanister, type canister_install_mode} from '@icp-sdk/canisters/ic-management';
+import {IDL} from '@icp-sdk/core/candid';
+import {Principal} from '@icp-sdk/core/principal';
 import {upgradeModule} from '@junobuild/admin';
 import kleur from 'kleur';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';

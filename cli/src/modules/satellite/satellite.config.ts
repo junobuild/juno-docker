@@ -1,7 +1,7 @@
-import {ICManagementCanister} from '@dfinity/ic-management';
-import {Principal} from '@dfinity/principal';
 import {isNullish} from '@dfinity/utils';
 import type {PrincipalText} from '@dfinity/zod-schemas';
+import {ICManagementCanister} from '@icp-sdk/canisters/ic-management';
+import {Principal} from '@icp-sdk/core/principal';
 import {
   listSatelliteControllers,
   setSatelliteControllers as setSatelliteControllersAdmin
