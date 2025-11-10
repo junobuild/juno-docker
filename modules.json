@@ -10,15 +10,15 @@
     ]
   },
   "satellite": {
-    "commit": "40d9e62aa5ab181a73e7621cc54358e53f80bd5f",
+    "commit": "596dbed63ebbb28fec75f41edfa04113b39946f1",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://cdn.juno.build/releases/satellite-v0.1.4.wasm.gz",
+    "url": "https://cdn.juno.build/releases/satellite-v0.1.5.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/satellite.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.59/satellite.did"
       },
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/satellite_extension.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.59/satellite_extension.did"
       }
     ]
   },
@@ -43,22 +43,22 @@
     ]
   },
   "console": {
-    "commit": "40d9e62aa5ab181a73e7621cc54358e53f80bd5f",
+    "commit": "596dbed63ebbb28fec75f41edfa04113b39946f1",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/console-v0.1.3.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.59/console-v0.1.4.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.57/console.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.59/console.did"
       }
     ]
   },
   "observatory": {
-    "commit": "5a6915037df41874035efb2d25828104719f1229",
+    "commit": "596dbed63ebbb28fec75f41edfa04113b39946f1",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.51/observatory-v0.1.0.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.59/observatory-v0.1.1.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.51/observatory.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.59/observatory.did"
       }
     ]
   },
