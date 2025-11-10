@@ -1,7 +1,7 @@
-import type {Identity} from '@dfinity/agent';
-import {IDL} from '@dfinity/candid';
-import {neuronSubaccount} from '@dfinity/sns';
 import {fromNullable} from '@dfinity/utils';
+import {neuronSubaccount} from '@icp-sdk/canisters/sns';
+import type {Identity} from '@icp-sdk/core/agent';
+import {IDL} from '@icp-sdk/core/candid';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import {NEURON_ID} from '../../constants/modules.constants';
 import type {

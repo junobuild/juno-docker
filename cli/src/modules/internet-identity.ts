@@ -1,5 +1,5 @@
-import {IDL} from '@dfinity/candid';
 import {toNullable} from '@dfinity/utils';
+import {IDL} from '@icp-sdk/core/candid';
 import type {InternetIdentityInit} from '../declarations/internet_identity';
 import {init} from '../declarations/internet_identity.idl';
 import {Module} from '../services/modules/module.services';

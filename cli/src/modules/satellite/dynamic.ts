@@ -1,6 +1,6 @@
-import {ICManagementCanister} from '@dfinity/ic-management';
-import {Principal} from '@dfinity/principal';
 import {fromNullable, isNullish, nonNullish, uint8ArrayToHexString} from '@dfinity/utils';
+import {ICManagementCanister} from '@icp-sdk/canisters/ic-management';
+import {Principal} from '@icp-sdk/core/principal';
 import {
   junoConfigExist as junoConfigExistTools,
   junoConfigFile as junoConfigFileTools

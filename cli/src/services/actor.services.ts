@@ -4,9 +4,9 @@ import {
   type ActorMethod,
   type ActorSubclass,
   type HttpAgent
-} from '@dfinity/agent';
-import type {IDL} from '@dfinity/candid';
-import type {Principal} from '@dfinity/principal';
+} from '@icp-sdk/core/agent';
+import type {IDL} from '@icp-sdk/core/candid';
+import type {Principal} from '@icp-sdk/core/principal';
 import type {_SERVICE as ConsoleActor} from '../declarations/console';
 import {idlFactory as idlFactorConsole} from '../declarations/console.idl';
 import type {_SERVICE as IcpLedgerActor} from '../declarations/icp_ledger';

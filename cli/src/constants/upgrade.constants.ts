@@ -1,4 +1,4 @@
-import type {canister_install_mode} from '@dfinity/ic-management';
+import type {canister_install_mode} from '@icp-sdk/canisters/ic-management';
 
 export const INSTALL_MODE_INSTALL: canister_install_mode = {install: null};
 

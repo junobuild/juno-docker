@@ -1,5 +1,5 @@
-import type {HttpAgent, Identity} from '@dfinity/agent';
 import {createAgent as createAgentUtils} from '@dfinity/utils';
+import type {HttpAgent, Identity} from '@icp-sdk/core/agent';
 
 export const createAgent = async ({
   identity,
