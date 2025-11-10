@@ -18,7 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 RUN apt-get install nodejs -y
 
 # Create and use a user instead of using root
