@@ -18,6 +18,7 @@ Satellite:
 | ------ | -------------------------------------------------------------------------------------------------------------- |
 | Docker | `docker buildx build . --file Dockerfile -t juno-satellite --progress=plain --no-cache --platform=linux/arm64` |
 | Podman | `podman build . --file Dockerfile -t juno-satellite --log-level=debug --no-cache --arch arm64`                 |
+| Apple Container | `container build . --file Dockerfile -t juno-satellite`                                                        |
 
 Console:
 
