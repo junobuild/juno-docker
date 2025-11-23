@@ -54,7 +54,7 @@ export const installRelease = async ({
     filename,
     fullPath,
     headers: [],
-    data: new Blob([wasm]),
+    data: new Blob([wasm as Uint8Array<ArrayBuffer>]),
     description: `change=${proposalId};version=${version}`
   };
 
