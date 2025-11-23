@@ -43,7 +43,7 @@ export class JunoModule extends Module {
 
       const {
         settings: {controllers}
-      } = await canisterStatus(Principal.from(canisterId));
+      } = await canisterStatus({canisterId: Principal.from(canisterId)});
 
       await updateSettings({
         canisterId: Principal.from(canisterId),

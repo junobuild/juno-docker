@@ -74,7 +74,7 @@ class SatelliteDynamicModule extends SatelliteModule {
       agent
     });
 
-    const {module_hash} = await canisterStatus(Principal.from(canisterId));
+    const {module_hash} = await canisterStatus({canisterId: Principal.from(canisterId)});
 
     const installedHash = fromNullable(module_hash);
 
