@@ -49,7 +49,9 @@ export default defineConfig([
           varsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_'
         }
-      ]
+      ],
+      'no-await-in-loop': 'off',
+      radix: 'off'
     }
   }
 ]);

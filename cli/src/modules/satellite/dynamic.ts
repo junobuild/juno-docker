@@ -36,6 +36,7 @@ class SatelliteDynamicModule extends SatelliteModule {
     // We gather the current hash of the canister by fetching the canister status with th IC mgmt.
     // This is useful otherwise dev would have to build twice to make the watcher notice the hash is really different and upgrade the satellite.
     // Plus, this allows to preventively checks if the main identity is a controller of the Satellite.
+    // eslint-disable-next-line no-useless-assignment
     let hash: string | undefined = undefined;
 
     try {
