@@ -98,7 +98,9 @@ const buildServer = ({context}: {context: CliContext}): Server =>
         return;
       }
 
-      if (!satelliteBuild && command === 'observatory') {
+      const skylabBuild = process.env.CLI_BUILD === 'skylab';
+
+      if (skylabBuild && command === 'observatory') {
         switch (subCommand) {
           case 'monitoring':
             switch (subSubCommand) {
