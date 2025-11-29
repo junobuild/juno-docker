@@ -1,6 +1,6 @@
-import type {ActorMethod} from '@icp-sdk/core/agent';
-import type {IDL} from '@icp-sdk/core/candid';
-import type {Principal} from '@icp-sdk/core/principal';
+import type {ActorMethod} from '@dfinity/agent';
+import type {IDL} from '@dfinity/candid';
+import type {Principal} from '@dfinity/principal';
 
 export interface Account {
   owner: Principal;
@@ -19,6 +19,11 @@ export interface Controller {
 export type ControllerScope = {Write: null} | {Admin: null} | {Submit: null};
 export interface CreateCanisterConfig {
   subnet_id: [] | [Principal];
+  name: [] | [string];
+}
+export interface CreateSatelliteConfig {
+  subnet_id: [] | [Principal];
+  storage: [] | [InitStorageArgs];
   name: [] | [string];
 }
 export interface CyclesBalance {
@@ -75,6 +80,13 @@ export interface GetMonitoringHistory {
   from: [] | [bigint];
   segment_id: Principal;
 }
+export interface InitMissionControlArgs {
+  user: Principal;
+}
+export interface InitStorageArgs {
+  system_memory: [] | [InitStorageMemory];
+}
+export type InitStorageMemory = {Heap: null} | {Stable: null};
 export interface MissionControlSettings {
   updated_at: bigint;
   created_at: bigint;
@@ -190,7 +202,7 @@ export interface _SERVICE {
   create_orbiter: ActorMethod<[[] | [string]], Orbiter>;
   create_orbiter_with_config: ActorMethod<[CreateCanisterConfig], Orbiter>;
   create_satellite: ActorMethod<[string], Satellite>;
-  create_satellite_with_config: ActorMethod<[CreateCanisterConfig], Satellite>;
+  create_satellite_with_config: ActorMethod<[CreateSatelliteConfig], Satellite>;
   del_mission_control_controllers: ActorMethod<[Array<Principal>], undefined>;
   del_orbiter: ActorMethod<[Principal, bigint], undefined>;
   del_orbiters_controllers: ActorMethod<[Array<Principal>, Array<Principal>], undefined>;
