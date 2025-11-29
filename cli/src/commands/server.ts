@@ -15,6 +15,7 @@ import {buildContext} from '../services/context.services';
 import {collectIdentities} from '../services/identity.services';
 import {setController} from '../services/server/controller.services';
 import {transfer} from '../services/server/ledger.services';
+import {toggleOpenIdMonitoring} from '../services/server/observatory.services';
 import {touchWatchedFile} from '../services/server/touch.services';
 import type {CliContext} from '../types/context';
 
@@ -46,6 +47,8 @@ const buildServer = ({context}: {context: CliContext}): Server =>
     const command = pathname.split('/')[1];
     // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const subCommand = pathname.split('/')[2];
+    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
+    const subSubCommand = pathname.split('/')[3];
 
     const done = () => {
       res.writeHead(200, headers);
@@ -89,6 +92,24 @@ const buildServer = ({context}: {context: CliContext}): Server =>
             });
             done();
             return;
+        }
+
+        error404();
+        return;
+      }
+
+      if (!satelliteBuild && command === 'observatory') {
+        switch (subCommand) {
+          case 'monitoring':
+            switch (subSubCommand) {
+              case 'openid':
+                await toggleOpenIdMonitoring({
+                  context,
+                  searchParams
+                });
+                done();
+                return;
+            }
         }
 
         error404();
