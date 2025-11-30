@@ -17,6 +17,7 @@ import {setController} from '../services/server/controller.services';
 import {transfer} from '../services/server/ledger.services';
 import {touchWatchedFile} from '../services/server/touch.services';
 import type {CliContext} from '../types/context';
+import {prettifyError} from '../utils/error.utils';
 
 const {red} = kleur;
 
@@ -148,7 +149,10 @@ const buildServer = ({context}: {context: CliContext}): Server =>
     try {
       await handleRequest();
     } catch (err: unknown) {
-      console.log(red('️‼️  Unexpected error while processing the request:'), err);
+      console.log(
+        red('️‼️  Unexpected error while processing the request:'),
+        prettifyError(err) ?? err
+      );
       error500();
     }
   });
