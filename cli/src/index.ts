@@ -6,6 +6,7 @@ import {adminServer} from './commands/server';
 import {wait} from './commands/wait';
 import {watch} from './commands/watch';
 import {checkNodeVersion} from './utils/env.utils';
+import {prettifyError} from './utils/error.utils';
 
 const {red, yellow} = kleur;
 
@@ -47,6 +48,8 @@ export const run = async () => {
   try {
     await run();
   } catch (err: unknown) {
-    console.log(red('⚠️  CLI Error:'), err);
+    const message = prettifyError(err);
+
+    console.log(red('⚠️  CLI Error:'), message ?? err);
   }
 })();
