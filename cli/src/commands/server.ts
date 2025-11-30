@@ -81,37 +81,26 @@ const buildServer = ({context}: {context: CliContext}): Server =>
 
       // If the CLI was build for the satellite but the /console/ is queried, then the feature is not supported.
       const satelliteBuild = process.env.CLI_BUILD === 'satellite';
-
-      if (!satelliteBuild && ['console', 'observatory'].includes(command)) {
-        switch (subCommand) {
-          case 'controller':
-            await setController({
-              context,
-              searchParams,
-              key: command === 'observatory' ? observatory.key : consoleModule.key
-            });
-            done();
-            return;
-        }
-
-        error404();
-        return;
-      }
-
       const skylabBuild = process.env.CLI_BUILD === 'skylab';
 
-      if (skylabBuild && command === 'observatory') {
-        switch (subCommand) {
-          case 'monitoring':
-            switch (subSubCommand) {
-              case 'openid':
-                await toggleOpenIdMonitoring({
-                  context,
-                  searchParams
-                });
-                done();
-                return;
-            }
+      if (!satelliteBuild && ['console', 'observatory'].includes(command)) {
+        if (subCommand === 'controller') {
+          await setController({
+            context,
+            searchParams,
+            key: command === 'observatory' ? observatory.key : consoleModule.key
+          });
+          done();
+          return;
+        }
+
+        if (skylabBuild && subCommand === 'monitoring' && subSubCommand === 'openid') {
+          await toggleOpenIdMonitoring({
+            context,
+            searchParams
+          });
+          done();
+          return;
         }
 
         error404();
