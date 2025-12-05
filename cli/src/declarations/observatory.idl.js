@@ -119,22 +119,24 @@ export const idlFactory = ({IDL}) => {
     controllers: IDL.Vec(IDL.Principal)
   });
   const Env = IDL.Record({email_api_key: IDL.Opt(IDL.Text)});
+  const RateKind = IDL.Variant({OpenIdCertificateRequests: IDL.Null});
+  const RateConfig = IDL.Record({
+    max_tokens: IDL.Nat64,
+    time_per_token_ns: IDL.Nat64
+  });
 
   return IDL.Service({
     del_controllers: IDL.Func([DeleteControllersArgs], [], []),
     get_notify_status: IDL.Func([GetNotifications], [NotifyStatus], ['query']),
-    get_openid_certificate: IDL.Func(
-      [GetOpenIdCertificateArgs],
-      [IDL.Opt(OpenIdCertificate)],
-      ['query']
-    ),
+    get_openid_certificate: IDL.Func([GetOpenIdCertificateArgs], [IDL.Opt(OpenIdCertificate)], []),
     list_controllers: IDL.Func([], [IDL.Vec(IDL.Tuple(IDL.Principal, Controller))], ['query']),
     notify: IDL.Func([NotifyArgs], [], []),
     ping: IDL.Func([NotifyArgs], [], []),
     set_controllers: IDL.Func([SetControllersArgs], [], []),
     set_env: IDL.Func([Env], [], []),
     start_openid_monitoring: IDL.Func([], [], []),
-    stop_openid_monitoring: IDL.Func([], [], [])
+    stop_openid_monitoring: IDL.Func([], [], []),
+    update_rate_config: IDL.Func([RateKind, RateConfig], [], [])
   });
 };
 

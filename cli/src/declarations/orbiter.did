@@ -83,6 +83,7 @@ type HttpResponse = record {
   upgrade : opt bool;
   status_code : nat16;
 };
+type InitOrbiterArgs = record { controllers : vec principal };
 type MemorySize = record { stable : nat64; heap : nat64 };
 type NavigationType = variant {
   Navigate;
@@ -210,7 +211,7 @@ type WebVitalsMetric = record {
   navigation_type : opt NavigationType;
   delta : float64;
 };
-service : () -> {
+service : (InitOrbiterArgs) -> {
   del_controllers : (DeleteControllersArgs) -> (
       vec record { principal; Controller },
     );
