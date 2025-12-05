@@ -37,7 +37,7 @@ const updateRateConfig = async ({context}: {context: CliContext}) => {
   await update_rate_config(
     {OpenIdCertificateRequests: null},
     {
-      max_tokens: 300, // allow up to 300 requests
+      max_tokens: 300n, // allow up to 300 requests
       time_per_token_ns: 200_000_000n // 0.2s per token -> 300/min
     }
   );
