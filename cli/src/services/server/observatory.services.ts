@@ -13,6 +13,7 @@ export const toggleOpenIdMonitoring = async ({
 
   switch (action) {
     case 'start': {
+      await updateRateConfig({context});
       await startOpenIdMonitoring({context});
       return;
     }
@@ -23,6 +24,25 @@ export const toggleOpenIdMonitoring = async ({
     default:
       throw new Error('Unknown action provided for toggling OpenId monitoring');
   }
+};
+
+const updateRateConfig = async ({context}: {context: CliContext}) => {
+  const {agent} = context;
+
+  const {update_rate_config} = await getObservatoryActor({
+    agent,
+    canisterId: OBSERVATORY_CANISTER_ID
+  });
+
+  await update_rate_config(
+    {OpenIdCertificateRequests: null},
+    {
+      max_tokens: 300, // allow up to 300 requests
+      time_per_token_ns: 200_000_000n // 0.2s per token -> 300/min
+    }
+  );
+
+  console.log('Rate config applied! ✅');
 };
 
 const startOpenIdMonitoring = async ({context}: {context: CliContext}) => {
