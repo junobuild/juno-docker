@@ -7,6 +7,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 export const idlFactory = ({IDL}) => {
+  const InitOrbiterArgs = IDL.Record({
+    controllers: IDL.Vec(IDL.Principal)
+  });
   const DeleteControllersArgs = IDL.Record({
     controllers: IDL.Vec(IDL.Principal)
   });
@@ -324,5 +327,9 @@ export const idlFactory = ({IDL}) => {
 };
 
 export const init = ({IDL}) => {
-  return [];
+  const InitOrbiterArgs = IDL.Record({
+    controllers: IDL.Vec(IDL.Principal)
+  });
+
+  return [InitOrbiterArgs];
 };

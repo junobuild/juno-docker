@@ -111,6 +111,9 @@ export interface HttpResponse {
   upgrade: [] | [boolean];
   status_code: number;
 }
+export interface InitOrbiterArgs {
+  controllers: Array<Principal>;
+}
 export interface MemorySize {
   stable: bigint;
   heap: bigint;
