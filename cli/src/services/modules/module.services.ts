@@ -1,5 +1,5 @@
 import {isNullish, nonNullish} from '@dfinity/utils';
-import {ICManagementCanister, type canister_install_mode} from '@icp-sdk/canisters/ic-management';
+import {IcManagementCanister, type IcManagementDid} from '@icp-sdk/canisters/ic-management';
 import {IDL} from '@icp-sdk/core/candid';
 import {Principal} from '@icp-sdk/core/principal';
 import {upgradeModule} from '@junobuild/admin';
@@ -37,7 +37,7 @@ const createCanister = async ({
   agent,
   canisterId: canisterIdParam
 }: CliContext & Pick<ModuleDescription, 'canisterId'>): Promise<Principal> => {
-  const {provisionalCreateCanisterWithCycles} = ICManagementCanister.create({
+  const {provisionalCreateCanisterWithCycles} = IcManagementCanister.create({
     agent
   });
 
@@ -60,7 +60,7 @@ const installCode = async ({
   Omit<ModuleMetadata, 'status'> & {
     arg?: Uint8Array;
     wasm: Buffer;
-    mode: canister_install_mode;
+    mode: IcManagementDid.canister_install_mode;
   }) => {
   await upgradeModule({
     actor: {

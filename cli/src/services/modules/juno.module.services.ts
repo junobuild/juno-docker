@@ -1,5 +1,5 @@
 import {isNullish} from '@dfinity/utils';
-import {ICManagementCanister} from '@icp-sdk/canisters/ic-management';
+import {IcManagementCanister} from '@icp-sdk/canisters/ic-management';
 import {Principal} from '@icp-sdk/core/principal';
 import type {ControllerScope} from '../../declarations/console';
 import type {CliContext} from '../../types/context';
@@ -37,7 +37,7 @@ export class JunoModule extends Module {
 
     const updateControllers = async () => {
       // Set the controller to the canister.
-      const {updateSettings, canisterStatus} = ICManagementCanister.create({
+      const {updateSettings, canisterStatus} = IcManagementCanister.create({
         agent
       });
 

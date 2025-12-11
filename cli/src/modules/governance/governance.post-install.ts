@@ -1,4 +1,4 @@
-import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@icp-sdk/canisters/nns';
+import {NnsFunction, NnsGovernanceCanister, type MakeProposalRequest} from '@icp-sdk/canisters/nns';
 import {IDL} from '@icp-sdk/core/candid';
 import {createAgent} from '../../api/agent.api';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
@@ -16,7 +16,7 @@ export const makeIcpXdrProposal = async ({
     port
   });
 
-  const {makeProposal} = GovernanceCanister.create({
+  const {makeProposal} = NnsGovernanceCanister.create({
     agent
   });
 
