@@ -1,5 +1,5 @@
 import {hexStringToUint8Array} from '@dfinity/utils';
-import {GovernanceCanister, NnsFunction, type MakeProposalRequest} from '@icp-sdk/canisters/nns';
+import {NnsFunction, NnsGovernanceCanister, type MakeProposalRequest} from '@icp-sdk/canisters/nns';
 import {IC_ROOT_KEY} from '@icp-sdk/core/agent';
 import {IDL} from '@icp-sdk/core/candid';
 import {Principal} from '@icp-sdk/core/principal';
@@ -19,7 +19,7 @@ export const makeAuthorizedSubnetworksProposal = async ({
     port
   });
 
-  const {makeProposal} = GovernanceCanister.create({
+  const {makeProposal} = NnsGovernanceCanister.create({
     agent
   });
 
