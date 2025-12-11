@@ -1,5 +1,5 @@
 import {fromNullable, isNullish, nonNullish, uint8ArrayToHexString} from '@dfinity/utils';
-import {ICManagementCanister} from '@icp-sdk/canisters/ic-management';
+import {IcManagementCanister} from '@icp-sdk/canisters/ic-management';
 import {Principal} from '@icp-sdk/core/principal';
 import {
   junoConfigExist as junoConfigExistTools,
@@ -71,7 +71,7 @@ class SatelliteDynamicModule extends SatelliteModule {
   }: SatelliteDynamicModuleRegisterParams): Promise<string | undefined> {
     const {agent} = context;
 
-    const {canisterStatus} = ICManagementCanister.create({
+    const {canisterStatus} = IcManagementCanister.create({
       agent
     });
 

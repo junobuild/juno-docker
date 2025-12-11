@@ -1,6 +1,6 @@
 import {isNullish} from '@dfinity/utils';
 import type {PrincipalText} from '@dfinity/zod-schemas';
-import {ICManagementCanister} from '@icp-sdk/canisters/ic-management';
+import {IcManagementCanister} from '@icp-sdk/canisters/ic-management';
 import {Principal} from '@icp-sdk/core/principal';
 import {
   listSatelliteControllers,
@@ -74,7 +74,7 @@ export const setSatelliteControllers = async ({
 
   // We do not have mission control in the satellite image, therefore we set the admin controllers ourselves.
   if (admin.length > 0) {
-    const {updateSettings} = ICManagementCanister.create({
+    const {updateSettings} = IcManagementCanister.create({
       agent
     });
 
