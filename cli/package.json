@@ -26,10 +26,10 @@
     "lint": "eslint --max-warnings 0 'src/**/*.ts'"
   },
   "dependencies": {
-    "@icp-sdk/canisters": "^2.0.1",
+    "@icp-sdk/canisters": "^3.0.0",
     "@icp-sdk/core": "^4.2.3",
-    "@junobuild/admin": "^3.0.4",
-    "@junobuild/cdn": "^2.0.4",
+    "@junobuild/admin": "^3.1.0",
+    "@junobuild/cdn": "^2.1.0",
     "@junobuild/cli-tools": "^0.9.4",
     "@junobuild/config": "^2.7.0",
     "@junobuild/config-loader": "^0.4.6",
