@@ -1,11 +1,11 @@
 {
   "internet_identity": {
-    "commit": "ab74704d8ffdc9f193e17585105f029497ed4cfe",
+    "commit": "3611a9e31c57edf1ed1caec89d63ba162fc064fc",
     "repo": "https://github.com/dfinity/internet-identity",
-    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2025-05-03/internet_identity_dev.wasm.gz",
+    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2025-11-28/internet_identity_dev.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/dfinity/internet-identity/releases/download/release-2025-05-03/internet_identity.did"
+        "url": "https://github.com/dfinity/internet-identity/releases/download/release-2025-11-28/internet_identity.did"
       }
     ]
   },
@@ -63,7 +63,7 @@
     ]
   },
   "icp_ledger": {
-    "commit": "195808c9119e1fd3685a82480c258596e0374009",
+    "commit": "69b755062f5ef0a7d6efc9a127172b46121420c8",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ledger-canister.wasm.gz",
     "candid": [
@@ -74,7 +74,7 @@
     ]
   },
   "icp_index": {
-    "commit": "195808c9119e1fd3685a82480c258596e0374009",
+    "commit": "3ae3649a2366aaca83404b692fc58e4c6e604a25",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/ic-icp-index-canister.wasm.gz",
     "candid": [
@@ -85,7 +85,7 @@
     ]
   },
   "cmc": {
-    "commit": "0e4c8234a9e0508ae30c5b8a7498406294c25e95",
+    "commit": "1bc0a59539613f6ec273a59a172ae43dfabb1ce0",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/cycles-minting-canister.wasm.gz",
     "candid": [
@@ -95,7 +95,7 @@
     ]
   },
   "governance": {
-    "commit": "3afec59ddf883e80a4987fa9129d62ad156548a2",
+    "commit": "724ae4101bfdd8d4443126a6a8b1ec5ca9b68a12",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/governance-canister.wasm.gz",
     "candid": [
