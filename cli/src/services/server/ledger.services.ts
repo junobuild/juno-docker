@@ -1,6 +1,6 @@
-import {nonNullish} from '@dfinity/utils';
+import {nonNullish, toNullable} from '@dfinity/utils';
+import {decodeIcrcAccount} from '@icp-sdk/canisters/ledger/icrc';
 import {AnonymousIdentity} from '@icp-sdk/core/agent';
-import {Principal} from '@icp-sdk/core/principal';
 import {createAgent} from '../../api/agent.api';
 import {ICP_LEDGER_CANISTER_ID} from '../../modules/icp-ledger';
 import type {CliContext} from '../../types/context';
@@ -29,9 +29,11 @@ export const transfer = async ({
   const to = searchParams.get('to') ?? '';
   const amount = searchParams.get('amount');
 
+  const {owner, subaccount} = decodeIcrcAccount(to);
+
   await icrc1_transfer({
     amount: nonNullish(amount) ? BigInt(amount) : 5_500_010_000n,
-    to: {owner: Principal.fromText(to), subaccount: []},
+    to: {owner, subaccount: toNullable(subaccount)},
     fee: [],
     memo: [],
     from_subaccount: [],
