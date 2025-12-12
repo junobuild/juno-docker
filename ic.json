@@ -1,7 +1,7 @@
 {
   "pocket-ic": {
-    "commit": "10458c51c2aa9db6623959a0141982764187997f",
-    "version": "10.0.0",
+    "commit": "c18ce956b5601c6fad7fc3df48a40dacaeec3547",
+    "version": "11.0.0",
     "artifacts": {
       "linux/amd64": "https://github.com/dfinity/pocketic/releases/download/{version}/pocket-ic-x86_64-linux.gz",
       "linux/arm64": "https://github.com/dfinity/pocketic/releases/download/{version}/pocket-ic-arm64-linux.gz"
