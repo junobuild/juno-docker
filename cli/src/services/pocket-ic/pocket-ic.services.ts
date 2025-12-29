@@ -147,7 +147,12 @@ const loadEmulatorConfig = async (): Promise<EmulatorConfigWithNetwork> => {
   };
 
   const defaultServices =
-    'satellite' in emulatorConfig ? DEFAULT_SATELLITE_NETWORK_SERVICES : DEFAULT_NETWORK_SERVICES;
+    'satellite' in emulatorConfig
+      ? DEFAULT_SATELLITE_NETWORK_SERVICES
+      : {
+          ...DEFAULT_NETWORK_SERVICES,
+          cycles: true
+        };
 
   const network: Network = {
     ...(config.emulator?.network ?? {}),

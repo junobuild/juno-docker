@@ -9,8 +9,6 @@ import type {IDL} from '@icp-sdk/core/candid';
 import type {Principal} from '@icp-sdk/core/principal';
 import type {_SERVICE as ConsoleActor} from '../declarations/console';
 import {idlFactory as idlFactorConsole} from '../declarations/console.idl';
-import type {_SERVICE as IcpLedgerActor} from '../declarations/icp_ledger';
-import {idlFactory as idlFactorIcpLedger} from '../declarations/icp_ledger.idl';
 import type {_SERVICE as ObservatoryActor} from '../declarations/observatory';
 import {idlFactory as idlFactorObservatory} from '../declarations/observatory.idl';
 
@@ -30,15 +28,6 @@ export const getObservatoryActor = async (params: {
   await createActor({
     ...params,
     idlFactory: idlFactorObservatory
-  });
-
-export const getLedgerActor = async (params: {
-  agent: HttpAgent;
-  canisterId: string | Principal;
-}): Promise<IcpLedgerActor> =>
-  await createActor({
-    ...params,
-    idlFactory: idlFactorIcpLedger
   });
 
 const createActor = async <T = Record<string, ActorMethod>>({
