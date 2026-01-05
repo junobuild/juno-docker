@@ -13,11 +13,23 @@ export const toggleOpenIdMonitoring = async ({
 
   switch (action) {
     case 'start': {
+      const alreadyEnabled = await isOpenIdMonitoringEnabled({context});
+
+      if (alreadyEnabled) {
+        return;
+      }
+
       await updateRateConfig({context});
       await startOpenIdMonitoring({context});
       return;
     }
     case 'stop': {
+      const alreadyDisabled = await isOpenIdMonitoringDisabled({context});
+
+      if (alreadyDisabled) {
+        return;
+      }
+
       await stopOpenIdMonitoring({context});
       return;
     }
@@ -43,6 +55,21 @@ const updateRateConfig = async ({context}: {context: CliContext}) => {
   );
 
   console.log('Rate config applied! ✅');
+};
+
+const isOpenIdMonitoringEnabled = async ({context}: {context: CliContext}): Promise<boolean> => {
+  const {agent} = context;
+
+  const {is_openid_monitoring_enabled} = await getObservatoryActor({
+    agent,
+    canisterId: OBSERVATORY_CANISTER_ID
+  });
+
+  return await is_openid_monitoring_enabled();
+};
+
+const isOpenIdMonitoringDisabled = async (params: {context: CliContext}): Promise<boolean> => {
+  return !(await isOpenIdMonitoringEnabled(params));
 };
 
 const startOpenIdMonitoring = async ({context}: {context: CliContext}) => {
