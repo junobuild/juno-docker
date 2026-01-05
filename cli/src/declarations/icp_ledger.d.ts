@@ -36,6 +36,15 @@ export interface AllowanceArgs {
   account: Account;
   spender: Account;
 }
+/**
+ * The allowances returned by the `get_allowances` endpoint.
+ */
+export type Allowances = Array<{
+  from_account_id: TextAccountIdentifier;
+  to_spender_id: TextAccountIdentifier;
+  allowance: Tokens;
+  expires_at: [] | [bigint];
+}>;
 export interface ApproveArgs {
   fee: [] | [Icrc1Tokens];
   memo: [] | [Uint8Array];
@@ -133,6 +142,21 @@ export interface Duration {
 export interface FeatureFlags {
   icrc2: boolean;
 }
+export interface FieldsDisplay {
+  fields: Array<[string, Icrc21Value]>;
+  intent: string;
+}
+/**
+ * The arguments for the `get_allowances` endpoint.
+ * The `prev_spender_id` argument can be used for pagination. If specified
+ * the endpoint returns allowances that are lexicographically greater than
+ * (`from_account_id`, `prev_spender_id`) - start with spender after `prev_spender_id`.
+ */
+export interface GetAllowancesArgs {
+  prev_spender_id: [] | [TextAccountIdentifier];
+  from_account_id: TextAccountIdentifier;
+  take: [] | [bigint];
+}
 export interface GetBlocksArgs {
   /**
    * The index of the first block to fetch.
@@ -161,6 +185,17 @@ export type Icrc1TransferError =
   | {TooOld: null}
   | {InsufficientFunds: {balance: Icrc1Tokens}};
 export type Icrc1TransferResult = {Ok: Icrc1BlockIndex} | {Err: Icrc1TransferError};
+export type Icrc21Value =
+  | {Text: {content: string}}
+  | {
+      TokenAmount: {
+        decimals: number;
+        amount: bigint;
+        symbol: string;
+      };
+    }
+  | {TimestampSeconds: {amount: bigint}}
+  | {DurationSeconds: {amount: bigint}};
 export interface InitArgs {
   send_whitelist: Array<Principal>;
   token_symbol: [] | [string];
@@ -301,6 +336,11 @@ export interface QueryEncodedBlocksResponse {
   first_block_index: bigint;
   archived_blocks: Array<ArchivedEncodedBlocksRange>;
 }
+export interface RemoveApprovalArgs {
+  fee: [] | [Icrc1Tokens];
+  from_subaccount: [] | [SubAccount];
+  spender: AccountIdentifier;
+}
 /**
  * Arguments for the `send_dfx` call.
  */
@@ -327,6 +367,10 @@ export type TextAccountIdentifier = string;
  */
 export interface TimeStamp {
   timestamp_nanos: bigint;
+}
+export interface TipOfChainRes {
+  certification: [] | [Uint8Array];
+  tip_index: BlockIndex;
 }
 /**
  * Amount of tokens, measured in 10^-8 of a token.
@@ -463,7 +507,7 @@ export interface icrc21_consent_info {
 }
 export type icrc21_consent_message =
   | {
-      LineDisplayMessage: {pages: Array<{lines: Array<string>}>};
+      FieldsDisplayMessage: FieldsDisplay;
     }
   | {GenericDisplayMessage: string};
 export interface icrc21_consent_message_metadata {
@@ -478,17 +522,7 @@ export interface icrc21_consent_message_request {
 export type icrc21_consent_message_response = {Ok: icrc21_consent_info} | {Err: icrc21_error};
 export interface icrc21_consent_message_spec {
   metadata: icrc21_consent_message_metadata;
-  device_spec:
-    | []
-    | [
-        | {GenericDisplay: null}
-        | {
-            LineDisplay: {
-              characters_per_line: number;
-              lines_per_page: number;
-            };
-          }
-      ];
+  device_spec: [] | [{GenericDisplay: null} | {FieldsDisplay: null}];
 }
 export type icrc21_error =
   | {
@@ -521,6 +555,7 @@ export interface _SERVICE {
    * Returns token decimals.
    */
   decimals: ActorMethod<[], {decimals: number}>;
+  get_allowances: ActorMethod<[GetAllowancesArgs], Allowances>;
   icrc10_supported_standards: ActorMethod<[], Array<{url: string; name: string}>>;
   icrc1_balance_of: ActorMethod<[Account], Icrc1Tokens>;
   icrc1_decimals: ActorMethod<[], number>;
@@ -556,11 +591,13 @@ export interface _SERVICE {
    * Queries encoded blocks in the specified range
    */
   query_encoded_blocks: ActorMethod<[GetBlocksArgs], QueryEncodedBlocksResponse>;
+  remove_approval: ActorMethod<[RemoveApprovalArgs], ApproveResult>;
   send_dfx: ActorMethod<[SendArgs], BlockIndex>;
   /**
    * Returns token symbol.
    */
   symbol: ActorMethod<[], {symbol: string}>;
+  tip_of_chain: ActorMethod<[], TipOfChainRes>;
   /**
    * Transfers tokens from a subaccount of the caller to the destination address.
    * The source address is computed from the principal of the caller and the specified subaccount.

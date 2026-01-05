@@ -15,9 +15,11 @@ export type BlockIndex = bigint;
 export interface CanisterSettings {
   freezing_threshold: [] | [bigint];
   wasm_memory_threshold: [] | [bigint];
+  environment_variables: [] | [Array<environment_variable>];
   controllers: [] | [Array<Principal>];
   reserved_cycles_limit: [] | [bigint];
   log_visibility: [] | [log_visibility];
+  log_memory_limit: [] | [bigint];
   wasm_memory_limit: [] | [bigint];
   memory_allocation: [] | [bigint];
   compute_allocation: [] | [bigint];
@@ -272,7 +274,14 @@ export type SubnetSelection =
 export interface SubnetTypesToSubnetsResponse {
   data: Array<[string, Array<Principal>]>;
 }
-export type log_visibility = {controllers: null} | {public: null};
+export interface environment_variable {
+  value: string;
+  name: string;
+}
+export type log_visibility =
+  | {controllers: null}
+  | {public: null}
+  | {allowed_viewers: Array<Principal>};
 export interface _SERVICE {
   /**
    * Creates a canister using the cycles attached to the function call.

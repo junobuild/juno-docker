@@ -19,9 +19,11 @@ export interface AccountIdentifier {
 }
 export type Action =
   | {RegisterKnownNeuron: KnownNeuron}
-  | {ManageNeuron: ManageNeuron}
+  | {FulfillSubnetRentalRequest: FulfillSubnetRentalRequest}
+  | {ManageNeuron: ManageNeuronProposal}
   | {UpdateCanisterSettings: UpdateCanisterSettings}
   | {InstallCode: InstallCode}
+  | {DeregisterKnownNeuron: DeregisterKnownNeuron}
   | {StopOrStartCanister: StopOrStartCanister}
   | {CreateServiceNervousSystem: CreateServiceNervousSystem}
   | {ExecuteNnsFunction: ExecuteNnsFunction}
@@ -100,24 +102,6 @@ export interface ClaimOrRefreshNeuronFromAccountResponse {
 export interface ClaimOrRefreshResponse {
   refreshed_neuron_id: [] | [NeuronId];
 }
-/**
- * KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
- */
-export type Command =
-  | {Spawn: Spawn}
-  | {Split: Split}
-  | {Follow: Follow}
-  | {DisburseMaturity: DisburseMaturity}
-  | {RefreshVotingPower: RefreshVotingPower}
-  | {ClaimOrRefresh: ClaimOrRefresh}
-  | {Configure: Configure}
-  | {RegisterVote: RegisterVote}
-  | {Merge: Merge}
-  | {DisburseToNeuron: DisburseToNeuron}
-  | {MakeProposal: Proposal}
-  | {StakeMaturity: StakeMaturity}
-  | {MergeMaturity: MergeMaturity}
-  | {Disburse: Disburse};
 export type Command_1 =
   | {Error: GovernanceError}
   | {Spawn: SpawnResponse}
@@ -130,6 +114,7 @@ export type Command_1 =
   | {RegisterVote: {}}
   | {Merge: MergeResponse}
   | {DisburseToNeuron: SpawnResponse}
+  | {SetFollowing: SetFollowingResponse}
   | {MakeProposal: MakeProposalResponse}
   | {StakeMaturity: StakeMaturityResponse}
   | {MergeMaturity: MergeMaturityResponse}
@@ -179,8 +164,16 @@ export interface DateRangeFilter {
   start_timestamp_seconds: [] | [bigint];
   end_timestamp_seconds: [] | [bigint];
 }
+export interface DateUtc {
+  day: number;
+  month: number;
+  year: number;
+}
 export interface Decimal {
   human_readable: [] | [string];
+}
+export interface DeregisterKnownNeuron {
+  id: [] | [NeuronId];
 }
 export interface DerivedProposalInformation {
   swap_background_information: [] | [SwapBackgroundInformation];
@@ -193,6 +186,7 @@ export interface Disburse {
   amount: [] | [Amount];
 }
 export interface DisburseMaturity {
+  to_account_identifier: [] | [AccountIdentifier];
   to_account: [] | [Account];
   percentage_to_disburse: number;
 }
@@ -226,24 +220,66 @@ export interface Follow {
 export interface Followees {
   followees: Array<NeuronId>;
 }
-export interface Followers {
-  followers: Array<NeuronId>;
+export interface FolloweesForTopic {
+  topic: [] | [number];
+  followees: [] | [Array<NeuronId>];
 }
-export interface FollowersMap {
-  followers_map: Array<[bigint, Followers]>;
+/**
+ * Creates a rented subnet from a rental request (in the Subnet Rental
+ * canister).
+ */
+export interface FulfillSubnetRentalRequest {
+  /**
+   * Identifies which rental request to fulfill.
+   *
+   * (Identifying the rental request by user works, because a user can have at
+   * most one rental request in the Subnet Rental canister).
+   */
+  user: [] | [Principal];
+  /**
+   * What software the nodes will run.
+   *
+   * This must be approved by a prior proposal to bless an IC OS version.
+   *
+   * This is a FULL git commit ID in the ic repo. (Therefore, it must be a 40
+   * character hexidecimal string, not an abbreviated git commit ID.)
+   *
+   * One way to find a suitable value is with the following command:
+   *
+   * ic-admin \
+   * get-subnet 0 \
+   * --nns-urls https://nns.ic0.app \
+   * | grep replica_version_id
+   *
+   * Where to obtain a recent version of ic-admin:
+   *
+   * https://github.com/dfinity/ic/releases/latest
+   */
+  replica_version_id: [] | [string];
+  /**
+   * Which nodes will be members of the subnet.
+   */
+  node_ids: [] | [Array<Principal>];
 }
+export interface GetNeuronIndexRequest {
+  page_size: [] | [number];
+  exclusive_start_neuron_id: [] | [NeuronId];
+}
+export type GetNeuronIndexResult = {Ok: NeuronIndexData} | {Err: GovernanceError};
 export interface GetNeuronsFundAuditInfoRequest {
   nns_proposal_id: [] | [ProposalId];
 }
 export interface GetNeuronsFundAuditInfoResponse {
   result: [] | [Result_6];
 }
+export interface GetPendingProposalsRequest {
+  return_self_describing_action: [] | [boolean];
+}
 export interface GlobalTimeOfDay {
   seconds_after_utc_midnight: [] | [bigint];
 }
 export interface Governance {
   default_followees: Array<[number, Followees]>;
-  making_sns_proposal: [] | [MakingSnsProposal];
   most_recent_monthly_node_provider_rewards: [] | [MonthlyNodeProviderRewards];
   maturity_modulation_last_updated_at_timestamp_seconds: [] | [bigint];
   wait_for_quiet_threshold_seconds: bigint;
@@ -257,7 +293,6 @@ export interface Governance {
   latest_reward_event: [] | [RewardEvent];
   to_claim_transfers: Array<NeuronStakeTransfer>;
   short_voting_period_seconds: bigint;
-  topic_followee_index: Array<[number, FollowersMap]>;
   proposals: Array<[bigint, ProposalData]>;
   xdr_conversion_rate: [] | [XdrConversionRate];
   in_flight_commands: Array<[bigint, NeuronInFlightCommand]>;
@@ -287,6 +322,7 @@ export interface GovernanceCachedMetrics {
   total_voting_power_non_self_authenticating_controller: [] | [bigint];
   total_staked_maturity_e8s_equivalent: bigint;
   not_dissolving_neurons_e8s_buckets_ect: Array<[bigint, number]>;
+  spawning_neurons_count: bigint;
   declining_voting_power_neuron_subset_metrics: [] | [NeuronSubsetMetrics];
   total_staked_e8s_ect: bigint;
   not_dissolving_neurons_staked_maturity_e8s_equivalent_sum: bigint;
@@ -357,7 +393,14 @@ export interface KnownNeuron {
 }
 export interface KnownNeuronData {
   name: string;
+  /**
+   * The first `opt` makes it so that the field can be renamed/deprecated in the future, and
+   * the second `opt` makes it so that an older client not recognizing a new variant can still
+   * get the rest of the `vec`.
+   */
+  committed_topics: [] | [Array<[] | [TopicToFollow]>];
   description: [] | [string];
+  links: [] | [Array<string>];
 }
 export interface LedgerParameters {
   transaction_fee: [] | [Tokens];
@@ -368,6 +411,40 @@ export interface LedgerParameters {
 export interface ListKnownNeuronsResponse {
   known_neurons: Array<KnownNeuron>;
 }
+export interface ListNeuronVotesRequest {
+  /**
+   * Only fetch the voting history for proposal whose id `< before_proposal`. This can be used as a
+   * pagination token - pass the minimum proposal id as `before_proposal` for the next page.
+   */
+  before_proposal: [] | [ProposalId];
+  /**
+   * The maximum number of votes to fetch. The maximum number allowed is 500, and 500 will be used
+   * if is set as either null or > 500.
+   */
+  limit: [] | [bigint];
+  /**
+   * The neuron id for which the voting history will be returned. Currently, the voting history is
+   * only recorded for known neurons.
+   */
+  neuron_id: [] | [NeuronId];
+}
+export type ListNeuronVotesResponse =
+  | {
+      Ok: {
+        votes: [] | [Array<NeuronVote>];
+        /**
+         * All the proposals before this id is "finalized", which means if a proposal before this id
+         * does not exist in the votes, it will never appear in the voting history, either because the
+         * neuron is not eligible to vote on the proposal, or the neuron is not a known neuron at the
+         * time of the proposal creation. Therefore, if a client syncs the entire voting history of a
+         * certain neuron and store `all_finalized_before_proposal`, it doesn't need to start from
+         * scratch the next time - it can stop as soon as they have seen any votes
+         * `< all_finalized_before_proposal`.
+         */
+        all_finalized_before_proposal: [] | [ProposalId];
+      };
+    }
+  | {Err: GovernanceError};
 /**
  * Parameters of the list_neurons method.
  */
@@ -419,7 +496,8 @@ export interface ListNodeProviderRewardsResponse {
 export interface ListNodeProvidersResponse {
   node_providers: Array<NodeProvider>;
 }
-export interface ListProposalInfo {
+export interface ListProposalInfoRequest {
+  return_self_describing_action: [] | [boolean];
   include_reward_status: Int32Array;
   omit_large_fields: [] | [boolean];
   before_proposal: [] | [ProposalId];
@@ -441,20 +519,6 @@ export interface MakeProposalResponse {
   message: [] | [string];
   proposal_id: [] | [ProposalId];
 }
-export interface MakingSnsProposal {
-  proposal: [] | [Proposal];
-  caller: [] | [Principal];
-  proposer_id: [] | [NeuronId];
-}
-/**
- * Not to be confused with ManageNeuronRequest. (Yes, this is very structurally
- * similar to that, but not actually exactly equivalent.)
- */
-export interface ManageNeuron {
-  id: [] | [NeuronId];
-  command: [] | [Command];
-  neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
-}
 /**
  * KEEP THIS IN SYNC WITH COMMAND!
  */
@@ -469,7 +533,36 @@ export type ManageNeuronCommandRequest =
   | {RegisterVote: RegisterVote}
   | {Merge: Merge}
   | {DisburseToNeuron: DisburseToNeuron}
+  | {SetFollowing: SetFollowing}
   | {MakeProposal: MakeProposalRequest}
+  | {StakeMaturity: StakeMaturity}
+  | {MergeMaturity: MergeMaturity}
+  | {Disburse: Disburse};
+/**
+ * Not to be confused with ManageNeuronRequest. This is only used to represent a manage neuron proposal.
+ * (Yes, this is very structurally similar to that, but not actually exactly equivalent)
+ */
+export interface ManageNeuronProposal {
+  id: [] | [NeuronId];
+  command: [] | [ManageNeuronProposalCommand];
+  neuron_id_or_subaccount: [] | [NeuronIdOrSubaccount];
+}
+/**
+ * KEEP THIS IN SYNC WITH ManageNeuronCommandRequest!
+ */
+export type ManageNeuronProposalCommand =
+  | {Spawn: Spawn}
+  | {Split: Split}
+  | {Follow: Follow}
+  | {DisburseMaturity: DisburseMaturity}
+  | {RefreshVotingPower: RefreshVotingPower}
+  | {ClaimOrRefresh: ClaimOrRefresh}
+  | {Configure: Configure}
+  | {RegisterVote: RegisterVote}
+  | {Merge: Merge}
+  | {DisburseToNeuron: DisburseToNeuron}
+  | {SetFollowing: SetFollowing}
+  | {MakeProposal: Proposal}
   | {StakeMaturity: StakeMaturity}
   | {MergeMaturity: MergeMaturity}
   | {Disburse: Disburse};
@@ -500,6 +593,13 @@ export interface ManageNeuronResponse {
    */
   command: [] | [Command_1];
 }
+export interface MaturityDisbursement {
+  account_identifier_to_disburse_to: [] | [AccountIdentifier];
+  timestamp_of_disbursement_seconds: [] | [bigint];
+  amount_e8s: [] | [bigint];
+  account_to_disburse_to: [] | [Account];
+  finalize_disbursement_timestamp_seconds: [] | [bigint];
+}
 export interface Merge {
   source_neuron_id: [] | [NeuronId];
 }
@@ -517,9 +617,12 @@ export interface MergeResponse {
   source_neuron_info: [] | [NeuronInfo];
 }
 export interface MonthlyNodeProviderRewards {
+  algorithm_version: [] | [number];
   minimum_xdr_permyriad_per_icp: [] | [bigint];
+  end_date: [] | [DateUtc];
   registry_version: [] | [bigint];
   node_providers: Array<NodeProvider>;
+  start_date: [] | [DateUtc];
   timestamp: bigint;
   rewards: Array<RewardNodeProvider>;
   xdr_conversion_rate: [] | [XdrConversionRate];
@@ -619,6 +722,11 @@ export interface Neuron {
   hot_keys: Array<Principal>;
   account: Uint8Array;
   joined_community_fund_timestamp_seconds: [] | [bigint];
+  /**
+   * The maturity disbursements in progress, i.e. the disbursements that are initiated but not
+   * finalized. The finalization happens 7 days after the disbursement is initiated.
+   */
+  maturity_disbursements_in_progress: [] | [Array<MaturityDisbursement>];
   dissolve_state: [] | [DissolveState];
   followees: Array<[number, Followees]>;
   neuron_fees_e8s: bigint;
@@ -650,6 +758,9 @@ export interface NeuronInFlightCommand {
   command: [] | [Command_2];
   timestamp: bigint;
 }
+export interface NeuronIndexData {
+  neurons: Array<NeuronInfo>;
+}
 /**
  * A limit view of Neuron that allows some aspects of all neurons to be read by
  * anyone (i.e. without having to be the neuron's controller nor one of its
@@ -659,6 +770,7 @@ export interface NeuronInFlightCommand {
  * one of the same (or at least similar) name in Neuron.
  */
 export interface NeuronInfo {
+  id: [] | [NeuronId];
   dissolve_delay_seconds: bigint;
   recent_ballots: Array<BallotInfo>;
   voting_power_refreshed_timestamp_seconds: [] | [bigint];
@@ -718,6 +830,13 @@ export interface NeuronSubsetMetrics {
   total_voting_power: [] | [bigint];
   potential_voting_power_buckets: Array<[bigint, bigint]>;
   count_buckets: Array<[bigint, bigint]>;
+}
+export interface NeuronVote {
+  /**
+   * The vote of the neuron on the specific proposal id.
+   */
+  vote: [] | [Vote];
+  proposal_id: [] | [ProposalId];
 }
 export interface NeuronsFundAuditInfo {
   final_neurons_fund_participation: [] | [NeuronsFundParticipation];
@@ -820,12 +939,15 @@ export interface Proposal {
   title: [] | [string];
   action: [] | [Action];
   summary: string;
+  self_describing_action: [] | [SelfDescribingProposalAction];
 }
 export type ProposalActionRequest =
   | {RegisterKnownNeuron: KnownNeuron}
+  | {FulfillSubnetRentalRequest: FulfillSubnetRentalRequest}
   | {ManageNeuron: ManageNeuronRequest}
   | {UpdateCanisterSettings: UpdateCanisterSettings}
   | {InstallCode: InstallCodeRequest}
+  | {DeregisterKnownNeuron: DeregisterKnownNeuron}
   | {StopOrStartCanister: StopOrStartCanister}
   | {CreateServiceNervousSystem: CreateServiceNervousSystem}
   | {ExecuteNnsFunction: ExecuteNnsFunction}
@@ -837,6 +959,7 @@ export type ProposalActionRequest =
   | {Motion: Motion};
 export interface ProposalData {
   id: [] | [ProposalId];
+  topic: [] | [number];
   failure_reason: [] | [GovernanceError];
   ballots: Array<[bigint, Ballot]>;
   proposal_timestamp_seconds: bigint;
@@ -938,12 +1061,28 @@ export interface RewardToAccount {
 export interface RewardToNeuron {
   dissolve_delay_seconds: bigint;
 }
+export interface SelfDescribingProposalAction {
+  type_description: [] | [string];
+  type_name: [] | [string];
+  value: [] | [SelfDescribingValue];
+}
+export type SelfDescribingValue =
+  | {Int: bigint}
+  | {Map: Array<[string, SelfDescribingValue]>}
+  | {Nat: bigint}
+  | {Blob: Uint8Array}
+  | {Text: string}
+  | {Array: Array<SelfDescribingValue>};
 export interface SetDefaultFollowees {
   default_followees: Array<[number, Followees]>;
 }
 export interface SetDissolveTimestamp {
   dissolve_timestamp_seconds: bigint;
 }
+export interface SetFollowing {
+  topic_following: [] | [Array<FolloweesForTopic>];
+}
+export type SetFollowingResponse = {};
 export interface SetOpenTimeWindowRequest {
   open_time_window: [] | [TimeWindow];
 }
@@ -974,6 +1113,7 @@ export interface SpawnResponse {
   created_neuron_id: [] | [NeuronId];
 }
 export interface Split {
+  memo: [] | [bigint];
   amount_e8s: bigint;
 }
 export interface StakeMaturity {
@@ -1035,6 +1175,31 @@ export interface TimeWindow {
 export interface Tokens {
   e8s: [] | [bigint];
 }
+/**
+ * A topic that can be followed. It is almost the same as the topic on the
+ * proposal, except that the `CatchAll` is a special value and following on this
+ * `topic` will let the neuron follow the votes on all topics except for
+ * Governance and SnsAndCommunityFund.
+ */
+export type TopicToFollow =
+  | {Kyc: null}
+  | {ServiceNervousSystemManagement: null}
+  | {ApiBoundaryNodeManagement: null}
+  | {ApplicationCanisterManagement: null}
+  | {SubnetRental: null}
+  | {NeuronManagement: null}
+  | {NodeProviderRewards: null}
+  | {SubnetManagement: null}
+  | {ExchangeRate: null}
+  | {CatchAll: null}
+  | {NodeAdmin: null}
+  | {IcOsVersionElection: null}
+  | {ProtocolCanisterManagement: null}
+  | {NetworkEconomics: null}
+  | {IcOsVersionDeployment: null}
+  | {ParticipantManagement: null}
+  | {Governance: null}
+  | {SnsAndCommunityFund: null};
 export interface UpdateCanisterSettings {
   canister_id: [] | [Principal];
   settings: [] | [CanisterSettings];
@@ -1042,6 +1207,15 @@ export interface UpdateCanisterSettings {
 export interface UpdateNodeProvider {
   reward_account: [] | [AccountIdentifier];
 }
+export type Vote =
+  | {No: null}
+  | {Yes: null}
+  | {
+      /**
+       * Abstentions are recorded as Unspecified.
+       */
+      Unspecified: null;
+    };
 /**
  * Parameters that affect the voting power of neurons.
  */
@@ -1106,6 +1280,7 @@ export interface _SERVICE {
   get_most_recent_monthly_node_provider_rewards: ActorMethod<[], [] | [MonthlyNodeProviderRewards]>;
   get_network_economics_parameters: ActorMethod<[], NetworkEconomics>;
   get_neuron_ids: ActorMethod<[], BigUint64Array>;
+  get_neuron_index: ActorMethod<[GetNeuronIndexRequest], GetNeuronIndexResult>;
   get_neuron_info: ActorMethod<[bigint], Result_5>;
   get_neuron_info_by_id_or_subaccount: ActorMethod<[NeuronIdOrSubaccount], Result_5>;
   get_neurons_fund_audit_info: ActorMethod<
@@ -1113,17 +1288,18 @@ export interface _SERVICE {
     GetNeuronsFundAuditInfoResponse
   >;
   get_node_provider_by_caller: ActorMethod<[null], Result_7>;
-  get_pending_proposals: ActorMethod<[], Array<ProposalInfo>>;
+  get_pending_proposals: ActorMethod<[[] | [GetPendingProposalsRequest]], Array<ProposalInfo>>;
   get_proposal_info: ActorMethod<[bigint], [] | [ProposalInfo]>;
   get_restore_aging_summary: ActorMethod<[], RestoreAgingSummary>;
   list_known_neurons: ActorMethod<[], ListKnownNeuronsResponse>;
+  list_neuron_votes: ActorMethod<[ListNeuronVotesRequest], ListNeuronVotesResponse>;
   list_neurons: ActorMethod<[ListNeurons], ListNeuronsResponse>;
   list_node_provider_rewards: ActorMethod<
     [ListNodeProviderRewardsRequest],
     ListNodeProviderRewardsResponse
   >;
   list_node_providers: ActorMethod<[], ListNodeProvidersResponse>;
-  list_proposals: ActorMethod<[ListProposalInfo], ListProposalInfoResponse>;
+  list_proposals: ActorMethod<[ListProposalInfoRequest], ListProposalInfoResponse>;
   manage_neuron: ActorMethod<[ManageNeuronRequest], ManageNeuronResponse>;
   settle_community_fund_participation: ActorMethod<[SettleCommunityFundParticipation], Result>;
   settle_neurons_fund_participation: ActorMethod<
