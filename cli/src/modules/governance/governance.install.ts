@@ -76,7 +76,6 @@ export const prepareGovernanceArgs = ({
 
   const gov: Governance = {
     default_followees: [],
-    making_sns_proposal: [],
     most_recent_monthly_node_provider_rewards: [],
     maturity_modulation_last_updated_at_timestamp_seconds: [],
     wait_for_quiet_threshold_seconds: BigInt(60 * 60 * 24 * 4), // 4 days
@@ -90,7 +89,6 @@ export const prepareGovernanceArgs = ({
     latest_reward_event: [],
     to_claim_transfers: [],
     short_voting_period_seconds: BigInt(60 * 60 * 12), // 12 hours
-    topic_followee_index: [],
     proposals: [],
     xdr_conversion_rate: [xdr],
     in_flight_commands: [],
@@ -136,7 +134,8 @@ const prepareNeuron = ({identity}: {identity: Identity}): Neuron => {
     spawn_at_timestamp_seconds: [],
     voting_power_refreshed_timestamp_seconds: [],
     potential_voting_power: [],
-    deciding_voting_power: []
+    deciding_voting_power: [],
+    maturity_disbursements_in_progress: []
   };
 
   return neuron;
