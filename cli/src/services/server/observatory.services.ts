@@ -68,7 +68,8 @@ const isOpenIdMonitoringEnabled = async ({context}: {context: CliContext}): Prom
   return await is_openid_monitoring_enabled();
 };
 
-const isOpenIdMonitoringDisabled = async (params: {context: CliContext}): Promise<boolean> => !(await isOpenIdMonitoringEnabled(params));
+const isOpenIdMonitoringDisabled = async (params: {context: CliContext}): Promise<boolean> =>
+  !(await isOpenIdMonitoringEnabled(params));
 
 const startOpenIdMonitoring = async ({context}: {context: CliContext}) => {
   const {agent} = context;
