@@ -6,6 +6,7 @@ type Account = record {
   owner : principal;
   created_at : nat64;
 };
+type Account_1 = record { owner : principal; subaccount : opt blob };
 type AssertMissionControlCenterArgs = record {
   mission_control_id : principal;
   user : principal;
@@ -77,15 +78,18 @@ type Controller = record {
   expires_at : opt nat64;
 };
 type ControllerScope = variant { Write; Admin; Submit };
-type CreateCanisterArgs = record {
+type CreateMissionControlArgs = record { subnet_id : opt principal };
+type CreateOrbiterArgs = record {
   block_index : opt nat64;
   subnet_id : opt principal;
+  name : opt text;
   user : principal;
 };
 type CreateSatelliteArgs = record {
   block_index : opt nat64;
   subnet_id : opt principal;
   storage : opt InitStorageArgs;
+  name : opt text;
   user : principal;
 };
 type CustomDomain = record {
@@ -94,6 +98,7 @@ type CustomDomain = record {
   version : opt nat64;
   bn_id : opt text;
 };
+type CyclesTokens = record { e12s : nat64 };
 type Delegation = record {
   pubkey : blob;
   targets : opt vec principal;
@@ -101,6 +106,12 @@ type Delegation = record {
 };
 type DeleteControllersArgs = record { controllers : vec principal };
 type DeleteProposalAssets = record { proposal_ids : vec nat };
+type FactoryFee = record {
+  updated_at : nat64;
+  fee_cycles : CyclesTokens;
+  fee_icp : opt Tokens;
+};
+type FeesArgs = record { fee_cycles : CyclesTokens; fee_icp : opt Tokens };
 type GetCreateCanisterFeeArgs = record { user : principal };
 type GetDelegationArgs = variant { OpenId : OpenIdGetDelegationArgs };
 type GetDelegationError = variant {
@@ -135,6 +146,22 @@ type HttpResponse = record {
   streaming_strategy : opt StreamingStrategy;
   status_code : nat16;
 };
+type IcpPayment = record {
+  status : PaymentStatus;
+  updated_at : nat64;
+  block_index_payment : nat64;
+  mission_control_id : opt principal;
+  created_at : nat64;
+  block_index_refunded : opt nat64;
+};
+type IcrcPayment = record {
+  status : PaymentStatus;
+  updated_at : nat64;
+  created_at : nat64;
+  block_index_refunded : opt nat64;
+  purchaser : Account_1;
+};
+type IcrcPaymentKey = record { block_index : nat64; ledger_id : principal };
 type InitAssetKey = record {
   token : opt text;
   collection : text;
@@ -191,6 +218,10 @@ type ListResults = record {
   items : vec record { text; AssetNoContent };
   items_length : nat64;
 };
+type ListSegmentsArgs = record {
+  segment_id : opt principal;
+  segment_type : opt SegmentType;
+};
 type Memory = variant { Heap; Stable };
 type OpenId = record { provider : OpenIdProvider; data : OpenIdData };
 type OpenIdData = record {
@@ -220,14 +251,6 @@ type OpenIdProviderConfig = record {
 type OpenIdProviderDelegationConfig = record {
   targets : opt vec principal;
   max_time_to_live : opt nat64;
-};
-type Payment = record {
-  status : PaymentStatus;
-  updated_at : nat64;
-  block_index_payment : nat64;
-  mission_control_id : opt principal;
-  created_at : nat64;
-  block_index_refunded : opt nat64;
 };
 type PaymentStatus = variant { Refunded; Acknowledged; Completed };
 type PrepareDelegationError = variant {
@@ -265,7 +288,19 @@ type Provider = variant { InternetIdentity; OpenId : OpenId };
 type RateConfig = record { max_tokens : nat64; time_per_token_ns : nat64 };
 type Result = variant { Ok : Authentication; Err : AuthenticationError };
 type Result_1 = variant { Ok : SignedDelegation; Err : GetDelegationError };
+type Segment = record {
+  updated_at : nat64;
+  metadata : vec record { text; text };
+  segment_id : principal;
+  created_at : nat64;
+};
+type SegmentKey = record {
+  user : principal;
+  segment_id : principal;
+  segment_type : SegmentType;
+};
 type SegmentKind = variant { Orbiter; MissionControl; Satellite };
+type SegmentType = variant { Orbiter; Satellite };
 type SegmentsDeploymentOptions = record {
   orbiter : opt text;
   mission_control_version : opt text;
@@ -285,6 +320,16 @@ type SetController = record {
 type SetControllersArgs = record {
   controller : SetController;
   controllers : vec principal;
+};
+type SetSegmentMetadataArgs = record {
+  metadata : vec record { text; text };
+  segment_id : principal;
+  segment_type : SegmentType;
+};
+type SetSegmentsArgs = record {
+  metadata : opt vec record { text; text };
+  segment_id : principal;
+  segment_type : SegmentType;
 };
 type SetStorageConfig = record {
   iframe : opt StorageConfigIFrame;
@@ -336,6 +381,10 @@ type TimestampMatcher = variant {
   LessThan : nat64;
 };
 type Tokens = record { e8s : nat64 };
+type UnsetSegmentsArgs = record {
+  segment_id : principal;
+  segment_type : SegmentType;
+};
 type UploadChunk = record {
   content : blob;
   batch_id : nat;
@@ -351,7 +400,8 @@ service : () -> {
   commit_proposal_asset_upload : (CommitBatch) -> ();
   commit_proposal_many_assets_upload : (vec CommitBatch) -> ();
   count_proposals : () -> (nat64) query;
-  create_orbiter : (CreateCanisterArgs) -> (principal);
+  create_mission_control : (CreateMissionControlArgs) -> (principal);
+  create_orbiter : (CreateOrbiterArgs) -> (principal);
   create_satellite : (CreateSatelliteArgs) -> (principal);
   del_controllers : (DeleteControllersArgs) -> ();
   del_custom_domain : (text) -> ();
@@ -363,6 +413,8 @@ service : () -> {
   get_create_satellite_fee : (GetCreateCanisterFeeArgs) -> (opt Tokens) query;
   get_credits : () -> (Tokens) query;
   get_delegation : (GetDelegationArgs) -> (Result_1) query;
+  get_fee : (SegmentKind) -> (FactoryFee) query;
+  get_or_init_account : () -> (Account);
   get_proposal : (nat) -> (opt Proposal) query;
   get_storage_config : () -> (StorageConfig) query;
   http_request : (HttpRequest) -> (HttpResponse) query;
@@ -374,20 +426,26 @@ service : () -> {
   init_proposal_many_assets_upload : (vec InitAssetKey, nat) -> (
       vec record { text; InitUploadResult },
     );
-  init_user_mission_control_center : () -> (Account);
   list_accounts : () -> (vec record { principal; Account }) query;
   list_assets : (text, ListParams) -> (ListResults) query;
   list_controllers : () -> (vec record { principal; Controller }) query;
   list_custom_domains : () -> (vec record { text; CustomDomain }) query;
-  list_payments : () -> (vec record { nat64; Payment }) query;
+  list_icp_payments : () -> (vec record { nat64; IcpPayment }) query;
+  list_icrc_payments : () -> (vec record { IcrcPaymentKey; IcrcPayment }) query;
   list_proposals : (ListProposalsParams) -> (ListProposalResults) query;
+  list_segments : (ListSegmentsArgs) -> (
+      vec record { SegmentKey; Segment },
+    ) query;
   reject_proposal : (CommitProposal) -> (null);
   set_auth_config : (SetAuthenticationConfig) -> (AuthenticationConfig);
   set_controllers : (SetControllersArgs) -> ();
   set_custom_domain : (text, opt text) -> ();
-  set_fee : (SegmentKind, Tokens) -> ();
+  set_fee : (SegmentKind, FeesArgs) -> ();
+  set_segment : (SetSegmentsArgs) -> (Segment);
+  set_segment_metadata : (SetSegmentMetadataArgs) -> (Segment);
   set_storage_config : (SetStorageConfig) -> (StorageConfig);
   submit_proposal : (nat) -> (nat, Proposal);
+  unset_segment : (UnsetSegmentsArgs) -> ();
   update_rate_config : (SegmentKind, RateConfig) -> ();
   upload_proposal_asset_chunk : (UploadChunk) -> (UploadChunkResult);
 }
