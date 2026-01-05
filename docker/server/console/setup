@@ -10,7 +10,7 @@ if [ "$CLI_BUILD" == "skylab" ]; then
 
   # .svelte-kit/tsconfig.json not found - npm run prepare is not run because ignore-scripts=true is defined
   # that's why we run a custom install script that do npm i && npm run prepare
-  npm --prefix "${JUNO_REPO}" bootstrap:install
+  npm --prefix "${JUNO_REPO}" run bootstrap:install
 
   # we use npm run preview to run the console that's why we need to build the application
   npm --prefix "${JUNO_REPO}" run build:skylab
