@@ -14,14 +14,14 @@ fi
 # curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/$COMMIT.tar.gz
 
 # Use a release tag
-TAG=v0.0.62
-SOURCE_FOLDER="juno-${TAG#v}"
-curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/tags/$TAG.tar.gz
+# TAG=v0.0.48
+# SOURCE_FOLDER="juno-${TAG#v}"
+# curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/tags/$TAG.tar.gz
 
 # Use main
-# BRANCH=main
-# SOURCE_FOLDER="juno-$BRANCH"
-# curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/heads/$BRANCH.tar.gz
+BRANCH=main
+SOURCE_FOLDER="juno-$BRANCH"
+curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/heads/$BRANCH.tar.gz
 
 # Use a custom branch
 # BRANCH="feat/rquickjs-patch-linx-arm"
@@ -31,6 +31,6 @@ curl -L -o "$DIR/juno.tar.gz" https://github.com/junobuild/juno/archive/refs/tag
 tar -xf "$DIR/juno.tar.gz" -C "$DIR"
 
 # Rename the extracted folder to juno-main if branch is not main
-mv "$DIR/$SOURCE_FOLDER" "$JUNO_MAIN_DIR"
+# mv "$DIR/$SOURCE_FOLDER" "$JUNO_MAIN_DIR"
 
 echo "juno source downloaded and extracted to $JUNO_MAIN_DIR."
