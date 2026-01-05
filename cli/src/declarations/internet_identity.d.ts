@@ -10,7 +10,12 @@ import type {ActorMethod} from '@icp-sdk/core/agent';
 import type {IDL} from '@icp-sdk/core/candid';
 import type {Principal} from '@icp-sdk/core/principal';
 
-export interface Account {
+export type Aaguid = Uint8Array;
+export type AccountDelegationError =
+  | {NoSuchDelegation: null}
+  | {InternalCanisterError: string}
+  | {Unauthorized: Principal};
+export interface AccountInfo {
   /**
    * Configurable properties
    */
@@ -114,11 +119,15 @@ export interface AuthnMethodConfirmationCode {
 }
 export type AuthnMethodConfirmationError =
   | {
+      InternalCanisterError: string;
+    }
+  | {
       /**
        * Authentication method registration mode is off, either due to timeout or because it was never enabled.
        */
       RegistrationModeOff: null;
     }
+  | {Unauthorized: Principal}
   | {
       /**
        * There is no registered authentication method to be confirmed.
@@ -190,12 +199,30 @@ export interface AuthnMethodRegistrationInfo {
    */
   expiration: Timestamp;
   /**
-   * If present, the user has registered a new authentication method. This
-   * new authentication needs to be verified before 'expiration' in order to
-   * be added to the identity.
+   * If present, the user has registered a new session. This new session needs to be confirmed before
+   * 'expiration' in order for it be authorized to register an authentication method to the identity.
+   */
+  session: [] | [Principal];
+  /**
+   * If present, the user has registered a new authentication method. This new authentication
+   * method needs to be confirmed before 'expiration' in order to be added to the identity.
    */
   authn_method: [] | [AuthnMethodData];
 }
+export type AuthnMethodRegistrationModeEnterError =
+  | {
+      InvalidRegistrationId: string;
+    }
+  | {InternalCanisterError: string}
+  | {AlreadyInProgress: null}
+  | {Unauthorized: Principal};
+export type AuthnMethodRegistrationModeExitError =
+  | {
+      InternalCanisterError: string;
+    }
+  | {RegistrationModeOff: null}
+  | {Unauthorized: Principal}
+  | {InvalidMetadata: string};
 export type AuthnMethodReplaceError =
   | {
       /**
@@ -214,6 +241,10 @@ export type AuthnMethodSecuritySettingsReplaceError = {
    */
   AuthnMethodNotFound: null;
 };
+export interface AuthnMethodSessionInfo {
+  name: [] | [string];
+  created_at: [] | [Timestamp];
+}
 export interface BufferedArchiveEntry {
   sequence_number: bigint;
   entry: Uint8Array;
@@ -294,7 +325,11 @@ export type CheckCaptchaError =
        */
       WrongSolution: {new_captcha_png_base64: string};
     };
-export type CreateAccountError = {InternalCanisterError: string};
+export type CreateAccountError =
+  | {AccountLimitReached: null}
+  | {InternalCanisterError: string}
+  | {Unauthorized: Principal}
+  | {NameTooLong: null};
 export type CredentialId = Uint8Array;
 export interface Delegation {
   pubkey: PublicKey;
@@ -336,6 +371,7 @@ export interface DeviceData {
   protection: DeviceProtection;
   pubkey: DeviceKey;
   key_type: KeyType;
+  aaguid: [] | [Aaguid];
   purpose: Purpose;
   credential_id: [] | [CredentialId];
 }
@@ -355,9 +391,8 @@ export type DeviceProtection = {unprotected: null} | {protected: null};
  */
 export interface DeviceRegistrationInfo {
   /**
-   * If present, the user has tentatively added a new device. This
-   * new device needs to be verified (see relevant endpoint) before
-   * 'expiration'.
+   * If present, the user has registered a new authentication method. This new authentication
+   * method needs to be confirmed before 'expiration' in order to be added to the identity.
    */
   tentative_device: [] | [DeviceData];
   /**
@@ -365,6 +400,11 @@ export interface DeviceRegistrationInfo {
    * (and the tentative device will be forgotten, if any, and if not verified)
    */
   expiration: Timestamp;
+  /**
+   * If present, the user has registered a new session. This new session needs to be confirmed before
+   * 'expiration' in order for it be authorized to register an authentication method to the identity.
+   */
+  tentative_session: [] | [Principal];
 }
 /**
  * The same as `DeviceData` but with the `last_usage` field.
@@ -378,10 +418,26 @@ export interface DeviceWithUsage {
   protection: DeviceProtection;
   pubkey: DeviceKey;
   key_type: KeyType;
+  aaguid: [] | [Aaguid];
   purpose: Purpose;
   credential_id: [] | [CredentialId];
 }
+export interface DummyAuthConfig {
+  /**
+   * Prompts user for a index value (0 - 255) when set to true,
+   * this is used in e2e to have multiple dummy auth identities.
+   */
+  prompt_for_index: boolean;
+}
 export type FrontendHostname = string;
+export type GetAccountsError = {InternalCanisterError: string} | {Unauthorized: Principal};
+export type GetDefaultAccountError =
+  | {
+      NoSuchOrigin: {anchor_number: UserNumber};
+    }
+  | {NoSuchAnchor: null}
+  | {InternalCanisterError: string}
+  | {Unauthorized: Principal};
 export type GetDelegationResponse =
   | {
       /**
@@ -473,12 +529,6 @@ export type IdRegFinishError =
     }
   | {
       /**
-       * The configured maximum number of identities has been reached.
-       */
-      IdentityLimitReached: null;
-    }
-  | {
-      /**
        * Error while persisting the new identity.
        */
       StorageError: string;
@@ -520,6 +570,10 @@ export interface IdentityAnchorInfo {
    */
   name: [] | [string];
   /**
+   * The timestamp at which the anchor was created
+   */
+  created_at: [] | [Timestamp];
+  /**
    * All devices that can authenticate to this anchor
    */
   devices: Array<DeviceWithUsage>;
@@ -542,6 +596,11 @@ export interface IdentityInfo {
    * Authentication method independent metadata
    */
   metadata: MetadataMapV2;
+  name: [] | [string];
+  /**
+   * The timestamp at which the anchor was created
+   */
+  created_at: [] | [Timestamp];
   authn_method_registration: [] | [AuthnMethodRegistrationInfo];
   openid_credentials: [] | [Array<OpenIdCredential>];
 }
@@ -581,13 +640,28 @@ export type IdentityMetadataReplaceError =
       };
     };
 export type IdentityNumber = bigint;
+export interface IdentityPropertiesReplace {
+  name: [] | [string];
+}
+export type IdentityPropertiesReplaceError =
+  | {
+      InternalCanisterError: string;
+    }
+  | {Unauthorized: Principal}
+  | {NameTooLong: {limit: bigint}}
+  | {
+      StorageSpaceExceeded: {
+        space_required: bigint;
+        space_available: bigint;
+      };
+    };
 /**
  * Init arguments of II which can be supplied on install and upgrade.
  *
  * Each field is wrapped is `opt` to indicate whether the field should
  * keep the previous value or update to a new value (e.g. `null` keeps the previous value).
  *
- * Some fields, like `openid_google`, have an additional nested `opt`, this indicates
+ * Some fields, like `analytics_config`, have an additional nested `opt`, this indicates
  * enable/disable status (e.g. `opt null` disables a feature while `null` leaves it untouched).
  */
 export interface InternetIdentityInit {
@@ -595,10 +669,6 @@ export interface InternetIdentityInit {
    * Configuration to fetch root key or not from frontend assets
    */
   fetch_root_key: [] | [boolean];
-  /**
-   * Configuration for OpenID Google client
-   */
-  openid_google: [] | [[] | [OpenIdConfig]];
   /**
    * Configuration to set the canister as production mode.
    * For now, this is used only to show or hide the banner.
@@ -612,6 +682,11 @@ export interface InternetIdentityInit {
    * Set lowest and highest anchor
    */
   assigned_user_number_range: [] | [[bigint, bigint]];
+  /**
+   * Configuration for New Origin Flows.
+   * If present, list of origins using the new authentication flow.
+   */
+  new_flow_origins: [] | [Array<string>];
   /**
    * Configuration parameters related to the II archive.
    * Note: some parameters changes (like the polling interval) will only take effect after an archive deployment.
@@ -635,9 +710,17 @@ export interface InternetIdentityInit {
    */
   related_origins: [] | [Array<string>];
   /**
+   * Configurations for OpenID clients
+   */
+  openid_configs: [] | [Array<OpenIdConfig>];
+  /**
    * Configuration of the captcha in the registration flow.
    */
   captcha_config: [] | [CaptchaConfig];
+  /**
+   * Configuration for dummy authentication used in e2e tests.
+   */
+  dummy_auth: [] | [[] | [DummyAuthConfig]];
   /**
    * Rate limit for the `register` call.
    */
@@ -663,6 +746,7 @@ export type KeyType =
   | {cross_platform: null}
   | {unknown: null}
   | {browser_storage_key: null};
+export type LookupByRegistrationIdError = {InvalidRegistrationId: string};
 /**
  * Map with some variants for the value type.
  * Note, due to the Candid mapping this must be a tuple type thus we cannot name the fields `key` and `value`.
@@ -679,9 +763,17 @@ export type MetadataMapV2 = Array<
 >;
 export interface OpenIDRegFinishArg {
   jwt: JWT;
+  name: string;
   salt: Salt;
 }
 export interface OpenIdConfig {
+  auth_uri: string;
+  jwks_uri: string;
+  logo: string;
+  name: string;
+  fedcm_uri: [] | [string];
+  issuer: string;
+  auth_scope: Array<string>;
   client_id: string;
 }
 export interface OpenIdCredential {
@@ -696,6 +788,7 @@ export type OpenIdCredentialAddError =
       OpenIdCredentialAlreadyRegistered: null;
     }
   | {InternalCanisterError: string}
+  | {JwtExpired: null}
   | {Unauthorized: Principal}
   | {JwtVerificationFailed: null};
 export type OpenIdCredentialKey = [Iss, Sub];
@@ -706,11 +799,16 @@ export type OpenIdCredentialRemoveError =
 export type OpenIdDelegationError =
   | {NoSuchDelegation: null}
   | {NoSuchAnchor: null}
+  | {JwtExpired: null}
   | {JwtVerificationFailed: null};
 export interface OpenIdPrepareDelegationResponse {
   user_key: UserKey;
   expiration: Timestamp;
   anchor_number: UserNumber;
+}
+export interface PrepareAccountDelegation {
+  user_key: UserKey;
+  expiration: Timestamp;
 }
 export type PrepareIdAliasError =
   | {
@@ -809,8 +907,22 @@ export type RegistrationFlowNextStep =
        */
       Finish: null;
     };
+export type RegistrationId = string;
 export type Salt = Uint8Array;
 export type SessionKey = PublicKey;
+export type SetDefaultAccountError =
+  | {
+      NoSuchOrigin: {anchor_number: UserNumber};
+    }
+  | {NoSuchAnchor: null}
+  | {InternalCanisterError: string}
+  | {Unauthorized: Principal}
+  | {
+      NoSuchAccount: {
+        origin: FrontendHostname;
+        anchor_number: UserNumber;
+      };
+    };
 export interface SignedDelegation {
   signature: Uint8Array;
   delegation: Delegation;
@@ -830,7 +942,11 @@ export type StreamingStrategy = {
 export type Sub = string;
 export type Timestamp = bigint;
 export type Token = {};
-export type UpdateAccountError = {InternalCanisterError: string};
+export type UpdateAccountError =
+  | {AccountLimitReached: null}
+  | {InternalCanisterError: string}
+  | {Unauthorized: Principal}
+  | {NameTooLong: null};
 export type UserKey = PublicKey;
 export type UserNumber = bigint;
 export type VerifyTentativeDeviceResponse =
@@ -866,6 +982,10 @@ export type VerifyTentativeDeviceResponse =
  */
 export interface WebAuthn {
   pubkey: PublicKey;
+  /**
+   * Authenticator Attestation Global Unique Identifier (AAGUID)
+   */
+  aaguid: [] | [Aaguid];
   credential_id: CredentialId;
 }
 export interface WebAuthnCredential {
@@ -919,14 +1039,17 @@ export interface _SERVICE {
    * Requires authentication.
    */
   authn_method_registration_mode_enter: ActorMethod<
-    [IdentityNumber],
-    {Ok: {expiration: Timestamp}} | {Err: null}
+    [IdentityNumber, [] | [RegistrationId]],
+    {Ok: {expiration: Timestamp}} | {Err: AuthnMethodRegistrationModeEnterError}
   >;
   /**
    * Exits the authentication method registration mode for the identity.
    * Requires authentication.
    */
-  authn_method_registration_mode_exit: ActorMethod<[IdentityNumber], {Ok: null} | {Err: null}>;
+  authn_method_registration_mode_exit: ActorMethod<
+    [IdentityNumber, [] | [AuthnMethodData]],
+    {Ok: null} | {Err: AuthnMethodRegistrationModeExitError}
+  >;
   /**
    * Removes the authentication method associated with the public key from the identity.
    * Requires authentication.
@@ -951,6 +1074,18 @@ export interface _SERVICE {
     {Ok: null} | {Err: AuthnMethodSecuritySettingsReplaceError}
   >;
   /**
+   * Returns session info when session is confirmed and caller matches session.
+   */
+  authn_method_session_info: ActorMethod<[IdentityNumber], [] | [AuthnMethodSessionInfo]>;
+  /**
+   * Registers a new session for the identity.
+   * This session needs to be confirmed before it can be used to register an authentication method on this identity.
+   */
+  authn_method_session_register: ActorMethod<
+    [IdentityNumber],
+    {Ok: AuthnMethodConfirmationCode} | {Err: AuthnMethodRegisterError}
+  >;
+  /**
    * Check the captcha challenge
    * If successful, the registration can be finished with `identity_registration_finish`.
    */
@@ -961,7 +1096,7 @@ export interface _SERVICE {
   config: ActorMethod<[], InternetIdentityInit>;
   create_account: ActorMethod<
     [UserNumber, FrontendHostname, string],
-    {Ok: Account} | {Err: CreateAccountError}
+    {Ok: AccountInfo} | {Err: CreateAccountError}
   >;
   create_challenge: ActorMethod<[], Challenge>;
   deploy_archive: ActorMethod<[Uint8Array], DeployArchiveResult>;
@@ -974,15 +1109,22 @@ export interface _SERVICE {
    */
   fetch_entries: ActorMethod<[], Array<BufferedArchiveEntry>>;
   get_account_delegation: ActorMethod<
-    [UserNumber, FrontendHostname, AccountNumber, SessionKey, Timestamp],
-    GetDelegationResponse
+    [UserNumber, FrontendHostname, [] | [AccountNumber], SessionKey, Timestamp],
+    {Ok: SignedDelegation} | {Err: AccountDelegationError}
   >;
   /**
    * Multiple accounts
    */
-  get_accounts: ActorMethod<[UserNumber, FrontendHostname], Array<Account>>;
+  get_accounts: ActorMethod<
+    [UserNumber, FrontendHostname],
+    {Ok: Array<AccountInfo>} | {Err: GetAccountsError}
+  >;
   get_anchor_credentials: ActorMethod<[UserNumber], AnchorCredentials>;
   get_anchor_info: ActorMethod<[UserNumber], IdentityAnchorInfo>;
+  get_default_account: ActorMethod<
+    [UserNumber, FrontendHostname],
+    {Ok: AccountInfo} | {Err: GetDefaultAccountError}
+  >;
   get_delegation: ActorMethod<
     [UserNumber, FrontendHostname, SessionKey, Timestamp],
     GetDelegationResponse
@@ -994,7 +1136,6 @@ export interface _SERVICE {
    * =====================
    */
   http_request: ActorMethod<[HttpRequest], HttpResponse>;
-  http_request_update: ActorMethod<[HttpRequest], HttpResponse>;
   /**
    * Returns information about the authentication methods of the identity with the given number.
    * Only returns the minimal information required for authentication without exposing any metadata such as aliases.
@@ -1013,6 +1154,15 @@ export interface _SERVICE {
   identity_metadata_replace: ActorMethod<
     [IdentityNumber, MetadataMapV2],
     {Ok: null} | {Err: IdentityMetadataReplaceError}
+  >;
+  /**
+   * Replaces the identity properties.
+   * The existing properties will be overwritten.
+   * Requires authentication.
+   */
+  identity_properties_replace: ActorMethod<
+    [IdentityNumber, IdentityPropertiesReplace],
+    {Ok: null} | {Err: IdentityPropertiesReplaceError}
   >;
   /**
    * Starts the identity registration flow to create a new identity.
@@ -1036,6 +1186,11 @@ export interface _SERVICE {
    * Deprecated: Use 'get_anchor_credentials' instead.
    */
   lookup: ActorMethod<[UserNumber], Array<DeviceData>>;
+  lookup_by_registration_mode_id: ActorMethod<[RegistrationId], [] | [IdentityNumber]>;
+  /**
+   * Looks up identity number when called with a recovery phrase
+   */
+  lookup_caller_identity_by_recovery_phrase: ActorMethod<[], [] | [IdentityNumber]>;
   /**
    * Discoverable passkeys protocol
    */
@@ -1066,7 +1221,7 @@ export interface _SERVICE {
   >;
   prepare_account_delegation: ActorMethod<
     [UserNumber, FrontendHostname, [] | [AccountNumber], SessionKey, [] | [bigint]],
-    [UserKey, Timestamp]
+    {Ok: PrepareAccountDelegation} | {Err: AccountDelegationError}
   >;
   /**
    * Authentication protocol
@@ -1091,11 +1246,15 @@ export interface _SERVICE {
    * Atomically replace device matching the device key with the new device data
    */
   replace: ActorMethod<[UserNumber, DeviceKey, DeviceData], undefined>;
+  set_default_account: ActorMethod<
+    [UserNumber, FrontendHostname, [] | [AccountNumber]],
+    {Ok: AccountInfo} | {Err: SetDefaultAccountError}
+  >;
   stats: ActorMethod<[], InternetIdentityStats>;
   update: ActorMethod<[UserNumber, DeviceKey, DeviceData], undefined>;
   update_account: ActorMethod<
     [UserNumber, FrontendHostname, [] | [AccountNumber], AccountUpdate],
-    {Ok: Account} | {Err: UpdateAccountError}
+    {Ok: AccountInfo} | {Err: UpdateAccountError}
   >;
   verify_tentative_device: ActorMethod<[UserNumber, string], VerifyTentativeDeviceResponse>;
 }
