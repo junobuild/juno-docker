@@ -1,7 +1,7 @@
 import {isEmptyString} from '@dfinity/utils';
 import kleur from 'kleur';
 import {existsSync} from 'node:fs';
-import {utimes} from 'node:fs/promises';
+import {readFile, utimes, writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {DEV_DEPLOY_FOLDER} from '../../constants/dev.constants';
 
@@ -36,6 +36,18 @@ export const touchWatchedFile = async ({searchParams}: {searchParams: URLSearchP
 };
 
 const touch = async (filePath: string) => {
-  const now = new Date();
-  await utimes(filePath, now, now);
+  try {
+    const now = new Date();
+    await utimes(filePath, now, now);
+  } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+    if (err instanceof Error && 'code' in err && (err as NodeJS.ErrnoException).code === 'EPERM') {
+      // Fallback for Windows Docker: force timestamp update by rewriting file
+      const content = await readFile(filePath);
+      await writeFile(filePath, content);
+      return;
+    }
+
+    throw err;
+  }
 };
