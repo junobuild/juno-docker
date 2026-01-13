@@ -40,6 +40,7 @@ const touch = async (filePath: string) => {
     const now = new Date();
     await utimes(filePath, now, now);
   } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     if (err instanceof Error && 'code' in err && (err as NodeJS.ErrnoException).code === 'EPERM') {
       // Fallback for Windows Docker: force timestamp update by rewriting file
       const content = await readFile(filePath);
