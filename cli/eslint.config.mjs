@@ -51,7 +51,9 @@ export default defineConfig([
         }
       ],
       'no-await-in-loop': 'off',
-      radix: 'off'
+      radix: 'off',
+      '@eslint-community/eslint-comments/require-description': 'off',
+      'require-atomic-updates': 'off'
     }
   }
 ]);

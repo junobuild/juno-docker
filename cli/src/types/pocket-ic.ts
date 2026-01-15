@@ -2,6 +2,7 @@ import * as z from 'zod';
 
 const zNullable = <T extends z.ZodTypeAny>(schema: T) => schema.nullish();
 
+// eslint-disable-next-line require-unicode-regexp
 const socketAddrRegex = /^(?:\[?[A-Fa-f0-9:.]+\]?|\d{1,3}(?:\.\d{1,3}){3}):\d{1,5}$/;
 
 const SocketAddrSchema = z.string().regex(socketAddrRegex, {
