@@ -57,6 +57,7 @@ const buildMetadata = async (): Promise<{
 }> => {
   try {
     const mjs = readFileSync(DEV_SPUTNIK_MJS_FILE_PATH, 'utf-8');
+    // eslint-disable-next line prefer-named-capture-group, require-unicode-regexp
     const banner = /^\/\/\s*@juno:package\s+({.*})/.exec(mjs);
 
     if (isNullish(banner)) {
