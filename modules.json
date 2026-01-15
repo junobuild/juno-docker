@@ -43,12 +43,12 @@
     ]
   },
   "console": {
-    "commit": "39bfd2d180dd0b281353805294265485754eedd6",
+    "commit": "51552a5aa878f0235215625bd42eaa3eec9754ac",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.63/console-v0.3.0.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.65/console-v0.3.1.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.63/console.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.65/console.did"
       }
     ]
   },
