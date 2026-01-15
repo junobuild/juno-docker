@@ -41,12 +41,12 @@ export const toggleOpenIdMonitoring = async ({
 const updateRateConfig = async ({context}: {context: CliContext}) => {
   const {agent} = context;
 
-  const {update_rate_config} = await getObservatoryActor({
+  const {set_rate_config} = await getObservatoryActor({
     agent,
     canisterId: OBSERVATORY_CANISTER_ID
   });
 
-  await update_rate_config(
+  await set_rate_config(
     {OpenIdCertificateRequests: null},
     {
       max_tokens: 300n, // allow up to 300 requests
