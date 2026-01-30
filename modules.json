@@ -43,22 +43,22 @@
     ]
   },
   "console": {
-    "commit": "51552a5aa878f0235215625bd42eaa3eec9754ac",
+    "commit": "afee34d36ce7e25b556afa352ae44b4ad7aa7e8b",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.65/console-v0.3.1.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.67/console-v0.4.0.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.65/console.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.67/console.did"
       }
     ]
   },
   "observatory": {
-    "commit": "39bfd2d180dd0b281353805294265485754eedd6",
+    "commit": "afee34d36ce7e25b556afa352ae44b4ad7aa7e8b",
     "repo": "https://github.com/junobuild/juno",
-    "url": "https://github.com/junobuild/juno/releases/download/v0.0.63/observatory-v0.3.0.wasm.gz",
+    "url": "https://github.com/junobuild/juno/releases/download/v0.0.67/observatory-v0.5.0.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/junobuild/juno/releases/download/v0.0.63/observatory.did"
+        "url": "https://github.com/junobuild/juno/releases/download/v0.0.67/observatory.did"
       }
     ]
   },
