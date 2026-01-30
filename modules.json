@@ -1,11 +1,11 @@
 {
   "internet_identity": {
-    "commit": "3611a9e31c57edf1ed1caec89d63ba162fc064fc",
+    "commit": "1c93091cc6ce54925f942f2effb71b270f5d6db2",
     "repo": "https://github.com/dfinity/internet-identity",
-    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2025-11-28/internet_identity_dev.wasm.gz",
+    "url": "https://github.com/dfinity/internet-identity/releases/download/release-2026-01-16/internet_identity_dev.wasm.gz",
     "candid": [
       {
-        "url": "https://github.com/dfinity/internet-identity/releases/download/release-2025-11-28/internet_identity.did"
+        "url": "https://github.com/dfinity/internet-identity/releases/download/release-2026-01-16/internet_identity.did"
       }
     ]
   },
@@ -95,7 +95,7 @@
     ]
   },
   "governance": {
-    "commit": "724ae4101bfdd8d4443126a6a8b1ec5ca9b68a12",
+    "commit": "1b25ff7b66627df8413677f55919010c4d6719d0",
     "repo": "https://github.com/dfinity/ic",
     "url": "https://download.dfinity.systems/ic/{commit}/canisters/governance-canister.wasm.gz",
     "candid": [
