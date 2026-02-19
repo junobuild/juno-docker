@@ -10,6 +10,7 @@ export const toggleOpenIdMonitoring = async ({
   searchParams: URLSearchParams;
 }) => {
   const action = searchParams.get('action') ?? '';
+  const provider = searchParams.get('provider') ?? '';
 
   switch (action) {
     case 'start': {
