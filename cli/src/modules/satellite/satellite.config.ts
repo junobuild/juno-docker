@@ -103,7 +103,8 @@ export const setSatelliteControllers = async ({
               : controllerScope === 'Write'
                 ? {Write: null}
                 : {Admin: null},
-          expires_at: []
+          expires_at: [],
+          kind: []
         },
         controllers: controllers.map(({id}) => Principal.from(id))
       },
