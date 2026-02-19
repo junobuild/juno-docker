@@ -72,7 +72,8 @@ export class JunoModule extends Module {
       controller: {
         metadata: [],
         scope,
-        expires_at: []
+        expires_at: [],
+        kind: []
       }
     });
   }
