@@ -1,10 +1,12 @@
 type Controller = record {
   updated_at : nat64;
   metadata : vec record { text; text };
+  kind : opt ControllerKind;
   created_at : nat64;
   scope : ControllerScope;
   expires_at : opt nat64;
 };
+type ControllerKind = variant { Emulator; Automation };
 type ControllerScope = variant { Write; Admin; Submit };
 type CyclesBalance = record { timestamp : nat64; amount : nat };
 type DeleteControllersArgs = record { controllers : vec principal };
@@ -68,7 +70,7 @@ type OpenIdCertificate = record {
   created_at : nat64;
   version : opt nat64;
 };
-type OpenIdProvider = variant { Google };
+type OpenIdProvider = variant { GitHubActions; Google; GitHubAuth };
 type RateConfig = record { max_tokens : nat64; time_per_token_ns : nat64 };
 type RateKind = variant { OpenIdCertificateRequests };
 type Segment = record {
@@ -79,6 +81,7 @@ type Segment = record {
 type SegmentKind = variant { Orbiter; MissionControl; Satellite };
 type SetController = record {
   metadata : vec record { text; text };
+  kind : opt ControllerKind;
   scope : ControllerScope;
   expires_at : opt nat64;
 };
@@ -92,13 +95,13 @@ service : () -> {
   get_openid_certificate : (GetOpenIdCertificateArgs) -> (
       opt OpenIdCertificate,
     );
-  is_openid_monitoring_enabled : () -> (bool);
+  is_openid_monitoring_enabled : (OpenIdProvider) -> (bool);
   list_controllers : () -> (vec record { principal; Controller }) query;
   notify : (NotifyArgs) -> ();
   ping : (NotifyArgs) -> ();
   set_controllers : (SetControllersArgs) -> ();
   set_env : (Env) -> ();
   set_rate_config : (RateKind, RateConfig) -> ();
-  start_openid_monitoring : () -> ();
-  stop_openid_monitoring : () -> ();
+  start_openid_monitoring : (OpenIdProvider) -> ();
+  stop_openid_monitoring : (OpenIdProvider) -> ();
 }

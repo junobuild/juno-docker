@@ -52,7 +52,7 @@ type AuthenticationConfigInternetIdentity = record {
 };
 type AuthenticationConfigOpenId = record {
   observatory_id : opt principal;
-  providers : vec record { OpenIdProvider; OpenIdProviderConfig };
+  providers : vec record { OpenIdDelegationProvider; OpenIdAuthProviderConfig };
 };
 type AuthenticationError = variant {
   PrepareDelegation : PrepareDelegationError;
@@ -73,10 +73,12 @@ type ConfigMaxMemorySize = record { stable : opt nat64; heap : opt nat64 };
 type Controller = record {
   updated_at : nat64;
   metadata : vec record { text; text };
+  kind : opt ControllerKind;
   created_at : nat64;
   scope : ControllerScope;
   expires_at : opt nat64;
 };
+type ControllerKind = variant { Emulator; Automation };
 type ControllerScope = variant { Write; Admin; Submit };
 type CreateMissionControlArgs = record { subnet_id : opt principal };
 type CreateOrbiterArgs = record {
@@ -121,6 +123,7 @@ type GetDelegationError = variant {
   JwtVerify : JwtVerifyError;
   GetOrFetchJwks : GetOrRefreshJwksError;
   DeriveSeedFailed : text;
+  InvalidObservatoryId : text;
 };
 type GetOrRefreshJwksError = variant {
   InvalidConfig : text;
@@ -223,7 +226,15 @@ type ListSegmentsArgs = record {
   segment_kind : opt StorableSegmentKind;
 };
 type Memory = variant { Heap; Stable };
-type OpenId = record { provider : OpenIdProvider; data : OpenIdData };
+type OpenId = record { provider : OpenIdDelegationProvider; data : OpenIdData };
+type OpenIdAuthProviderConfig = record {
+  delegation : opt OpenIdAuthProviderDelegationConfig;
+  client_id : text;
+};
+type OpenIdAuthProviderDelegationConfig = record {
+  targets : opt vec principal;
+  max_time_to_live : opt nat64;
+};
 type OpenIdData = record {
   name : opt text;
   locale : opt text;
@@ -231,7 +242,9 @@ type OpenIdData = record {
   email : opt text;
   picture : opt text;
   given_name : opt text;
+  preferred_username : opt text;
 };
+type OpenIdDelegationProvider = variant { GitHub; Google };
 type OpenIdGetDelegationArgs = record {
   jwt : text;
   session_key : blob;
@@ -243,15 +256,6 @@ type OpenIdPrepareDelegationArgs = record {
   session_key : blob;
   salt : blob;
 };
-type OpenIdProvider = variant { Google };
-type OpenIdProviderConfig = record {
-  delegation : opt OpenIdProviderDelegationConfig;
-  client_id : text;
-};
-type OpenIdProviderDelegationConfig = record {
-  targets : opt vec principal;
-  max_time_to_live : opt nat64;
-};
 type PaymentStatus = variant { Refunded; Acknowledged; Completed };
 type PrepareDelegationError = variant {
   JwtFindProvider : JwtFindProviderError;
@@ -259,6 +263,7 @@ type PrepareDelegationError = variant {
   JwtVerify : JwtVerifyError;
   GetOrFetchJwks : GetOrRefreshJwksError;
   DeriveSeedFailed : text;
+  InvalidObservatoryId : text;
 };
 type PreparedDelegation = record { user_key : blob; expiration : nat64 };
 type Proposal = record {
@@ -313,6 +318,7 @@ type SetAuthenticationConfig = record {
 };
 type SetController = record {
   metadata : vec record { text; text };
+  kind : opt ControllerKind;
   scope : ControllerScope;
   expires_at : opt nat64;
 };
