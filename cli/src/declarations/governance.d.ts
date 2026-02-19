@@ -21,9 +21,12 @@ export type Action =
   | {RegisterKnownNeuron: KnownNeuron}
   | {FulfillSubnetRentalRequest: FulfillSubnetRentalRequest}
   | {ManageNeuron: ManageNeuronProposal}
+  | {LoadCanisterSnapshot: LoadCanisterSnapshot}
+  | {BlessAlternativeGuestOsVersion: BlessAlternativeGuestOsVersion}
   | {UpdateCanisterSettings: UpdateCanisterSettings}
   | {InstallCode: InstallCode}
   | {DeregisterKnownNeuron: DeregisterKnownNeuron}
+  | {TakeCanisterSnapshot: TakeCanisterSnapshot}
   | {StopOrStartCanister: StopOrStartCanister}
   | {CreateServiceNervousSystem: CreateServiceNervousSystem}
   | {ExecuteNnsFunction: ExecuteNnsFunction}
@@ -55,6 +58,29 @@ export interface Ballot {
 export interface BallotInfo {
   vote: number;
   proposal_id: [] | [ProposalId];
+}
+/**
+ * Declares an approved set of alternative replica virtual machine software for
+ * disaster recovery purposes.
+ */
+export interface BlessAlternativeGuestOsVersion {
+  /**
+   * Hexadecimal fingerprint of the recovery rootfs.
+   * Must contain only hexadecimal characters (0-9, A-F, a-f).
+   */
+  rootfs_hash: [] | [string];
+  /**
+   * AMD Secure Processor chip IDs that are allowed to run this software.
+   * Each chip ID must be exactly 64 bytes.
+   */
+  chip_ids: [] | [Array<Uint8Array>];
+  /**
+   * The version being replaced by this (alternative version) must match this
+   * field (or one of the possibilities therein).
+   *
+   * (Here, we refer to the version being replaced as the "base" version.)
+   */
+  base_guest_launch_measurements: [] | [GuestLaunchMeasurements];
 }
 export type By =
   | {NeuronIdOrSubaccount: {}}
@@ -359,6 +385,25 @@ export interface GovernanceParameters {
   proposal_rejection_fee: [] | [Tokens];
   voting_reward_parameters: [] | [VotingRewardParameters];
 }
+export interface GuestLaunchMeasurement {
+  /**
+   * Metadata associated with the measurement.
+   */
+  metadata: [] | [GuestLaunchMeasurementMetadata];
+  /**
+   * SEV-SNP measurement (48 bytes).
+   */
+  measurement: [] | [Uint8Array];
+}
+export interface GuestLaunchMeasurementMetadata {
+  /**
+   * Kernel command line used for this measurement.
+   */
+  kernel_cmdline: [] | [string];
+}
+export interface GuestLaunchMeasurements {
+  guest_launch_measurements: [] | [Array<GuestLaunchMeasurement>];
+}
 export interface IdealMatchedParticipationFunction {
   serialized_representation: [] | [string];
 }
@@ -394,12 +439,16 @@ export interface KnownNeuron {
 export interface KnownNeuronData {
   name: string;
   /**
-   * The first `opt` makes it so that the field can be renamed/deprecated in the future, and
-   * the second `opt` makes it so that an older client not recognizing a new variant can still
-   * get the rest of the `vec`.
+   * Topics that the known neuron is committed to always vote on.
+   * Note regarding the type: the first `opt` makes it so that the field can be renamed/deprecated
+   * in the future, and the second `opt` makes it so that an older client not recognizing a new
+   * variant can still get the rest of the `vec`.
    */
   committed_topics: [] | [Array<[] | [TopicToFollow]>];
   description: [] | [string];
+  /**
+   * Links related to the known neuron. Can be links to social URLs (OpenChat, X, etc.), or a homepage.
+   */
   links: [] | [Array<string>];
 }
 export interface LedgerParameters {
@@ -508,6 +557,10 @@ export interface ListProposalInfoRequest {
 }
 export interface ListProposalInfoResponse {
   proposal_info: Array<ProposalInfo>;
+}
+export interface LoadCanisterSnapshot {
+  canister_id: [] | [Principal];
+  snapshot_id: [] | [Uint8Array];
 }
 export interface MakeProposalRequest {
   url: string;
@@ -945,9 +998,12 @@ export type ProposalActionRequest =
   | {RegisterKnownNeuron: KnownNeuron}
   | {FulfillSubnetRentalRequest: FulfillSubnetRentalRequest}
   | {ManageNeuron: ManageNeuronRequest}
+  | {LoadCanisterSnapshot: LoadCanisterSnapshot}
+  | {BlessAlternativeGuestOsVersion: BlessAlternativeGuestOsVersion}
   | {UpdateCanisterSettings: UpdateCanisterSettings}
   | {InstallCode: InstallCodeRequest}
   | {DeregisterKnownNeuron: DeregisterKnownNeuron}
+  | {TakeCanisterSnapshot: TakeCanisterSnapshot}
   | {StopOrStartCanister: StopOrStartCanister}
   | {CreateServiceNervousSystem: CreateServiceNervousSystem}
   | {ExecuteNnsFunction: ExecuteNnsFunction}
@@ -1071,6 +1127,7 @@ export type SelfDescribingValue =
   | {Map: Array<[string, SelfDescribingValue]>}
   | {Nat: bigint}
   | {Blob: Uint8Array}
+  | {Null: null}
   | {Text: string}
   | {Array: Array<SelfDescribingValue>};
 export interface SetDefaultFollowees {
@@ -1161,6 +1218,10 @@ export interface SwapParticipationLimits {
   max_participant_icp_e8s: [] | [bigint];
   min_direct_participation_icp_e8s: [] | [bigint];
   max_direct_participation_icp_e8s: [] | [bigint];
+}
+export interface TakeCanisterSnapshot {
+  replace_snapshot: [] | [Uint8Array];
+  canister_id: [] | [Principal];
 }
 export interface Tally {
   no: bigint;
