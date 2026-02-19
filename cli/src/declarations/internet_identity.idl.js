@@ -722,7 +722,7 @@ export const idlFactory = ({IDL}) => {
       [IDL.Opt(IdentityNumber)],
       ['query']
     ),
-    lookup_caller_identity_by_recovery_phrase: IDL.Func([], [IDL.Opt(IdentityNumber)], ['query']),
+    lookup_caller_identity_by_recovery_phrase: IDL.Func([], [IDL.Opt(IdentityNumber)], []),
     lookup_device_key: IDL.Func([IDL.Vec(IDL.Nat8)], [IDL.Opt(DeviceKeyWithAnchor)], ['query']),
     openid_credential_add: IDL.Func(
       [IdentityNumber, JWT, Salt],

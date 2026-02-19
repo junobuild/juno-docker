@@ -397,6 +397,25 @@ export const idlFactory = ({IDL}) => {
     command: IDL.Opt(ManageNeuronProposalCommand),
     neuron_id_or_subaccount: IDL.Opt(NeuronIdOrSubaccount)
   });
+  const LoadCanisterSnapshot = IDL.Record({
+    canister_id: IDL.Opt(IDL.Principal),
+    snapshot_id: IDL.Opt(IDL.Vec(IDL.Nat8))
+  });
+  const GuestLaunchMeasurementMetadata = IDL.Record({
+    kernel_cmdline: IDL.Opt(IDL.Text)
+  });
+  const GuestLaunchMeasurement = IDL.Record({
+    metadata: IDL.Opt(GuestLaunchMeasurementMetadata),
+    measurement: IDL.Opt(IDL.Vec(IDL.Nat8))
+  });
+  const GuestLaunchMeasurements = IDL.Record({
+    guest_launch_measurements: IDL.Opt(IDL.Vec(GuestLaunchMeasurement))
+  });
+  const BlessAlternativeGuestOsVersion = IDL.Record({
+    rootfs_hash: IDL.Opt(IDL.Text),
+    chip_ids: IDL.Opt(IDL.Vec(IDL.Vec(IDL.Nat8))),
+    base_guest_launch_measurements: IDL.Opt(GuestLaunchMeasurements)
+  });
   const Controllers = IDL.Record({controllers: IDL.Vec(IDL.Principal)});
   const CanisterSettings = IDL.Record({
     freezing_threshold: IDL.Opt(IDL.Nat64),
@@ -419,6 +438,10 @@ export const idlFactory = ({IDL}) => {
     install_mode: IDL.Opt(IDL.Int32)
   });
   const DeregisterKnownNeuron = IDL.Record({id: IDL.Opt(NeuronId)});
+  const TakeCanisterSnapshot = IDL.Record({
+    replace_snapshot: IDL.Opt(IDL.Vec(IDL.Nat8)),
+    canister_id: IDL.Opt(IDL.Principal)
+  });
   const StopOrStartCanister = IDL.Record({
     action: IDL.Opt(IDL.Int32),
     canister_id: IDL.Opt(IDL.Principal)
@@ -557,9 +580,12 @@ export const idlFactory = ({IDL}) => {
     RegisterKnownNeuron: KnownNeuron,
     FulfillSubnetRentalRequest: FulfillSubnetRentalRequest,
     ManageNeuron: ManageNeuronProposal,
+    LoadCanisterSnapshot: LoadCanisterSnapshot,
+    BlessAlternativeGuestOsVersion: BlessAlternativeGuestOsVersion,
     UpdateCanisterSettings: UpdateCanisterSettings,
     InstallCode: InstallCode,
     DeregisterKnownNeuron: DeregisterKnownNeuron,
+    TakeCanisterSnapshot: TakeCanisterSnapshot,
     StopOrStartCanister: StopOrStartCanister,
     CreateServiceNervousSystem: CreateServiceNervousSystem,
     ExecuteNnsFunction: ExecuteNnsFunction,
@@ -579,6 +605,7 @@ export const idlFactory = ({IDL}) => {
       Map: IDL.Vec(IDL.Tuple(IDL.Text, SelfDescribingValue)),
       Nat: IDL.Nat,
       Blob: IDL.Vec(IDL.Nat8),
+      Null: IDL.Null,
       Text: IDL.Text,
       Array: IDL.Vec(SelfDescribingValue)
     })
@@ -863,9 +890,12 @@ export const idlFactory = ({IDL}) => {
     RegisterKnownNeuron: KnownNeuron,
     FulfillSubnetRentalRequest: FulfillSubnetRentalRequest,
     ManageNeuron: ManageNeuronRequest,
+    LoadCanisterSnapshot: LoadCanisterSnapshot,
+    BlessAlternativeGuestOsVersion: BlessAlternativeGuestOsVersion,
     UpdateCanisterSettings: UpdateCanisterSettings,
     InstallCode: InstallCodeRequest,
     DeregisterKnownNeuron: DeregisterKnownNeuron,
+    TakeCanisterSnapshot: TakeCanisterSnapshot,
     StopOrStartCanister: StopOrStartCanister,
     CreateServiceNervousSystem: CreateServiceNervousSystem,
     ExecuteNnsFunction: ExecuteNnsFunction,
@@ -1446,6 +1476,25 @@ export const init = ({IDL}) => {
     command: IDL.Opt(ManageNeuronProposalCommand),
     neuron_id_or_subaccount: IDL.Opt(NeuronIdOrSubaccount)
   });
+  const LoadCanisterSnapshot = IDL.Record({
+    canister_id: IDL.Opt(IDL.Principal),
+    snapshot_id: IDL.Opt(IDL.Vec(IDL.Nat8))
+  });
+  const GuestLaunchMeasurementMetadata = IDL.Record({
+    kernel_cmdline: IDL.Opt(IDL.Text)
+  });
+  const GuestLaunchMeasurement = IDL.Record({
+    metadata: IDL.Opt(GuestLaunchMeasurementMetadata),
+    measurement: IDL.Opt(IDL.Vec(IDL.Nat8))
+  });
+  const GuestLaunchMeasurements = IDL.Record({
+    guest_launch_measurements: IDL.Opt(IDL.Vec(GuestLaunchMeasurement))
+  });
+  const BlessAlternativeGuestOsVersion = IDL.Record({
+    rootfs_hash: IDL.Opt(IDL.Text),
+    chip_ids: IDL.Opt(IDL.Vec(IDL.Vec(IDL.Nat8))),
+    base_guest_launch_measurements: IDL.Opt(GuestLaunchMeasurements)
+  });
   const Controllers = IDL.Record({controllers: IDL.Vec(IDL.Principal)});
   const CanisterSettings = IDL.Record({
     freezing_threshold: IDL.Opt(IDL.Nat64),
@@ -1468,6 +1517,10 @@ export const init = ({IDL}) => {
     install_mode: IDL.Opt(IDL.Int32)
   });
   const DeregisterKnownNeuron = IDL.Record({id: IDL.Opt(NeuronId)});
+  const TakeCanisterSnapshot = IDL.Record({
+    replace_snapshot: IDL.Opt(IDL.Vec(IDL.Nat8)),
+    canister_id: IDL.Opt(IDL.Principal)
+  });
   const StopOrStartCanister = IDL.Record({
     action: IDL.Opt(IDL.Int32),
     canister_id: IDL.Opt(IDL.Principal)
@@ -1606,9 +1659,12 @@ export const init = ({IDL}) => {
     RegisterKnownNeuron: KnownNeuron,
     FulfillSubnetRentalRequest: FulfillSubnetRentalRequest,
     ManageNeuron: ManageNeuronProposal,
+    LoadCanisterSnapshot: LoadCanisterSnapshot,
+    BlessAlternativeGuestOsVersion: BlessAlternativeGuestOsVersion,
     UpdateCanisterSettings: UpdateCanisterSettings,
     InstallCode: InstallCode,
     DeregisterKnownNeuron: DeregisterKnownNeuron,
+    TakeCanisterSnapshot: TakeCanisterSnapshot,
     StopOrStartCanister: StopOrStartCanister,
     CreateServiceNervousSystem: CreateServiceNervousSystem,
     ExecuteNnsFunction: ExecuteNnsFunction,
@@ -1628,6 +1684,7 @@ export const init = ({IDL}) => {
       Map: IDL.Vec(IDL.Tuple(IDL.Text, SelfDescribingValue)),
       Nat: IDL.Nat,
       Blob: IDL.Vec(IDL.Nat8),
+      Null: IDL.Null,
       Text: IDL.Text,
       Array: IDL.Vec(SelfDescribingValue)
     })
