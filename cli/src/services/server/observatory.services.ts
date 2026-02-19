@@ -1,3 +1,4 @@
+import {isEmptyString} from '@dfinity/utils';
 import {OBSERVATORY_CANISTER_ID} from '../../modules/observatory';
 import type {CliContext} from '../../types/context';
 import {getObservatoryActor} from '../actor.services';
@@ -10,7 +11,13 @@ export const toggleOpenIdMonitoring = async ({
   searchParams: URLSearchParams;
 }) => {
   const action = searchParams.get('action') ?? '';
-  const provider = searchParams.get('provider') ?? '';
+  const providerParam = searchParams.get('provider') ?? '';
+
+  if (isEmptyString(providerParam)) {
+    throw new Error('Cannot toggle OpenId monitoring for an unknown provider');
+  }
+
+  const provider = providerParam === 'github' ? {GitHubAuth: null} : {Google: null};
 
   switch (action) {
     case 'start': {
@@ -21,7 +28,7 @@ export const toggleOpenIdMonitoring = async ({
       }
 
       await updateRateConfig({context});
-      await startOpenIdMonitoring({context});
+      await startOpenIdMonitoring({context, provider});
       return;
     }
     case 'stop': {
@@ -31,7 +38,7 @@ export const toggleOpenIdMonitoring = async ({
         return;
       }
 
-      await stopOpenIdMonitoring({context});
+      await stopOpenIdMonitoring({context, provider});
       return;
     }
     default:
@@ -72,7 +79,13 @@ const isOpenIdMonitoringEnabled = async ({context}: {context: CliContext}): Prom
 const isOpenIdMonitoringDisabled = async (params: {context: CliContext}): Promise<boolean> =>
   !(await isOpenIdMonitoringEnabled(params));
 
-const startOpenIdMonitoring = async ({context}: {context: CliContext}) => {
+const startOpenIdMonitoring = async ({
+  context,
+  provider
+}: {
+  context: CliContext;
+  provider: 'google' | 'github';
+}) => {
   const {agent} = context;
 
   const {start_openid_monitoring} = await getObservatoryActor({
@@ -80,7 +93,7 @@ const startOpenIdMonitoring = async ({context}: {context: CliContext}) => {
     canisterId: OBSERVATORY_CANISTER_ID
   });
 
-  await start_openid_monitoring();
+  await start_openid_monitoring(provider);
   console.log('🟢 Observatory OpenId monitoring started.');
 };
 
@@ -92,6 +105,6 @@ const stopOpenIdMonitoring = async ({context}: {context: CliContext}) => {
     canisterId: OBSERVATORY_CANISTER_ID
   });
 
-  await stop_openid_monitoring();
+  await stop_openid_monitoring(provider);
   console.log('🔴 Observatory OpenId monitoring stopped.');
 };
