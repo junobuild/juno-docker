@@ -18,7 +18,12 @@ export const toggleOpenIdMonitoring = async ({
     throw new Error('Cannot toggle OpenId monitoring for an unknown provider');
   }
 
-  const provider: OpenIdProvider = providerParam === 'github' ? {GitHubAuth: null} : {Google: null};
+  // "github" for backwards compatibility with the Console
+  const provider: OpenIdProvider = ['github', 'gh_auth'].includes(providerParam)
+    ? {GitHubAuth: null}
+    : providerParam === 'gh_actions'
+      ? {GitHubActions: null}
+      : {Google: null};
 
   switch (action) {
     case 'start': {
