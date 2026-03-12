@@ -1,5 +1,4 @@
 import {isNullish} from '@dfinity/utils';
-import type {PrincipalText} from '@dfinity/zod-schemas';
 import {IcManagementCanister} from '@icp-sdk/canisters/ic-management';
 import {Principal} from '@icp-sdk/core/principal';
 import {
@@ -7,6 +6,7 @@ import {
   setSatelliteControllers as setSatelliteControllersAdmin
 } from '@junobuild/admin';
 import type {SatelliteDid, SatelliteParameters} from '@junobuild/ic-client/actor';
+import type {PrincipalText} from '@junobuild/zod';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
 import type {ControllerScope} from '../../declarations/satellite';
 import type {CliContext} from '../../types/context';
