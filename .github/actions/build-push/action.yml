@@ -45,6 +45,8 @@ runs:
           type=semver,pattern={{major}},suffix=-${{ inputs.tag_suffix }}
           type=semver,pattern={{version}},suffix=-${{ inputs.tag_suffix }}
           type=raw,value=latest,suffix=-${{ inputs.tag_suffix }}
+        labels: |
+          org.opencontainers.image.version={{version}}
 
     - name: Build and push image
       uses: docker/build-push-action@v5
