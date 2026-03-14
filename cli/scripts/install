@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-npm rm @junobuild/{admin,cdn,cli-tools,config,config-loader,ic-client,storage,zod}
+npm rm @junobuild/{admin,cdn,cli-tools,config,config-loader,ic-client,storage,schema}
 
-npm i @junobuild/{admin,cdn,cli-tools,config,config-loader,ic-client,storage,zod}
+npm i @junobuild/{admin,cdn,cli-tools,config,config-loader,ic-client,storage,schema}
