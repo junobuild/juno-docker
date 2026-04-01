@@ -3,7 +3,7 @@ import {decodeIcrcAccount, IcrcLedgerCanister} from '@icp-sdk/canisters/ledger/i
 import {AnonymousIdentity} from '@icp-sdk/core/agent';
 import {Principal} from '@icp-sdk/core/principal';
 import {createAgent} from '../../api/agent.api';
-import {ICP_LEDGER_CANISTER_ID} from '../../modules/icp-ledger';
+import {ICP_LEDGER_CANISTER_ID} from '../../constants/modules.constants';
 import type {CliContext} from '../../types/context';
 
 export const transfer = async ({

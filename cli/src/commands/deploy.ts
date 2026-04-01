@@ -1,6 +1,6 @@
 import {isNullish} from '@dfinity/utils';
 import kleur from 'kleur';
-import {modules, troublemakers} from '../modules/modules';
+import {modules} from '../modules/modules';
 import {buildContext} from '../services/context.services';
 import type {Module} from '../services/modules/module.services';
 import type {CliContext} from '../types/context';
@@ -15,12 +15,6 @@ export const deploy = async (args?: string[]) => {
     mods: modules,
     installFn: installModulesParallel,
     postInstallFn: postInstallModulesParallel
-  });
-  await deployModules({
-    context,
-    mods: troublemakers,
-    installFn: installModulesSerial,
-    postInstallFn: postInstallModulesSerial
   });
 };
 
@@ -100,17 +94,4 @@ const postInstallModulesParallel = async ({
       await mod.postInstall(context);
     })
   );
-};
-
-// Installing one after the other is slower 😢
-const installModulesSerial = async ({context, mods}: {context: CliContext; mods: Module[]}) => {
-  for (const mod of mods) {
-    await mod.install(context);
-  }
-};
-
-const postInstallModulesSerial = async ({context, mods}: {context: CliContext; mods: Module[]}) => {
-  for (const mod of mods) {
-    await mod.postInstall(context);
-  }
 };
