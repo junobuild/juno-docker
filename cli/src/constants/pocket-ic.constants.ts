@@ -8,13 +8,14 @@ import type {
 
 export const SUBNET_CONFIG: SubnetSpec = {
   state_config: 'New',
-  instruction_config: 'Production'
+  instruction_config: 'Production',
+  subnet_admins: null,
+  cost_schedule: 'Normal'
 };
 
 // https://github.com/dfinity/ic/blob/master/packages/pocket-ic/src/common/rest.rs#L557
 export const ICP_CONFIG: IcpConfig = {
   beta_features: 'Disabled',
-  canister_backtrace: 'Enabled',
   function_name_length_limits: 'Enabled',
   canister_execution_rate_limiting: 'Enabled'
 };
@@ -24,7 +25,8 @@ export const ICP_CONFIG: IcpConfig = {
 export const INSTANCE_HTTP_GATEWAY: Omit<InstanceHttpGatewayConfig, 'port'> = {
   ip_addr: '0.0.0.0',
   domains: null,
-  https_config: null
+  https_config: null,
+  domain_custom_provider_local_file: null
 };
 
 // Configures the instance to make progress automatically
