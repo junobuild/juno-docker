@@ -42,7 +42,7 @@ export const setSatelliteControllers = async ({
   type ControllerId = string;
 
   const existingControllers = (await listSatelliteControllers({satellite})).reduce<
-    Record<ControllerId, SatelliteDid.Controller>
+    Record<ControllerId, SatelliteDid.AccessKey>
   >(
     (acc, [controller, details]) => ({
       ...acc,
