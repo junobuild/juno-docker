@@ -35,7 +35,7 @@
     "@junobuild/config": "^3.0.0",
     "@junobuild/config-loader": "^0.4.11",
     "@junobuild/ic-client": "^8.1.3",
-    "@junobuild/schema": "^1.2.2",
+    "@junobuild/schema": "^1.2.3",
     "@junobuild/storage": "^2.4.2",
     "atomically": "^2.1.1",
     "chokidar": "^5.0.0",
