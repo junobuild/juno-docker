@@ -1,7 +1,7 @@
 import {isNullish} from '@dfinity/utils';
 import {IcManagementCanister} from '@icp-sdk/canisters/ic-management';
 import {Principal} from '@icp-sdk/core/principal';
-import type {ControllerScope} from '../../declarations/console';
+import type {AccessKeyScope} from '../../declarations/console';
 import type {CliContext} from '../../types/context';
 import type {ModuleDescription} from '../../types/module';
 import type {getConsoleActor, getObservatoryActor} from '../actor.services';
@@ -11,7 +11,7 @@ export type GetActorFn = typeof getObservatoryActor | typeof getConsoleActor;
 
 export interface SetControllerParams {
   context: CliContext;
-  scope: ControllerScope;
+  scope: AccessKeyScope;
   controllerId: string;
 }
 

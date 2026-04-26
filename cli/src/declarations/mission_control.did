@@ -1,13 +1,15 @@
-type Account = record { owner : principal; subaccount : opt blob };
-type Config = record { monitoring : opt MonitoringConfig };
-type Controller = record {
+type AccessKey = record {
   updated_at : nat64;
   metadata : vec record { text; text };
+  kind : opt AccessKeyKind;
   created_at : nat64;
-  scope : ControllerScope;
+  scope : AccessKeyScope;
   expires_at : opt nat64;
 };
-type ControllerScope = variant { Write; Admin; Submit };
+type AccessKeyKind = variant { Emulator; Automation };
+type AccessKeyScope = variant { Write; Admin; Submit };
+type Account = record { owner : principal; subaccount : opt blob };
+type Config = record { monitoring : opt MonitoringConfig };
 type CreateCanisterConfig = record {
   subnet_id : opt principal;
   name : opt text;
@@ -30,6 +32,7 @@ type CyclesMonitoringStartConfig = record {
   orbiters_strategy : opt SegmentsMonitoringStrategy;
   mission_control_strategy : opt CyclesMonitoringStrategy;
   satellites_strategy : opt SegmentsMonitoringStrategy;
+  ufos_strategy : opt SegmentsMonitoringStrategy;
 };
 type CyclesMonitoringStatus = record {
   monitored_ids : vec principal;
@@ -39,6 +42,7 @@ type CyclesMonitoringStopConfig = record {
   satellite_ids : opt vec principal;
   try_mission_control : opt bool;
   orbiter_ids : opt vec principal;
+  ufo_ids : opt vec principal;
 };
 type CyclesMonitoringStrategy = variant { BelowThreshold : CyclesThreshold };
 type CyclesThreshold = record { fund_cycles : nat; min_cycles : nat };
@@ -111,9 +115,10 @@ type SegmentsMonitoringStrategy = record {
   ids : vec principal;
   strategy : CyclesMonitoringStrategy;
 };
-type SetController = record {
+type SetAccessKey = record {
   metadata : vec record { text; text };
-  scope : ControllerScope;
+  kind : opt AccessKeyKind;
+  scope : AccessKeyScope;
   expires_at : opt nat64;
 };
 type Settings = record { monitoring : opt Monitoring };
@@ -152,6 +157,13 @@ type TransferError_1 = variant {
   TooOld;
   InsufficientFunds : record { balance : nat };
 };
+type Ufo = record {
+  updated_at : nat64;
+  metadata : vec record { text; text };
+  created_at : nat64;
+  settings : opt Settings;
+  ufo_id : principal;
+};
 type User = record {
   updated_at : nat64;
   metadata : vec record { text; text };
@@ -182,20 +194,17 @@ service : (InitMissionControlArgs) -> {
   icp_transfer : (TransferArgs) -> (Result);
   icrc_transfer : (principal, TransferArg) -> (Result_1);
   list_mission_control_controllers : () -> (
-      vec record { principal; Controller },
+      vec record { principal; AccessKey },
     ) query;
   list_orbiters : () -> (vec record { principal; Orbiter }) query;
   list_satellites : () -> (vec record { principal; Satellite }) query;
+  list_ufos : () -> (vec record { principal; Ufo }) query;
   set_config : (opt Config) -> ();
   set_metadata : (vec record { text; text }) -> ();
-  set_mission_control_controllers : (vec principal, SetController) -> ();
+  set_mission_control_controllers : (vec principal, SetAccessKey) -> ();
   set_orbiter : (principal, opt text) -> (Orbiter);
   set_orbiter_metadata : (principal, vec record { text; text }) -> (Orbiter);
-  set_orbiters_controllers : (
-      vec principal,
-      vec principal,
-      SetController,
-    ) -> ();
+  set_orbiters_controllers : (vec principal, vec principal, SetAccessKey) -> ();
   set_satellite : (principal, opt text) -> (Satellite);
   set_satellite_metadata : (principal, vec record { text; text }) -> (
       Satellite,
@@ -203,13 +212,16 @@ service : (InitMissionControlArgs) -> {
   set_satellites_controllers : (
       vec principal,
       vec principal,
-      SetController,
+      SetAccessKey,
     ) -> ();
+  set_ufo : (principal, opt text) -> (Ufo);
+  set_ufo_metadata : (principal, vec record { text; text }) -> (Ufo);
   start_monitoring : () -> ();
   stop_monitoring : () -> ();
   top_up : (principal, Tokens) -> ();
   unset_orbiter : (principal) -> ();
   unset_satellite : (principal) -> ();
+  unset_ufo : (principal) -> ();
   update_and_start_monitoring : (MonitoringStartConfig) -> ();
   update_and_stop_monitoring : (MonitoringStopConfig) -> ();
 }
