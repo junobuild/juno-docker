@@ -1,5 +1,5 @@
 import {assertNonNullish, notEmptyString} from '@dfinity/utils';
-import type {ControllerScope} from '../../declarations/console';
+import type {AccessKeyScope} from '../../declarations/console';
 import {consoleModule} from '../../modules/console';
 import {observatory} from '../../modules/observatory';
 import {satellite} from '../../modules/satellite';
@@ -17,7 +17,7 @@ export const setController = async ({
   key: ModuleKey;
 }) => {
   const controllerId = searchParams.get('id') ?? '';
-  const scope: ControllerScope =
+  const scope: AccessKeyScope =
     searchParams.get('scope') === 'write' ? {Write: null} : {Admin: null};
 
   switch (key) {

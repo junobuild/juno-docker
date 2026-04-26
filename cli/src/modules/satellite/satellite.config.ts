@@ -8,7 +8,7 @@ import {
 import type {SatelliteDid, SatelliteParameters} from '@junobuild/ic-client/actor';
 import type {PrincipalText} from '@junobuild/schema';
 import {MAIN_IDENTITY_KEY} from '../../constants/constants';
-import type {ControllerScope} from '../../declarations/satellite';
+import type {AccessKeyScope} from '../../declarations/satellite';
 import type {CliContext} from '../../types/context';
 import type {ModuleMetadata} from '../../types/module';
 
@@ -25,7 +25,7 @@ export type SatelliteConfigContext = CliContext & Pick<ModuleMetadata, 'canister
 
 export interface SatelliteDevController {
   id: PrincipalText;
-  scope: ControllerScope;
+  scope: AccessKeyScope;
 }
 
 export const setSatelliteControllers = async ({
