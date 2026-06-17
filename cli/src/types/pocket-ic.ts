@@ -28,6 +28,13 @@ const IcpFeatureSchema = z.literal('DefaultConfig');
 
 const SubnetInstructionConfigSchema = z.enum(['Production', 'Benchmarking']);
 
+const CanisterCyclesCostScheduleSchema = z.enum(['Normal', 'Free']);
+
+const RawPrincipalIdSchema = z.strictObject({
+  // base64-encoded string
+  principal_id: z.string()
+});
+
 const BlobIdSchema = z.string();
 const SubnetStateConfigSchema = z.union([
   z.literal('New'),
@@ -42,7 +49,9 @@ const InitialTimeSchema = z.union([
 
 const SubnetSpecSchema = z.strictObject({
   state_config: SubnetStateConfigSchema,
-  instruction_config: SubnetInstructionConfigSchema
+  instruction_config: SubnetInstructionConfigSchema,
+  subnet_admins: zNullable(z.array(RawPrincipalIdSchema)),
+  cost_schedule: CanisterCyclesCostScheduleSchema.default('Normal')
 });
 
 const ExtendedSubnetConfigSetSchema = z.strictObject({
@@ -53,6 +62,7 @@ const ExtendedSubnetConfigSetSchema = z.strictObject({
   bitcoin: zNullable(SubnetSpecSchema),
   system: z.array(SubnetSpecSchema),
   application: z.array(SubnetSpecSchema),
+  cloud_engine: z.array(SubnetSpecSchema).default([]),
   verified_application: z.array(SubnetSpecSchema)
 });
 
@@ -60,12 +70,12 @@ const InstanceHttpGatewayConfigSchema = z.strictObject({
   ip_addr: zNullable(z.string()),
   port: zNullable(z.number().int().min(0).max(65535)),
   domains: zNullable(z.array(z.string())),
-  https_config: zNullable(HttpsConfigSchema)
+  https_config: zNullable(HttpsConfigSchema),
+  domain_custom_provider_local_file: zNullable(z.string())
 });
 
 const IcpConfigSchema = z.strictObject({
   beta_features: zNullable(IcpConfigFlagSchema),
-  canister_backtrace: zNullable(IcpConfigFlagSchema),
   function_name_length_limits: zNullable(IcpConfigFlagSchema),
   canister_execution_rate_limiting: zNullable(IcpConfigFlagSchema)
 });
@@ -78,7 +88,10 @@ export const IcpFeaturesSchema = z.strictObject({
   nns_governance: zNullable(IcpFeatureSchema),
   sns: zNullable(IcpFeatureSchema),
   ii: zNullable(IcpFeatureSchema),
-  nns_ui: zNullable(IcpFeatureSchema)
+  nns_ui: zNullable(IcpFeatureSchema),
+  bitcoin: zNullable(IcpFeatureSchema),
+  dogecoin: zNullable(IcpFeatureSchema),
+  canister_migration: zNullable(IcpFeatureSchema)
 });
 
 const IncompleteStateSchema = z.enum(['Disabled', 'Enabled']);
@@ -90,9 +103,12 @@ export const InstanceConfigSchema = z.strictObject({
   icp_config: zNullable(IcpConfigSchema),
   log_level: zNullable(z.string()),
   bitcoind_addr: zNullable(z.array(SocketAddrSchema)),
+  dogecoind_addr: zNullable(z.array(SocketAddrSchema)),
   icp_features: zNullable(IcpFeaturesSchema),
   incomplete_state: zNullable(IncompleteStateSchema),
-  initial_time: zNullable(InitialTimeSchema)
+  initial_time: zNullable(InitialTimeSchema),
+  mainnet_nns_subnet_id: zNullable(z.boolean()),
+  disable_ingress_validation: zNullable(z.boolean())
 });
 
 export type InstanceHttpGatewayConfig = z.infer<typeof InstanceHttpGatewayConfigSchema>;

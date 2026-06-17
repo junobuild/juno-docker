@@ -70,7 +70,8 @@ const buildInstanceConfig = async ({
       bitcoin: null,
       system: [],
       application: [SUBNET_CONFIG],
-      verified_application: []
+      verified_application: [],
+      cloud_engine: []
     },
     state_dir: stateDir,
     icp_config: ICP_CONFIG,
@@ -80,7 +81,10 @@ const buildInstanceConfig = async ({
       ...INSTANCE_HTTP_GATEWAY,
       port: parseInt(port)
     },
-    incomplete_state: INCOMPLETE_STATE
+    incomplete_state: INCOMPLETE_STATE,
+    dogecoind_addr: null,
+    mainnet_nns_subnet_id: null,
+    disable_ingress_validation: null
   };
 
   InstanceConfigSchema.parse(config);
@@ -106,7 +110,10 @@ const buildIcpFeatures = async (): Promise<IcpFeatures> => {
     nns_governance: mapIcpFeature(nns),
     sns: mapIcpFeature(sns),
     ii: mapIcpFeature(internet_identity),
-    nns_ui: mapIcpFeature(nns_dapp)
+    nns_ui: mapIcpFeature(nns_dapp),
+    bitcoin: null,
+    dogecoin: null,
+    canister_migration: null
   };
 
   return IcpFeaturesSchema.parse(icpFeatures);
